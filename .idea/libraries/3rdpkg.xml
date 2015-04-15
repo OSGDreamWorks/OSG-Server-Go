@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="3rdpkg">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/3rdpkg" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

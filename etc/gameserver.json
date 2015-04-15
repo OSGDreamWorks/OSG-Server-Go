@@ -1,0 +1,9 @@
+{
+	"comment1": "请配置gameserver的外网ip地址:7900",
+  	"ServerID" : 1,
+	"TcpHost" : "127.0.0.1:7900",
+  	"HttpHost" : "127.0.0.1:7980",
+	"DebugHost" : "127.0.0.1:5900",
+    "GcTime" : 15,
+	"FsHost":[ "127.0.0.1:8910"]
+}

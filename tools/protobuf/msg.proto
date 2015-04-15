@@ -1,0 +1,88 @@
+package protobuf;
+
+message Request{
+	required uint64 id = 1;
+	required string method = 2;
+	optional bytes serialized_request = 3;
+	optional string timer = 4;
+	optional string desc = 5;
+	extensions 100 to max;
+}
+
+message RpcErrorResponse{
+	required string method = 1;
+	required string text = 2;
+}
+
+message ConnectorInfo{
+	required uint32 ServerId = 1;
+	required uint32 PlayerCount = 2;
+	required string TcpServerIp = 3;
+	required string HttpServerIp = 4;
+}
+
+message ConnectorInfoResult{
+	enum Result {
+		OK = 0;
+		ERROR = 1;
+	}
+	required Result result = 1 [default = OK];
+	required uint32 server_time = 2;
+}
+
+message LoginInfo{
+	required string serverIp = 1;
+	required string gsInfo = 2;
+}
+
+message Login{
+	optional string uid = 1;
+	required string account = 2;
+	required string password = 3;
+	optional uint32 create_time = 4;
+	optional string option = 5;
+	optional uint32 language = 6;
+	optional string udid = 7;
+	optional string sessionKey = 8;
+}
+
+message LoginResult{
+	enum Result {
+		OK = 0;
+		SERVERERROR = 1;
+		USERNOTFOUND = 2;
+		AUTH_FAILED = 3;
+		ISONFIRE = 4;
+	}
+	required Result result = 1 [default = OK];
+	required uint32 server_time = 2;
+	required string sessionKey = 3;
+	required string uid = 4;
+	optional string errmsg = 5;
+}
+
+message Ping{
+	
+}
+
+message PingResult{
+	required uint32 server_time = 1;
+}
+
+message Chat{
+	required string msg = 1;
+}
+
+message ChatResult{
+	required string msg = 1;
+}
+
+
+message PlayerBaseInfo{
+    required string uid = 1;
+    required string name = 2;
+}
+
+message PlayerInfo{
+	required PlayerBaseInfo base = 1;
+}

@@ -1,0 +1,60 @@
+# For add new project use the follow command:
+# git add .
+# For updates use:
+# git add -u 
+
+.svn
+.svn/*
+
+# OSX
+.DS_Store
+
+### Backups:
+*~
+*.bak
+*.old
+*.lnk
+*\#
+\#*
+Thumbs.db
+Thumbs.db.meta
+
+# Win Specific:
+Desktop.ini
+
+# Sound Forge metafile
+*.sfk
+
+
+### Hyperlua
+*.lc
+
+### Visual Studio:
+*.csproj
+*.sln
+*.suo
+*.pidb
+Properties/AssemblyInfo.cs
+*.user
+
+*.Resharper*
+_ReSharper.*/*
+
+### Unity Specific:
+*.unityproj
+*.userprefs
+
+!:
+
+
+3rdpkg/*
+bin/*
+pkg/*
+
+### Project Specific:
+*/bin/*
+*/obj/*
+
+
+tools/protobuf/node_modules/*
+

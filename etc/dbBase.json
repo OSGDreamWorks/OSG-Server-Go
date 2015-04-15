@@ -1,0 +1,46 @@
+{
+  "DBHost" : "127.0.0.1:8800",
+  "DebugHost" : "127.0.0.1:5800",
+  "GcTime" : 15,
+  "cache" : {
+    "main" : [
+      {
+        "host" : "127.0.0.1",
+        "index" : 0,
+        "vnode" : 3,
+        "nodename": "main-cache1",
+        "pool" : 100,
+        "port" : 6379
+      }
+    ]
+  },
+  "comment1" : "请配置dbserver的内网ip地址:8800",
+  "database" : {
+    "main" : [
+      {
+        "charset" : "utf8",
+        "dbname" : "OSG-Server-Go",
+        "host" : "127.0.0.1",
+        "vnode" : 3,
+        "nodename": "main-db1",
+        "pass" : "admin",
+        "pool" : 16,
+        "port" : 3306,
+        "uname" : "root"
+      }
+    ]
+  },
+  "tables" : {
+    "playerbase" : {
+      "cache-profile" : "main",
+      "db-profile" : "main",
+      "expiry" : 0
+    },
+    "playerinfo" : {
+      "cache-profile" : "main",
+      "db-profile" : "main",
+      "introduce" : "redis会用一个正向及一个反向map来存，反向表在表名字后面加_re",
+      "expiry" : 0
+    }
+  }
+}
