@@ -2,7 +2,7 @@ package server
 
 import (
 	"common/logger"
-	"common/protobuf"
+	"protobuf"
 	"errors"
 	"io"
 	"net"

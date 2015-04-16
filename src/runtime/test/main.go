@@ -8,7 +8,7 @@ import (
     "net"
     "component/server"
     "reflect"
-    "common/protobuf"
+    "protobuf"
     "time"
 )
 var (

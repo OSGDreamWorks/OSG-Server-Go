@@ -9,7 +9,7 @@ import (
     "net"
     "net/http"
     "github.com/gorilla/websocket"
-    "common/protobuf"
+    "protobuf"
     "fmt"
     "time"
     "common"

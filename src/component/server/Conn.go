@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
 	"common/logger"
-	"common/protobuf"
+	"protobuf"
 	"common/timer"
 	"encoding/binary"
 	"fmt"

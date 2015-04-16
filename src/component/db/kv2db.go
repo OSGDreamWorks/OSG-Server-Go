@@ -4,7 +4,7 @@ import (
 	gp "code.google.com/p/goprotobuf/proto"
 	"code.google.com/p/snappy-go/snappy"
 	"common/logger"
-	"common/protobuf"
+	"protobuf"
 	rpcplus "component/rpc"
 	"fmt"
 )

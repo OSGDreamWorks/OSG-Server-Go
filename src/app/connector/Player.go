@@ -1,6 +1,6 @@
 package connector
 import (
-    "common/protobuf"
+    "protobuf"
     "component/server"
 )
 

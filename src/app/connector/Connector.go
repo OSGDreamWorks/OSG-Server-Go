@@ -3,7 +3,7 @@ package connector
 import (
 	"common/config"
 	"common/logger"
-	"common/protobuf"
+	"protobuf"
 	"component/db"
 	"component/rpc"
 	"component/server"

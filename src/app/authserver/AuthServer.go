@@ -6,7 +6,7 @@ import (
 	"component/db"
 	"component/rpc"
 	"net"
-	"common/protobuf"
+	"protobuf"
 	"time"
 	"common"
 )
