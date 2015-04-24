@@ -13,6 +13,7 @@ import (
     "fmt"
     "time"
     "common"
+    "runtime/debug"
 )
 
 type serverInfo struct {
@@ -130,11 +131,10 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateGateServicesForClient(cfg config.GateConfig) *GateServicesForClient {
-    gateServicesForClient = &GateServicesForClient{}
-    rpcServer := server.NewServer()
-    rpcServer.Register(gateServicesForClient)
+    gateServicesForClient = &GateServicesForClient{rpcServer:server.NewServer()}
+    gateServicesForClient.rpcServer.Register(gateServicesForClient)
 
-    rpcServer.RegCallBackOnConn(
+    gateServicesForClient.rpcServer.RegCallBackOnConn(
     func(conn server.RpcConn) {
         gateServicesForClient.onConn(conn)
     },
@@ -145,17 +145,30 @@ func CreateGateServicesForClient(cfg config.GateConfig) *GateServicesForClient {
         logger.Fatal("net.Listen: %s", err.Error())
     }
 
-    for {
-        conn, err := listener.Accept()
-        if err != nil {
-            logger.Error("gateserver StartServices %s", err.Error())
-            break
+    go func() {
+        for {
+            //For Client/////////////////////////////
+            time.Sleep(time.Millisecond * 5)
+            conn, err := listener.Accept()
+            if err != nil {
+                logger.Error("gateserver StartServices %s", err.Error())
+                break
+            }
+            go func() {
+                rpcConn := server.NewTCPSocketConn(gateServicesForClient.rpcServer, conn, 4, 0, 1)
+                defer func() {
+                    if r := recover(); r != nil {
+                        logger.Error("player rpc runtime error begin:", r)
+                        debug.PrintStack()
+                        rpcConn.Close()
+
+                        logger.Error("player rpc runtime error end ")
+                    }
+                }()
+                gateServicesForClient.rpcServer.ServeConn(rpcConn)
+            }()
         }
-        go func() {
-            rpcConn := server.NewTCPSocketConn(rpcServer, conn, 4, 0, 1)
-            rpcServer.ServeConn(rpcConn)
-        }()
-    }
+    }()
 
     http.HandleFunc("/", wsServeConnHandler)
     http.ListenAndServe(cfg.HttpHostForClient, nil)

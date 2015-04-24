@@ -13,6 +13,7 @@ import (
 	"time"
 	"runtime/debug"
 	"sync"
+	"common"
 )
 
 type serverInfo struct {
@@ -247,6 +248,11 @@ func WriteResult(conn server.RpcConn, value interface{}) bool {
 func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 
 	rep := protobuf.LoginResult{}
+	uid := login.GetUid()
+	if uid == "" {
+		uid = common.GenUUID(login.GetAccount())
+		login.SetUid(uid)
+	}
 
 	self.authserver.Call("AuthServer.Login", &login, &rep)
 
@@ -257,6 +263,11 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 	WriteResult(conn, &rep)
 
 	if rep.GetResult() == protobuf.LoginResult_OK {
+
+		logger.Info("player login uid [%s]", login.GetUid())
+		for k,v:=range self.playersbyid{
+			logger.Info("online player %d [%v] %v", len(self.playersbyid), k, v)
+		}
 
 		if p, ok := self.playersbyid[login.GetUid()]; ok {
 			if err := p.conn.Close(); err == nil {
@@ -282,6 +293,8 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		}
 
 		p := &Player{PlayerBaseInfo: &base, conn: conn}
+
+		p.SetUid(uid)
 
 		//进入服务器全局表
 
