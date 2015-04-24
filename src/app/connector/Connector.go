@@ -255,20 +255,10 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 	}
 
 	self.authserver.Call("AuthServer.Login", &login, &rep)
-
-	logger.Info("Connector Login %v %v %v", rep.GetSessionKey(), rep.GetServerTime(), rep.GetResult())
 	rep.SetResult(rep.GetResult())
-	logger.Debug("Login %v", rep)
-
 	WriteResult(conn, &rep)
 
 	if rep.GetResult() == protobuf.LoginResult_OK {
-
-		logger.Info("player login uid [%s]", login.GetUid())
-		for k,v:=range self.playersbyid{
-			logger.Info("online player %d [%v] %v", len(self.playersbyid), k, v)
-		}
-
 		if p, ok := self.playersbyid[login.GetUid()]; ok {
 			if err := p.conn.Close(); err == nil {
 				logger.Info("kick the online player")

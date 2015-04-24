@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0d9e5531-3e17-495b-8597-cc9043050131" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/connector/Connector.go" afterPath="$PROJECT_DIR$/src/app/connector/Connector.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/gateserver/GateServer.go" afterPath="$PROJECT_DIR$/src/app/gateserver/GateServer.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OSG-Server-Go.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,8 +78,8 @@
       <file leaf-file-name="Connector.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7064057">
-              <caret line="293" column="0" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6049822">
+              <caret line="257" column="34" selection-start-line="257" selection-start-column="34" selection-end-line="257" selection-end-column="34" />
               <folding>
                 <element signature="e#19#222#0" expanded="true" />
               </folding>
@@ -737,12 +735,12 @@
       <workItem from="1429675396044" duration="5636000" />
       <workItem from="1429688549066" duration="5602000" />
       <workItem from="1429757733652" duration="5914000" />
-      <workItem from="1429837498057" duration="3978000" />
+      <workItem from="1429837498057" duration="7175000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41842000" />
+    <option name="totallyTimeSpent" value="45039000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1184,8 +1182,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7064057">
-          <caret line="293" column="0" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6049822">
+          <caret line="257" column="34" selection-start-line="257" selection-start-column="34" selection-end-line="257" selection-end-column="34" />
           <folding>
             <element signature="e#19#222#0" expanded="true" />
           </folding>
