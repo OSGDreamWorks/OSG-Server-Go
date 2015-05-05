@@ -307,6 +307,12 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                     "type": "string",
                     "name": "name",
                     "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "Transform",
+                    "name": "transform",
+                    "id": 3
                 }
             ]
         },
@@ -318,6 +324,81 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                     "type": "PlayerBaseInfo",
                     "name": "base",
                     "id": 1
+                }
+            ]
+        },
+        {
+            "name": "Vector3",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "X",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "Y",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "Z",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "Quaternion",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "X",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "Y",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "Z",
+                    "id": 3
+                },
+                {
+                    "rule": "required",
+                    "type": "float",
+                    "name": "W",
+                    "id": 4
+                }
+            ]
+        },
+        {
+            "name": "Transform",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "Vector3",
+                    "name": "position",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "Quaternion",
+                    "name": "rotation",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "Vector3",
+                    "name": "scale",
+                    "id": 3
                 }
             ]
         }

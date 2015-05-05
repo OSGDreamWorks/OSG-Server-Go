@@ -397,6 +397,14 @@ namespace protobuf
       get { return _name; }
       set { _name = value; }
     }
+    private protobuf.Transform _transform = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"transform", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public protobuf.Transform transform
+    {
+      get { return _transform; }
+      set { _transform = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -413,6 +421,106 @@ namespace protobuf
     {
       get { return _base; }
       set { _base = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Vector3")]
+  public partial class Vector3 : global::ProtoBuf.IExtensible
+  {
+    public Vector3() {}
+    
+    private float _X;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"X", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float X
+    {
+      get { return _X; }
+      set { _X = value; }
+    }
+    private float _Y;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float Y
+    {
+      get { return _Y; }
+      set { _Y = value; }
+    }
+    private float _Z;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"Z", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float Z
+    {
+      get { return _Z; }
+      set { _Z = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Quaternion")]
+  public partial class Quaternion : global::ProtoBuf.IExtensible
+  {
+    public Quaternion() {}
+    
+    private float _X;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"X", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float X
+    {
+      get { return _X; }
+      set { _X = value; }
+    }
+    private float _Y;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"Y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float Y
+    {
+      get { return _Y; }
+      set { _Y = value; }
+    }
+    private float _Z;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"Z", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float Z
+    {
+      get { return _Z; }
+      set { _Z = value; }
+    }
+    private float _W;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"W", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float W
+    {
+      get { return _W; }
+      set { _W = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Transform")]
+  public partial class Transform : global::ProtoBuf.IExtensible
+  {
+    public Transform() {}
+    
+    private protobuf.Vector3 _position;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"position", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public protobuf.Vector3 position
+    {
+      get { return _position; }
+      set { _position = value; }
+    }
+    private protobuf.Quaternion _rotation;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"rotation", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public protobuf.Quaternion rotation
+    {
+      get { return _rotation; }
+      set { _rotation = value; }
+    }
+    private protobuf.Vector3 _scale;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"scale", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public protobuf.Vector3 scale
+    {
+      get { return _scale; }
+      set { _scale = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

@@ -22,6 +22,9 @@ It has these top-level messages:
 	ChatResult
 	PlayerBaseInfo
 	PlayerInfo
+	Vector3
+	Quaternion
+	Transform
 */
 package protobuf
 
@@ -657,9 +660,10 @@ func (m *ChatResult) SetMsg(value string) {
 }
 
 type PlayerBaseInfo struct {
-	Uid              *string `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
-	Name             *string `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Uid              *string    `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
+	Name             *string    `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`
+	Transform        *Transform `protobuf:"bytes,3,opt,name=transform" json:"transform,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
 }
 
 func (m *PlayerBaseInfo) Reset()         { *m = PlayerBaseInfo{} }
@@ -680,6 +684,13 @@ func (m *PlayerBaseInfo) GetName() string {
 	return ""
 }
 
+func (m *PlayerBaseInfo) GetTransform() *Transform {
+	if m != nil {
+		return m.Transform
+	}
+	return nil
+}
+
 func (m *PlayerBaseInfo) SetUid(value string) {
 	if m != nil {
 		m.Uid = &value
@@ -689,6 +700,12 @@ func (m *PlayerBaseInfo) SetUid(value string) {
 func (m *PlayerBaseInfo) SetName(value string) {
 	if m != nil {
 		m.Name = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetTransform(value *Transform) {
+	if m != nil {
+		m.Transform = value
 	}
 }
 
@@ -711,6 +728,170 @@ func (m *PlayerInfo) GetBase() *PlayerBaseInfo {
 func (m *PlayerInfo) SetBase(value *PlayerBaseInfo) {
 	if m != nil {
 		m.Base = value
+	}
+}
+
+type Vector3 struct {
+	X                *float32 `protobuf:"fixed32,1,req" json:"X,omitempty"`
+	Y                *float32 `protobuf:"fixed32,2,req" json:"Y,omitempty"`
+	Z                *float32 `protobuf:"fixed32,3,req" json:"Z,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *Vector3) Reset()         { *m = Vector3{} }
+func (m *Vector3) String() string { return proto.CompactTextString(m) }
+func (*Vector3) ProtoMessage()    {}
+
+func (m *Vector3) GetX() float32 {
+	if m != nil && m.X != nil {
+		return *m.X
+	}
+	return 0
+}
+
+func (m *Vector3) GetY() float32 {
+	if m != nil && m.Y != nil {
+		return *m.Y
+	}
+	return 0
+}
+
+func (m *Vector3) GetZ() float32 {
+	if m != nil && m.Z != nil {
+		return *m.Z
+	}
+	return 0
+}
+
+func (m *Vector3) SetX(value float32) {
+	if m != nil {
+		m.X = &value
+	}
+}
+
+func (m *Vector3) SetY(value float32) {
+	if m != nil {
+		m.Y = &value
+	}
+}
+
+func (m *Vector3) SetZ(value float32) {
+	if m != nil {
+		m.Z = &value
+	}
+}
+
+type Quaternion struct {
+	X                *float32 `protobuf:"fixed32,1,req" json:"X,omitempty"`
+	Y                *float32 `protobuf:"fixed32,2,req" json:"Y,omitempty"`
+	Z                *float32 `protobuf:"fixed32,3,req" json:"Z,omitempty"`
+	W                *float32 `protobuf:"fixed32,4,req" json:"W,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *Quaternion) Reset()         { *m = Quaternion{} }
+func (m *Quaternion) String() string { return proto.CompactTextString(m) }
+func (*Quaternion) ProtoMessage()    {}
+
+func (m *Quaternion) GetX() float32 {
+	if m != nil && m.X != nil {
+		return *m.X
+	}
+	return 0
+}
+
+func (m *Quaternion) GetY() float32 {
+	if m != nil && m.Y != nil {
+		return *m.Y
+	}
+	return 0
+}
+
+func (m *Quaternion) GetZ() float32 {
+	if m != nil && m.Z != nil {
+		return *m.Z
+	}
+	return 0
+}
+
+func (m *Quaternion) GetW() float32 {
+	if m != nil && m.W != nil {
+		return *m.W
+	}
+	return 0
+}
+
+func (m *Quaternion) SetX(value float32) {
+	if m != nil {
+		m.X = &value
+	}
+}
+
+func (m *Quaternion) SetY(value float32) {
+	if m != nil {
+		m.Y = &value
+	}
+}
+
+func (m *Quaternion) SetZ(value float32) {
+	if m != nil {
+		m.Z = &value
+	}
+}
+
+func (m *Quaternion) SetW(value float32) {
+	if m != nil {
+		m.W = &value
+	}
+}
+
+type Transform struct {
+	Position         *Vector3    `protobuf:"bytes,1,req,name=position" json:"position,omitempty"`
+	Rotation         *Quaternion `protobuf:"bytes,2,req,name=rotation" json:"rotation,omitempty"`
+	Scale            *Vector3    `protobuf:"bytes,3,req,name=scale" json:"scale,omitempty"`
+	XXX_unrecognized []byte      `json:"-"`
+}
+
+func (m *Transform) Reset()         { *m = Transform{} }
+func (m *Transform) String() string { return proto.CompactTextString(m) }
+func (*Transform) ProtoMessage()    {}
+
+func (m *Transform) GetPosition() *Vector3 {
+	if m != nil {
+		return m.Position
+	}
+	return nil
+}
+
+func (m *Transform) GetRotation() *Quaternion {
+	if m != nil {
+		return m.Rotation
+	}
+	return nil
+}
+
+func (m *Transform) GetScale() *Vector3 {
+	if m != nil {
+		return m.Scale
+	}
+	return nil
+}
+
+func (m *Transform) SetPosition(value *Vector3) {
+	if m != nil {
+		m.Position = value
+	}
+}
+
+func (m *Transform) SetRotation(value *Quaternion) {
+	if m != nil {
+		m.Rotation = value
+	}
+}
+
+func (m *Transform) SetScale(value *Vector3) {
+	if m != nil {
+		m.Scale = value
 	}
 }
 

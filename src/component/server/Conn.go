@@ -210,7 +210,7 @@ func (conn *ProtoBufConn) mux() {
 		select {
 		case r := <-conn.send:
 
-			logger.Debug("writeRequest %v", r)
+			//logger.Debug("writeRequest %v", r)
 
 			buf, err := proto.Marshal(r)
 			if err != nil {
@@ -218,12 +218,12 @@ func (conn *ProtoBufConn) mux() {
 				continue
 			}
 
-			logger.Debug("        mux: %v", buf)
+			//logger.Debug("        mux: %v", buf)
 
 			//dst, err := snappy.Encode(nil, buf)
 			dst := buf
 
-			logger.Debug("  dst   mux: %v", dst)
+			//logger.Debug("  dst   mux: %v", dst)
 
 			if err != nil {
 				logger.Error("ProtoBufConn snappy.Encode Error %s", err.Error())
@@ -282,7 +282,7 @@ func (conn *ProtoBufConn) ReadRequest(req *protobuf.Request) error {
 
 	conn.last_time = time.Now().Unix()
 
-	logger.Info("ReadRequest dst: %v", dst)
+	//logger.Info("ReadRequest dst: %v", dst)
 
 	err = proto.Unmarshal(dst, req)
 	conn.msg_id = req.GetId()

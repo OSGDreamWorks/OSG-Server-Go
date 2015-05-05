@@ -7,7 +7,7 @@ echo start build golang Protobuf
 
 protoc --plugin=protoc-gen-go="./protoc-gen-go.exe" --go_out=./ *.proto
 
-move msg.pb.go ..\..\src\common\protobuf\msg.pb.go
+move msg.pb.go ..\..\src\protobuf\msg.pb.go
 echo OK
 echo =============================================================
 echo. 

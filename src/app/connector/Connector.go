@@ -266,19 +266,33 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		}
 
 		var base protobuf.PlayerBaseInfo
+		logger.Info("query db : %v", rep.GetUid())
 		result, err :=db.Query("playerbase", rep.GetUid(), &base)
-		if err != nil {
-			logger.Info("err query db : %v", err)
-			return err
-		}
 		if result == false {
 			base = protobuf.PlayerBaseInfo{}
 			base.SetUid(login.GetUid())
 			base.SetName(login.GetAccount())
+			trans:= protobuf.Transform{}
+			vec3:= protobuf.Vector3{}
+			vec3.SetX(0)
+			vec3.SetY(0)
+			vec3.SetZ(0)
+			quat:= protobuf.Quaternion{}
+			quat.SetX(0)
+			quat.SetY(0)
+			quat.SetZ(0)
+			quat.SetW(1)
+			trans.SetPosition(&vec3)
+			trans.SetRotation(&quat)
+			trans.SetScale(&vec3)
+			base.SetTransform(&trans)
 			db.Write("playerbase", rep.GetUid(), &base)
 			logger.Info("playerbase create %v", rep.GetUid())
-
 		}else {
+			if err != nil {
+				logger.Info("err query db : %v", err)
+				return err
+			}
 			logger.Info("playerbase find")
 		}
 
@@ -289,6 +303,7 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		//进入服务器全局表
 
 		self.addPlayer(conn.GetId(), p)
+
 	}else {
 		conn.Close()
 	}
