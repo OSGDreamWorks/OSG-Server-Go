@@ -255,10 +255,13 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 	}
 
 	self.authserver.Call("AuthServer.Login", &login, &rep)
+
+	logger.Debug("LoginResult %v", rep)
+
 	rep.SetResult(rep.GetResult())
-	WriteResult(conn, &rep)
 
 	if rep.GetResult() == protobuf.LoginResult_OK {
+		WriteResult(conn, &rep)
 		if p, ok := self.playersbyid[login.GetUid()]; ok {
 			if err := p.conn.Close(); err == nil {
 				logger.Info("kick the online player")
@@ -305,6 +308,9 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		self.addPlayer(conn.GetId(), p)
 
 	}else {
+		rep.SetSessionKey("")
+		rep.SetUid("")
+		WriteResult(conn, &rep)
 		conn.Close()
 	}
 
