@@ -3,7 +3,6 @@ package connector
 import (
     "component/server"
     "protobuf"
-    "common/logger"
 )
 
 func (self *Connector) UpdatePlayerInfo(conn server.RpcConn, info protobuf.PlayerBaseInfo) error {
