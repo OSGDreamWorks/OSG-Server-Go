@@ -309,10 +309,130 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                     "id": 2
                 },
                 {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "level",
+                    "id": 3
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "experience",
+                    "id": 4
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "HP",
+                    "id": 6
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "MP",
+                    "id": 7
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "Rage",
+                    "id": 8
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "maxHP",
+                    "id": 9
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "maxMP",
+                    "id": 10
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "maxRage",
+                    "id": 11
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "gender",
+                    "id": 12
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "modelid",
+                    "id": 13
+                },
+                {
                     "rule": "optional",
                     "type": "Transform",
                     "name": "transform",
-                    "id": 3
+                    "id": 14
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Strenght",
+                    "id": 15
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Velocity",
+                    "id": 16
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Mana",
+                    "id": 17
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Defence",
+                    "id": 18
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Stamina",
+                    "id": 19
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "ATK",
+                    "id": 20
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Armor",
+                    "id": 21
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Agility",
+                    "id": 22
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Spirit",
+                    "id": 23
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Recovery",
+                    "id": 24
                 }
             ]
         },

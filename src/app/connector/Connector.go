@@ -311,7 +311,13 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		rep.SetSessionKey("")
 		rep.SetUid("")
 		WriteResult(conn, &rep)
-		conn.Close()
+
+		go func() {
+			time.Sleep(time.Millisecond * 1000)
+			defer func() {
+				conn.Close()
+			}()
+		}()
 	}
 
 	return nil

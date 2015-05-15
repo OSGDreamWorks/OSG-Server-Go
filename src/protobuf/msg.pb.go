@@ -662,7 +662,27 @@ func (m *ChatResult) SetMsg(value string) {
 type PlayerBaseInfo struct {
 	Uid              *string    `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
 	Name             *string    `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`
-	Transform        *Transform `protobuf:"bytes,3,opt,name=transform" json:"transform,omitempty"`
+	Level            *uint32    `protobuf:"varint,3,req,name=level" json:"level,omitempty"`
+	Experience       *uint32    `protobuf:"varint,4,req,name=experience" json:"experience,omitempty"`
+	HP               *uint32    `protobuf:"varint,6,req" json:"HP,omitempty"`
+	MP               *uint32    `protobuf:"varint,7,req" json:"MP,omitempty"`
+	Rage             *uint32    `protobuf:"varint,8,req" json:"Rage,omitempty"`
+	MaxHP            *uint32    `protobuf:"varint,9,req,name=maxHP" json:"maxHP,omitempty"`
+	MaxMP            *uint32    `protobuf:"varint,10,req,name=maxMP" json:"maxMP,omitempty"`
+	MaxRage          *uint32    `protobuf:"varint,11,req,name=maxRage" json:"maxRage,omitempty"`
+	Gender           *uint32    `protobuf:"varint,12,opt,name=gender" json:"gender,omitempty"`
+	Modelid          *uint32    `protobuf:"varint,13,opt,name=modelid" json:"modelid,omitempty"`
+	Transform        *Transform `protobuf:"bytes,14,opt,name=transform" json:"transform,omitempty"`
+	Strenght         *uint32    `protobuf:"varint,15,opt" json:"Strenght,omitempty"`
+	Velocity         *uint32    `protobuf:"varint,16,opt" json:"Velocity,omitempty"`
+	Mana             *uint32    `protobuf:"varint,17,opt" json:"Mana,omitempty"`
+	Defence          *uint32    `protobuf:"varint,18,opt" json:"Defence,omitempty"`
+	Stamina          *uint32    `protobuf:"varint,19,opt" json:"Stamina,omitempty"`
+	ATK              *uint32    `protobuf:"varint,20,opt" json:"ATK,omitempty"`
+	Armor            *uint32    `protobuf:"varint,21,opt" json:"Armor,omitempty"`
+	Agility          *uint32    `protobuf:"varint,22,opt" json:"Agility,omitempty"`
+	Spirit           *uint32    `protobuf:"varint,23,opt" json:"Spirit,omitempty"`
+	Recovery         *uint32    `protobuf:"varint,24,opt" json:"Recovery,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -684,11 +704,151 @@ func (m *PlayerBaseInfo) GetName() string {
 	return ""
 }
 
+func (m *PlayerBaseInfo) GetLevel() uint32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetExperience() uint32 {
+	if m != nil && m.Experience != nil {
+		return *m.Experience
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetHP() uint32 {
+	if m != nil && m.HP != nil {
+		return *m.HP
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetMP() uint32 {
+	if m != nil && m.MP != nil {
+		return *m.MP
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetRage() uint32 {
+	if m != nil && m.Rage != nil {
+		return *m.Rage
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetMaxHP() uint32 {
+	if m != nil && m.MaxHP != nil {
+		return *m.MaxHP
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetMaxMP() uint32 {
+	if m != nil && m.MaxMP != nil {
+		return *m.MaxMP
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetMaxRage() uint32 {
+	if m != nil && m.MaxRage != nil {
+		return *m.MaxRage
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetGender() uint32 {
+	if m != nil && m.Gender != nil {
+		return *m.Gender
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetModelid() uint32 {
+	if m != nil && m.Modelid != nil {
+		return *m.Modelid
+	}
+	return 0
+}
+
 func (m *PlayerBaseInfo) GetTransform() *Transform {
 	if m != nil {
 		return m.Transform
 	}
 	return nil
+}
+
+func (m *PlayerBaseInfo) GetStrenght() uint32 {
+	if m != nil && m.Strenght != nil {
+		return *m.Strenght
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetVelocity() uint32 {
+	if m != nil && m.Velocity != nil {
+		return *m.Velocity
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetMana() uint32 {
+	if m != nil && m.Mana != nil {
+		return *m.Mana
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetDefence() uint32 {
+	if m != nil && m.Defence != nil {
+		return *m.Defence
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetStamina() uint32 {
+	if m != nil && m.Stamina != nil {
+		return *m.Stamina
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetATK() uint32 {
+	if m != nil && m.ATK != nil {
+		return *m.ATK
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetArmor() uint32 {
+	if m != nil && m.Armor != nil {
+		return *m.Armor
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetAgility() uint32 {
+	if m != nil && m.Agility != nil {
+		return *m.Agility
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetSpirit() uint32 {
+	if m != nil && m.Spirit != nil {
+		return *m.Spirit
+	}
+	return 0
+}
+
+func (m *PlayerBaseInfo) GetRecovery() uint32 {
+	if m != nil && m.Recovery != nil {
+		return *m.Recovery
+	}
+	return 0
 }
 
 func (m *PlayerBaseInfo) SetUid(value string) {
@@ -703,9 +863,129 @@ func (m *PlayerBaseInfo) SetName(value string) {
 	}
 }
 
+func (m *PlayerBaseInfo) SetLevel(value uint32) {
+	if m != nil {
+		m.Level = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetExperience(value uint32) {
+	if m != nil {
+		m.Experience = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetHP(value uint32) {
+	if m != nil {
+		m.HP = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetMP(value uint32) {
+	if m != nil {
+		m.MP = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetRage(value uint32) {
+	if m != nil {
+		m.Rage = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetMaxHP(value uint32) {
+	if m != nil {
+		m.MaxHP = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetMaxMP(value uint32) {
+	if m != nil {
+		m.MaxMP = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetMaxRage(value uint32) {
+	if m != nil {
+		m.MaxRage = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetGender(value uint32) {
+	if m != nil {
+		m.Gender = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetModelid(value uint32) {
+	if m != nil {
+		m.Modelid = &value
+	}
+}
+
 func (m *PlayerBaseInfo) SetTransform(value *Transform) {
 	if m != nil {
 		m.Transform = value
+	}
+}
+
+func (m *PlayerBaseInfo) SetStrenght(value uint32) {
+	if m != nil {
+		m.Strenght = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetVelocity(value uint32) {
+	if m != nil {
+		m.Velocity = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetMana(value uint32) {
+	if m != nil {
+		m.Mana = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetDefence(value uint32) {
+	if m != nil {
+		m.Defence = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetStamina(value uint32) {
+	if m != nil {
+		m.Stamina = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetATK(value uint32) {
+	if m != nil {
+		m.ATK = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetArmor(value uint32) {
+	if m != nil {
+		m.Armor = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetAgility(value uint32) {
+	if m != nil {
+		m.Agility = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetSpirit(value uint32) {
+	if m != nil {
+		m.Spirit = &value
+	}
+}
+
+func (m *PlayerBaseInfo) SetRecovery(value uint32) {
+	if m != nil {
+		m.Recovery = &value
 	}
 }
 

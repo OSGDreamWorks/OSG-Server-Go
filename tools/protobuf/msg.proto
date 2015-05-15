@@ -80,8 +80,28 @@ message ChatResult{
 
 message PlayerBaseInfo{
     required string uid = 1;
-    required string name = 2;
-    optional Transform transform = 3;
+    required string name = 2;			//名字
+    required uint32 level = 3;			//等级
+    required uint32 experience = 4;		//经验
+	required uint32 HP = 6;				//生命值
+	required uint32 MP = 7;				//魔法值
+	required uint32 Rage = 8;			//怒气值
+	required uint32 maxHP = 9;			//最大生命值
+	required uint32 maxMP = 10;			//最大魔法值
+	required uint32 maxRage = 11;		//最大怒气值
+    optional uint32 gender = 12;		//性别
+    optional uint32 modelid = 13;		//模型id
+    optional Transform transform = 14;	//位置
+	optional uint32 Strenght = 15;		//力量
+	optional uint32 Velocity = 16;		//速度
+	optional uint32 Mana = 17;			//魔法
+	optional uint32 Defence = 18;		//强壮
+	optional uint32 Stamina = 19;		//根骨
+	optional uint32 ATK = 20;			//攻击力
+	optional uint32 Armor = 21;			//防御力
+	optional uint32 Agility = 22;		//敏捷
+	optional uint32 Spirit = 23;		//精神
+	optional uint32 Recovery = 24;		//生命回复
 }
 
 message PlayerInfo{
