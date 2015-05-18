@@ -404,6 +404,9 @@ func (server *Server) freeRequest(req *RequestWrap) {
 }
 
 type RpcConn interface {
+
+	SetResultServer(name string)
+
 	IsWebConn() bool
 
 	ReadRequest(*protobuf.Request) error

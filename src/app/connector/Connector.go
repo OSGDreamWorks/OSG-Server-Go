@@ -26,6 +26,7 @@ type Connector struct {
 	stableServer string
 	authserver  *rpc.Client
 	gateserver   *rpc.Client
+	FsMgr        FServerConnMgr
 	rpcServer    *server.Server
 	players         map[uint64]*Player
 	playersbyid     map[string]*Player
@@ -61,7 +62,7 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 	pConnector.rpcServer.ServeConn(rpcConn)
 }
 
-func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
+func CreateConnectorServerForClient(cfg *config.SvrConfig) *Connector {
 
 	db.Init()
 
@@ -117,16 +118,20 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 		conn.Unlock()
 	},
 	)
-	pConnector.id = cfg.ServerID
-	pConnector.listenTcpIp = cfg.TcpHost
-	pConnector.listenHttpIp = cfg.HttpHost
 
-	pConnector.sendPlayerCountToGateServer()
+	//开始对fightserver的RPC服务
+	pConnector.FsMgr.Init(pConnector.rpcServer, cfg)
 
 	listener, err := net.Listen("tcp", cfg.TcpHost)
 	if err != nil {
 		logger.Fatal("net.Listen: %s", err.Error())
 	}
+
+	pConnector.id = cfg.ServerID
+	pConnector.listenTcpIp = cfg.TcpHost
+	pConnector.listenHttpIp = cfg.HttpHost
+
+	pConnector.sendPlayerCountToGateServer()
 
 	go func() {
 		for {

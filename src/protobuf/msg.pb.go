@@ -25,6 +25,14 @@ It has these top-level messages:
 	Vector3
 	Quaternion
 	Transform
+	CreatureBaseInfo
+	AttackInfo
+	Spell
+	SpellInfo
+	BattleInfo
+	NotifyBattleStart
+	BattleAttackQueue
+	NotifyBattleEnd
 */
 package protobuf
 
@@ -36,6 +44,42 @@ import math "math"
 var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
+
+type SpellType int32
+
+const (
+	SpellType_LighningStorm SpellType = 1
+	SpellType_HealingWave   SpellType = 2
+)
+
+var SpellType_name = map[int32]string{
+	1: "LighningStorm",
+	2: "HealingWave",
+}
+var SpellType_value = map[string]int32{
+	"LighningStorm": 1,
+	"HealingWave":   2,
+}
+
+func (x SpellType) Enum() *SpellType {
+	p := new(SpellType)
+	*p = x
+	return p
+}
+func (x SpellType) String() string {
+	return proto.EnumName(SpellType_name, int32(x))
+}
+func (x SpellType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *SpellType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(SpellType_value, data, "SpellType")
+	if err != nil {
+		return err
+	}
+	*x = SpellType(value)
+	return nil
+}
 
 type ConnectorInfoResult_Result int32
 
@@ -1175,7 +1219,702 @@ func (m *Transform) SetScale(value *Vector3) {
 	}
 }
 
+type CreatureBaseInfo struct {
+	Uid              *string    `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
+	Name             *string    `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`
+	Level            *uint32    `protobuf:"varint,3,req,name=level" json:"level,omitempty"`
+	Experience       *uint32    `protobuf:"varint,4,req,name=experience" json:"experience,omitempty"`
+	HP               *uint32    `protobuf:"varint,5,req" json:"HP,omitempty"`
+	MP               *uint32    `protobuf:"varint,6,req" json:"MP,omitempty"`
+	MaxHP            *uint32    `protobuf:"varint,7,req,name=maxHP" json:"maxHP,omitempty"`
+	MaxMP            *uint32    `protobuf:"varint,8,req,name=maxMP" json:"maxMP,omitempty"`
+	Gender           *uint32    `protobuf:"varint,9,opt,name=gender" json:"gender,omitempty"`
+	Modelid          *uint32    `protobuf:"varint,10,opt,name=modelid" json:"modelid,omitempty"`
+	Transform        *Transform `protobuf:"bytes,11,opt,name=transform" json:"transform,omitempty"`
+	Strenght         *uint32    `protobuf:"varint,12,opt" json:"Strenght,omitempty"`
+	Velocity         *uint32    `protobuf:"varint,13,opt" json:"Velocity,omitempty"`
+	Mana             *uint32    `protobuf:"varint,14,opt" json:"Mana,omitempty"`
+	Defence          *uint32    `protobuf:"varint,15,opt" json:"Defence,omitempty"`
+	Stamina          *uint32    `protobuf:"varint,16,opt" json:"Stamina,omitempty"`
+	ATK              *uint32    `protobuf:"varint,17,opt" json:"ATK,omitempty"`
+	Armor            *uint32    `protobuf:"varint,18,opt" json:"Armor,omitempty"`
+	Agility          *uint32    `protobuf:"varint,19,opt" json:"Agility,omitempty"`
+	Spirit           *uint32    `protobuf:"varint,20,opt" json:"Spirit,omitempty"`
+	Recovery         *uint32    `protobuf:"varint,21,opt" json:"Recovery,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
+}
+
+func (m *CreatureBaseInfo) Reset()         { *m = CreatureBaseInfo{} }
+func (m *CreatureBaseInfo) String() string { return proto.CompactTextString(m) }
+func (*CreatureBaseInfo) ProtoMessage()    {}
+
+func (m *CreatureBaseInfo) GetUid() string {
+	if m != nil && m.Uid != nil {
+		return *m.Uid
+	}
+	return ""
+}
+
+func (m *CreatureBaseInfo) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+func (m *CreatureBaseInfo) GetLevel() uint32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetExperience() uint32 {
+	if m != nil && m.Experience != nil {
+		return *m.Experience
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetHP() uint32 {
+	if m != nil && m.HP != nil {
+		return *m.HP
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetMP() uint32 {
+	if m != nil && m.MP != nil {
+		return *m.MP
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetMaxHP() uint32 {
+	if m != nil && m.MaxHP != nil {
+		return *m.MaxHP
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetMaxMP() uint32 {
+	if m != nil && m.MaxMP != nil {
+		return *m.MaxMP
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetGender() uint32 {
+	if m != nil && m.Gender != nil {
+		return *m.Gender
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetModelid() uint32 {
+	if m != nil && m.Modelid != nil {
+		return *m.Modelid
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetTransform() *Transform {
+	if m != nil {
+		return m.Transform
+	}
+	return nil
+}
+
+func (m *CreatureBaseInfo) GetStrenght() uint32 {
+	if m != nil && m.Strenght != nil {
+		return *m.Strenght
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetVelocity() uint32 {
+	if m != nil && m.Velocity != nil {
+		return *m.Velocity
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetMana() uint32 {
+	if m != nil && m.Mana != nil {
+		return *m.Mana
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetDefence() uint32 {
+	if m != nil && m.Defence != nil {
+		return *m.Defence
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetStamina() uint32 {
+	if m != nil && m.Stamina != nil {
+		return *m.Stamina
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetATK() uint32 {
+	if m != nil && m.ATK != nil {
+		return *m.ATK
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetArmor() uint32 {
+	if m != nil && m.Armor != nil {
+		return *m.Armor
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetAgility() uint32 {
+	if m != nil && m.Agility != nil {
+		return *m.Agility
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetSpirit() uint32 {
+	if m != nil && m.Spirit != nil {
+		return *m.Spirit
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) GetRecovery() uint32 {
+	if m != nil && m.Recovery != nil {
+		return *m.Recovery
+	}
+	return 0
+}
+
+func (m *CreatureBaseInfo) SetUid(value string) {
+	if m != nil {
+		m.Uid = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetName(value string) {
+	if m != nil {
+		m.Name = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetLevel(value uint32) {
+	if m != nil {
+		m.Level = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetExperience(value uint32) {
+	if m != nil {
+		m.Experience = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetHP(value uint32) {
+	if m != nil {
+		m.HP = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetMP(value uint32) {
+	if m != nil {
+		m.MP = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetMaxHP(value uint32) {
+	if m != nil {
+		m.MaxHP = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetMaxMP(value uint32) {
+	if m != nil {
+		m.MaxMP = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetGender(value uint32) {
+	if m != nil {
+		m.Gender = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetModelid(value uint32) {
+	if m != nil {
+		m.Modelid = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetTransform(value *Transform) {
+	if m != nil {
+		m.Transform = value
+	}
+}
+
+func (m *CreatureBaseInfo) SetStrenght(value uint32) {
+	if m != nil {
+		m.Strenght = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetVelocity(value uint32) {
+	if m != nil {
+		m.Velocity = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetMana(value uint32) {
+	if m != nil {
+		m.Mana = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetDefence(value uint32) {
+	if m != nil {
+		m.Defence = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetStamina(value uint32) {
+	if m != nil {
+		m.Stamina = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetATK(value uint32) {
+	if m != nil {
+		m.ATK = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetArmor(value uint32) {
+	if m != nil {
+		m.Armor = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetAgility(value uint32) {
+	if m != nil {
+		m.Agility = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetSpirit(value uint32) {
+	if m != nil {
+		m.Spirit = &value
+	}
+}
+
+func (m *CreatureBaseInfo) SetRecovery(value uint32) {
+	if m != nil {
+		m.Recovery = &value
+	}
+}
+
+type AttackInfo struct {
+	Droptime         *uint32 `protobuf:"varint,1,req,name=droptime" json:"droptime,omitempty"`
+	Attacker         *uint32 `protobuf:"varint,2,req,name=attacker" json:"attacker,omitempty"`
+	Position         *uint32 `protobuf:"varint,3,req,name=position" json:"position,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *AttackInfo) Reset()         { *m = AttackInfo{} }
+func (m *AttackInfo) String() string { return proto.CompactTextString(m) }
+func (*AttackInfo) ProtoMessage()    {}
+
+func (m *AttackInfo) GetDroptime() uint32 {
+	if m != nil && m.Droptime != nil {
+		return *m.Droptime
+	}
+	return 0
+}
+
+func (m *AttackInfo) GetAttacker() uint32 {
+	if m != nil && m.Attacker != nil {
+		return *m.Attacker
+	}
+	return 0
+}
+
+func (m *AttackInfo) GetPosition() uint32 {
+	if m != nil && m.Position != nil {
+		return *m.Position
+	}
+	return 0
+}
+
+func (m *AttackInfo) SetDroptime(value uint32) {
+	if m != nil {
+		m.Droptime = &value
+	}
+}
+
+func (m *AttackInfo) SetAttacker(value uint32) {
+	if m != nil {
+		m.Attacker = &value
+	}
+}
+
+func (m *AttackInfo) SetPosition(value uint32) {
+	if m != nil {
+		m.Position = &value
+	}
+}
+
+type Spell struct {
+	Type             *SpellType `protobuf:"varint,1,req,name=type,enum=protobuf.SpellType" json:"type,omitempty"`
+	Level            *uint32    `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	Damage           *uint32    `protobuf:"varint,3,opt,name=damage" json:"damage,omitempty"`
+	Range            *uint32    `protobuf:"varint,4,opt,name=range" json:"range,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
+}
+
+func (m *Spell) Reset()         { *m = Spell{} }
+func (m *Spell) String() string { return proto.CompactTextString(m) }
+func (*Spell) ProtoMessage()    {}
+
+func (m *Spell) GetType() SpellType {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return SpellType_LighningStorm
+}
+
+func (m *Spell) GetLevel() uint32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *Spell) GetDamage() uint32 {
+	if m != nil && m.Damage != nil {
+		return *m.Damage
+	}
+	return 0
+}
+
+func (m *Spell) GetRange() uint32 {
+	if m != nil && m.Range != nil {
+		return *m.Range
+	}
+	return 0
+}
+
+func (m *Spell) SetType(value SpellType) {
+	if m != nil {
+		m.Type = &value
+	}
+}
+
+func (m *Spell) SetLevel(value uint32) {
+	if m != nil {
+		m.Level = &value
+	}
+}
+
+func (m *Spell) SetDamage(value uint32) {
+	if m != nil {
+		m.Damage = &value
+	}
+}
+
+func (m *Spell) SetRange(value uint32) {
+	if m != nil {
+		m.Range = &value
+	}
+}
+
+type SpellInfo struct {
+	Droptime         *uint32 `protobuf:"varint,1,req,name=droptime" json:"droptime,omitempty"`
+	Attacker         *uint32 `protobuf:"varint,2,req,name=attacker" json:"attacker,omitempty"`
+	Position         *uint32 `protobuf:"varint,3,req,name=position" json:"position,omitempty"`
+	Spell            *Spell  `protobuf:"bytes,4,req,name=spell" json:"spell,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *SpellInfo) Reset()         { *m = SpellInfo{} }
+func (m *SpellInfo) String() string { return proto.CompactTextString(m) }
+func (*SpellInfo) ProtoMessage()    {}
+
+func (m *SpellInfo) GetDroptime() uint32 {
+	if m != nil && m.Droptime != nil {
+		return *m.Droptime
+	}
+	return 0
+}
+
+func (m *SpellInfo) GetAttacker() uint32 {
+	if m != nil && m.Attacker != nil {
+		return *m.Attacker
+	}
+	return 0
+}
+
+func (m *SpellInfo) GetPosition() uint32 {
+	if m != nil && m.Position != nil {
+		return *m.Position
+	}
+	return 0
+}
+
+func (m *SpellInfo) GetSpell() *Spell {
+	if m != nil {
+		return m.Spell
+	}
+	return nil
+}
+
+func (m *SpellInfo) SetDroptime(value uint32) {
+	if m != nil {
+		m.Droptime = &value
+	}
+}
+
+func (m *SpellInfo) SetAttacker(value uint32) {
+	if m != nil {
+		m.Attacker = &value
+	}
+}
+
+func (m *SpellInfo) SetPosition(value uint32) {
+	if m != nil {
+		m.Position = &value
+	}
+}
+
+func (m *SpellInfo) SetSpell(value *Spell) {
+	if m != nil {
+		m.Spell = value
+	}
+}
+
+type BattleInfo struct {
+	Bid              *string             `protobuf:"bytes,1,req,name=bid" json:"bid,omitempty"`
+	Partner          []*CreatureBaseInfo `protobuf:"bytes,2,rep,name=partner" json:"partner,omitempty"`
+	Moster           []*CreatureBaseInfo `protobuf:"bytes,3,rep,name=moster" json:"moster,omitempty"`
+	Attackunits      []*AttackInfo       `protobuf:"bytes,4,rep,name=attackunits" json:"attackunits,omitempty"`
+	Spells           []*SpellInfo        `protobuf:"bytes,5,rep,name=spells" json:"spells,omitempty"`
+	XXX_unrecognized []byte              `json:"-"`
+}
+
+func (m *BattleInfo) Reset()         { *m = BattleInfo{} }
+func (m *BattleInfo) String() string { return proto.CompactTextString(m) }
+func (*BattleInfo) ProtoMessage()    {}
+
+func (m *BattleInfo) GetBid() string {
+	if m != nil && m.Bid != nil {
+		return *m.Bid
+	}
+	return ""
+}
+
+func (m *BattleInfo) GetPartner() []*CreatureBaseInfo {
+	if m != nil {
+		return m.Partner
+	}
+	return nil
+}
+
+func (m *BattleInfo) GetMoster() []*CreatureBaseInfo {
+	if m != nil {
+		return m.Moster
+	}
+	return nil
+}
+
+func (m *BattleInfo) GetAttackunits() []*AttackInfo {
+	if m != nil {
+		return m.Attackunits
+	}
+	return nil
+}
+
+func (m *BattleInfo) GetSpells() []*SpellInfo {
+	if m != nil {
+		return m.Spells
+	}
+	return nil
+}
+
+func (m *BattleInfo) SetBid(value string) {
+	if m != nil {
+		m.Bid = &value
+	}
+}
+
+func (m *BattleInfo) SetPartner(value []*CreatureBaseInfo) {
+	if m != nil {
+		m.Partner = value
+	}
+}
+
+func (m *BattleInfo) SetMoster(value []*CreatureBaseInfo) {
+	if m != nil {
+		m.Moster = value
+	}
+}
+
+func (m *BattleInfo) SetAttackunits(value []*AttackInfo) {
+	if m != nil {
+		m.Attackunits = value
+	}
+}
+
+func (m *BattleInfo) SetSpells(value []*SpellInfo) {
+	if m != nil {
+		m.Spells = value
+	}
+}
+
+type NotifyBattleStart struct {
+	Bid              *string             `protobuf:"bytes,1,req,name=bid" json:"bid,omitempty"`
+	Partner          []*CreatureBaseInfo `protobuf:"bytes,2,rep,name=partner" json:"partner,omitempty"`
+	Moster           []*CreatureBaseInfo `protobuf:"bytes,3,rep,name=moster" json:"moster,omitempty"`
+	XXX_unrecognized []byte              `json:"-"`
+}
+
+func (m *NotifyBattleStart) Reset()         { *m = NotifyBattleStart{} }
+func (m *NotifyBattleStart) String() string { return proto.CompactTextString(m) }
+func (*NotifyBattleStart) ProtoMessage()    {}
+
+func (m *NotifyBattleStart) GetBid() string {
+	if m != nil && m.Bid != nil {
+		return *m.Bid
+	}
+	return ""
+}
+
+func (m *NotifyBattleStart) GetPartner() []*CreatureBaseInfo {
+	if m != nil {
+		return m.Partner
+	}
+	return nil
+}
+
+func (m *NotifyBattleStart) GetMoster() []*CreatureBaseInfo {
+	if m != nil {
+		return m.Moster
+	}
+	return nil
+}
+
+func (m *NotifyBattleStart) SetBid(value string) {
+	if m != nil {
+		m.Bid = &value
+	}
+}
+
+func (m *NotifyBattleStart) SetPartner(value []*CreatureBaseInfo) {
+	if m != nil {
+		m.Partner = value
+	}
+}
+
+func (m *NotifyBattleStart) SetMoster(value []*CreatureBaseInfo) {
+	if m != nil {
+		m.Moster = value
+	}
+}
+
+type BattleAttackQueue struct {
+	Bid              *string       `protobuf:"bytes,1,req,name=bid" json:"bid,omitempty"`
+	Attackunits      []*AttackInfo `protobuf:"bytes,2,rep,name=attackunits" json:"attackunits,omitempty"`
+	Spells           []*SpellInfo  `protobuf:"bytes,3,rep,name=spells" json:"spells,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *BattleAttackQueue) Reset()         { *m = BattleAttackQueue{} }
+func (m *BattleAttackQueue) String() string { return proto.CompactTextString(m) }
+func (*BattleAttackQueue) ProtoMessage()    {}
+
+func (m *BattleAttackQueue) GetBid() string {
+	if m != nil && m.Bid != nil {
+		return *m.Bid
+	}
+	return ""
+}
+
+func (m *BattleAttackQueue) GetAttackunits() []*AttackInfo {
+	if m != nil {
+		return m.Attackunits
+	}
+	return nil
+}
+
+func (m *BattleAttackQueue) GetSpells() []*SpellInfo {
+	if m != nil {
+		return m.Spells
+	}
+	return nil
+}
+
+func (m *BattleAttackQueue) SetBid(value string) {
+	if m != nil {
+		m.Bid = &value
+	}
+}
+
+func (m *BattleAttackQueue) SetAttackunits(value []*AttackInfo) {
+	if m != nil {
+		m.Attackunits = value
+	}
+}
+
+func (m *BattleAttackQueue) SetSpells(value []*SpellInfo) {
+	if m != nil {
+		m.Spells = value
+	}
+}
+
+type NotifyBattleEnd struct {
+	Playerlid        *uint64 `protobuf:"varint,1,req,name=playerlid" json:"playerlid,omitempty"`
+	Exp              *uint32 `protobuf:"varint,2,opt,name=exp" json:"exp,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *NotifyBattleEnd) Reset()         { *m = NotifyBattleEnd{} }
+func (m *NotifyBattleEnd) String() string { return proto.CompactTextString(m) }
+func (*NotifyBattleEnd) ProtoMessage()    {}
+
+func (m *NotifyBattleEnd) GetPlayerlid() uint64 {
+	if m != nil && m.Playerlid != nil {
+		return *m.Playerlid
+	}
+	return 0
+}
+
+func (m *NotifyBattleEnd) GetExp() uint32 {
+	if m != nil && m.Exp != nil {
+		return *m.Exp
+	}
+	return 0
+}
+
+func (m *NotifyBattleEnd) SetPlayerlid(value uint64) {
+	if m != nil {
+		m.Playerlid = &value
+	}
+}
+
+func (m *NotifyBattleEnd) SetExp(value uint32) {
+	if m != nil {
+		m.Exp = &value
+	}
+}
+
 func init() {
+	proto.RegisterEnum("protobuf.SpellType", SpellType_name, SpellType_value)
 	proto.RegisterEnum("protobuf.ConnectorInfoResult_Result", ConnectorInfoResult_Result_name, ConnectorInfoResult_Result_value)
 	proto.RegisterEnum("protobuf.LoginResult_Result", LoginResult_Result_name, LoginResult_Result_value)
 }

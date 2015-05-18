@@ -33,6 +33,8 @@ go build -o "$PRODIR"/bin/authserver		"$PRODIR"/src/runtime/authserver/main.go
 
 go build -o "$PRODIR"/bin/gateserver		"$PRODIR"/src/runtime/gateserver/main.go
 
+go build -o "$PRODIR"/bin/fightserver		"$PRODIR"/src/runtime/fightserver/main.go
+
 go build -o "$PRODIR"/bin/gameserver		"$PRODIR"/src/runtime/gameserver/main.go
 
 export GOPATH="$OLDGOPATH"

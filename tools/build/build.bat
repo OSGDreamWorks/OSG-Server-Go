@@ -32,6 +32,8 @@ go build -o %PRODIR%\bin\authserver.exe		%PRODIR%\src\runtime\authserver\main.go
 
 go build -o %PRODIR%\bin\gateserver.exe		%PRODIR%\src\runtime\gateserver\main.go
 
+go build -o %PRODIR%\bin\fightserver.exe		%PRODIR%\src\runtime\fightserver\main.go
+
 go build -o %PRODIR%\bin\gameserver.exe		%PRODIR%\src\runtime\gameserver\main.go
 
 set GOPATH=%OLDGOPATH%

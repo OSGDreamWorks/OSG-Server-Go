@@ -521,6 +521,331 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                     "id": 3
                 }
             ]
+        },
+        {
+            "name": "CreatureBaseInfo",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "string",
+                    "name": "uid",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "string",
+                    "name": "name",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "level",
+                    "id": 3
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "experience",
+                    "id": 4
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "HP",
+                    "id": 5
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "MP",
+                    "id": 6
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "maxHP",
+                    "id": 7
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "maxMP",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "gender",
+                    "id": 9
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "modelid",
+                    "id": 10
+                },
+                {
+                    "rule": "optional",
+                    "type": "Transform",
+                    "name": "transform",
+                    "id": 11
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Strenght",
+                    "id": 12
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Velocity",
+                    "id": 13
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Mana",
+                    "id": 14
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Defence",
+                    "id": 15
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Stamina",
+                    "id": 16
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "ATK",
+                    "id": 17
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Armor",
+                    "id": 18
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Agility",
+                    "id": 19
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Spirit",
+                    "id": 20
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Recovery",
+                    "id": 21
+                }
+            ]
+        },
+        {
+            "name": "AttackInfo",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "droptime",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "attacker",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "position",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "Spell",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "SpellType",
+                    "name": "type",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "level",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "damage",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "range",
+                    "id": 4
+                }
+            ]
+        },
+        {
+            "name": "SpellInfo",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "droptime",
+                    "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "attacker",
+                    "id": 2
+                },
+                {
+                    "rule": "required",
+                    "type": "uint32",
+                    "name": "position",
+                    "id": 3
+                },
+                {
+                    "rule": "required",
+                    "type": "Spell",
+                    "name": "spell",
+                    "id": 4
+                }
+            ]
+        },
+        {
+            "name": "BattleInfo",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "string",
+                    "name": "bid",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "CreatureBaseInfo",
+                    "name": "partner",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "CreatureBaseInfo",
+                    "name": "moster",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "AttackInfo",
+                    "name": "attackunits",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "SpellInfo",
+                    "name": "spells",
+                    "id": 5
+                }
+            ]
+        },
+        {
+            "name": "NotifyBattleStart",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "string",
+                    "name": "bid",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "CreatureBaseInfo",
+                    "name": "partner",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "CreatureBaseInfo",
+                    "name": "moster",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "BattleAttackQueue",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "string",
+                    "name": "bid",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "AttackInfo",
+                    "name": "attackunits",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "SpellInfo",
+                    "name": "spells",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "name": "NotifyBattleEnd",
+            "fields": [
+                {
+                    "rule": "required",
+                    "type": "uint64",
+                    "name": "playerlid",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "exp",
+                    "id": 2
+                }
+            ]
+        }
+    ],
+    "enums": [
+        {
+            "name": "SpellType",
+            "values": [
+                {
+                    "name": "LighningStorm",
+                    "id": 1
+                },
+                {
+                    "name": "HealingWave",
+                    "id": 2
+                }
+            ]
         }
     ]
 }).build();

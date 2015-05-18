@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	connector.CreateConnectorServerForClient(cfg)
+	connector.CreateConnectorServerForClient(&cfg)
 
 	logger.Info("stop game server")
 }

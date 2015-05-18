@@ -13,11 +13,12 @@ import (
 )
 var (
     gateConfigFile = flag.String("c", "etc/gateserver.json", "config file name for the game server")
+    svrConfigFile = flag.String("g", "etc/gameserver.json", "config file name for the fight server")
 )
 
 func main() {
     logger.Info("start test server")
-    testLogin()
+    testFightServer()
     logger.Info("stop test server")
 }
 
@@ -103,4 +104,41 @@ func testCommon() {
     sessionKey := common.GenSessionKey()
     logger.Info("session: %v", sessionKey)
     logger.Info("check: %v", common.CheckSessionKey(sessionKey))
+}
+
+func testFightServer() {
+
+    var cfg config.SvrConfig
+    if err := config.ReadConfig(*svrConfigFile, &cfg); err != nil {
+        logger.Fatal("load config failed, error is: %v", err)
+        return
+    }
+
+    conn, err := net.Dial("tcp", cfg.FsHost[0])
+    if err != nil {
+        logger.Fatal("%s", err.Error())
+    }
+
+    rpcConn := server.NewTCPSocketConn(nil, conn, 4, 0, 1)
+    player := &protobuf.PlayerBaseInfo{}
+    player.SetUid("test")
+    player.SetName("Account")
+    player.SetLevel(1)
+    player.SetExperience(0)
+    player.SetHP(106)
+    player.SetMP(109)
+    player.SetRage(109)
+    player.SetMaxHP(106)
+    player.SetMaxMP(109)
+    player.SetMaxRage(109)
+    rpcConn.Call("FightServer.StartBattle", player)
+
+    rst := new(server.RequestWrap)
+    err = rpcConn.ReadRequest(&rst.Request)
+
+    // argv guaranteed to be a pointer now.
+    argv := reflect.New(reflect.TypeOf(protobuf.LoginResult{}))
+    rpcConn.GetRequestBody(&rst.Request, argv.Interface())
+    logger.Info("FightServer.StartBattle : %v", argv.Interface())
+    logger.Info("                 %v", &rst.Request)
 }

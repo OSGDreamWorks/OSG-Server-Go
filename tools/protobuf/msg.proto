@@ -77,7 +77,6 @@ message ChatResult{
 	required string msg = 1;
 }
 
-
 message PlayerBaseInfo{
     required string uid = 1;
     required string name = 2;			//名字
@@ -125,4 +124,78 @@ message Transform{
     required Vector3 position = 1;
     required Quaternion rotation = 2;
     required Vector3 scale = 3;
+}
+
+message CreatureBaseInfo{
+    required string uid = 1;
+    required string name = 2;			//名字
+    required uint32 level = 3;			//等级
+    required uint32 experience = 4;		//经验
+	required uint32 HP = 5;				//生命值
+	required uint32 MP = 6;				//魔法值
+	required uint32 maxHP = 7;			//最大生命值
+	required uint32 maxMP = 8;			//最大魔法值
+    optional uint32 gender = 9;			//性别
+    optional uint32 modelid = 10;		//模型id
+    optional Transform transform = 11;	//位置
+	optional uint32 Strenght = 12;		//力量
+	optional uint32 Velocity = 13;		//速度
+	optional uint32 Mana = 14;			//魔法
+	optional uint32 Defence = 15;		//强壮
+	optional uint32 Stamina = 16;		//根骨
+	optional uint32 ATK = 17;			//攻击力
+	optional uint32 Armor = 18;			//防御力
+	optional uint32 Agility = 19;		//敏捷
+	optional uint32 Spirit = 20;		//精神
+	optional uint32 Recovery = 21;		//生命回复
+}
+
+message AttackInfo{
+    required uint32 droptime = 1;		//释放时间
+	required uint32 attacker = 2;		//攻击者uid
+	required uint32 position = 3;		//攻击位置
+}
+
+enum SpellType{
+	LighningStorm = 1;					//技能1
+	HealingWave = 2;					//技能2
+}
+
+message Spell{
+	required SpellType type = 1;		//技能类型
+	optional uint32 level = 2;			//技能等级
+	optional uint32 damage = 3;			//技能伤害
+	optional uint32 range = 4;			//技能范围
+}
+
+message SpellInfo{
+    required uint32 droptime = 1;		//释放时间
+	required uint32 attacker = 2;		//攻击者uid
+	required uint32 position = 3;		//攻击位置
+    required Spell spell = 4;			//所使用的技能
+}
+
+message BattleInfo{
+	required string bid = 1;				//战斗id
+	repeated CreatureBaseInfo partner = 2;  //队友数组
+	repeated CreatureBaseInfo moster = 3;	//敌人数组
+	repeated AttackInfo attackunits = 4;	//攻击序列
+    repeated SpellInfo spells = 5;			//技能序列
+}
+
+message NotifyBattleStart{
+	required string bid = 1;				//战斗id
+	repeated CreatureBaseInfo partner = 2;  //队友数组
+	repeated CreatureBaseInfo moster = 3;	//敌人数组
+}
+
+message BattleAttackQueue{
+	required string bid = 1;				//战斗id
+	repeated AttackInfo attackunits = 2;	//攻击序列
+    repeated SpellInfo spells = 3;			//技能序列
+}
+
+message NotifyBattleEnd{
+	required uint64 playerlid = 1;		//通知玩家结果
+    optional uint32 exp = 2;			//奖励经验
 }

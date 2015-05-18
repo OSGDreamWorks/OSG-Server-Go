@@ -35,6 +35,9 @@ Sleep 3
 start go run %PRODIR%\src\runtime\gateserver\main.go &
 
 Sleep 3
+start go run %PRODIR%\src\runtime\fightserver\main.go &
+
+Sleep 3
 start go run %PRODIR%\src\runtime\gameserver\main.go &
 
 set GOPATH=%OLDGOPATH%

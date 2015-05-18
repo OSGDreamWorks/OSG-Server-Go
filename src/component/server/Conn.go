@@ -137,6 +137,7 @@ type ProtoBufConn struct {
 	is_closed   bool
 	sync.Mutex
 	connMgr     *Server
+	resultServer	string
 }
 
 func NewWebSocketConn(server *Server, c websocket.Conn, size int32, k uint32, t uint32) (conn RpcConn) {
@@ -146,6 +147,7 @@ func NewWebSocketConn(server *Server, c websocket.Conn, size int32, k uint32, t 
 		last_time:   time.Now().Unix(),
 		time_out:    k,
 		connMgr:     server,
+		resultServer:	"",
 	}
 
 	pbc.c = Conn{
@@ -173,6 +175,7 @@ func NewTCPSocketConn(server *Server, c net.Conn, size int32, k uint32, t uint32
 		last_time:   time.Now().Unix(),
 		time_out:    k,
 		connMgr:     server,
+		resultServer:	"",
 	}
 
 	pbc.c = Conn{
@@ -191,6 +194,10 @@ func NewTCPSocketConn(server *Server, c net.Conn, size int32, k uint32, t uint32
 
 	go pbc.mux()
 	return pbc
+}
+
+func (conn *ProtoBufConn) SetResultServer(name string) {
+	conn.resultServer = name;
 }
 
 func (conn *ProtoBufConn) IsWebConn() bool {
@@ -296,6 +303,7 @@ func (conn *ProtoBufConn) writeRequest(r *protobuf.Request) error {
 }
 
 func (conn *ProtoBufConn) Call(serviceMethod string, args interface{}) error {
+
 	var msg proto.Message
 
 	switch m := args.(type) {
@@ -343,9 +351,12 @@ func (conn *ProtoBufConn) WriteObj(value interface{}) error {
 	req := &protobuf.Request{}
 
 	t := reflect.Indirect(reflect.ValueOf(msg)).Type()
-	req.SetMethod(t.PkgPath() + "." + t.Name())
+	if conn.resultServer == "" {
+		req.SetMethod(t.PkgPath() + "." + t.Name())
+	} else {
+		req.SetMethod(conn.resultServer + "." + t.Name())
+	}
 	req.SerializedRequest = buf
-
 	return conn.writeRequest(req)
 }
 
