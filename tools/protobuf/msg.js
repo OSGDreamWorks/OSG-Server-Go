@@ -735,6 +735,23 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
             ]
         },
         {
+            "name": "BattleTest",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "CreatureBaseInfo",
+                    "name": "moster",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "PlayerBaseInfo",
+                    "name": "player",
+                    "id": 2
+                }
+            ]
+        },
+        {
             "name": "BattleInfo",
             "fields": [
                 {
@@ -820,7 +837,7 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "required",
-                    "type": "uint64",
+                    "type": "string",
                     "name": "playerlid",
                     "id": 1
                 },

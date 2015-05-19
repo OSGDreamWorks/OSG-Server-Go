@@ -170,6 +170,39 @@ func (self *FightServer) delBattle(bid string) {
     }
 }
 
+func (self *FightServer) StartBattleTest(conn server.RpcConn, test protobuf.BattleTest) error {
+
+    logger.Debug("StartBattleTest")
+
+    id := common.GenUUID(fmt.Sprintf("%d", atomic.AddUint64(&self.id, 1)))
+    base := &protobuf.BattleInfo{}
+    base.SetBid(id)
+    partners := make([]*protobuf.CreatureBaseInfo,0,10)
+    mosters := make([]*protobuf.CreatureBaseInfo,0,10)
+    partners = append(partners, ConvertPlayerToCreature(test.GetPlayer()))
+
+    for _, enemy := range test.GetMoster() {
+        mosters = append(mosters, enemy)
+    }
+
+    base.SetPartner(partners)
+    base.SetMoster(mosters)
+    base.SetAttackunits(make([]*protobuf.AttackInfo,0,10))
+    base.SetSpells(make([]*protobuf.SpellInfo,0,10))
+    b := &Battle{BattleInfo: base}
+
+    //WriteResult(conn, base)
+    notify := &protobuf.NotifyBattleStart{}
+    notify.SetBid(base.GetBid())
+    notify.SetPartner(partners)
+    notify.SetMoster(mosters)
+    WriteResult(conn, notify)
+
+    self.addBattle(b)
+
+    return nil
+}
+
 func (self *FightServer) StartBattle(conn server.RpcConn, player protobuf.PlayerBaseInfo) error {
 
     logger.Debug("StartBattle")
@@ -187,7 +220,12 @@ func (self *FightServer) StartBattle(conn server.RpcConn, player protobuf.Player
     base.SetSpells(make([]*protobuf.SpellInfo,0,10))
     b := &Battle{BattleInfo: base}
 
-    WriteResult(conn, base)
+    //WriteResult(conn, base)
+    notify := &protobuf.NotifyBattleStart{}
+    notify.SetBid(base.GetBid())
+    notify.SetPartner(partners)
+    notify.SetMoster(mosters)
+    WriteResult(conn, notify)
 
     self.addBattle(b)
 
@@ -195,7 +233,57 @@ func (self *FightServer) StartBattle(conn server.RpcConn, player protobuf.Player
 }
 
 func (self *FightServer) CalculateBattleResult(conn server.RpcConn, queue protobuf.BattleAttackQueue) error {
+
     logger.Debug("CalculateBattleResult")
+
+    _, exist := self.battles[queue.GetBid()]
+
+    if !exist {
+        return nil
+    }
+
+    attackunits := self.battles[queue.GetBid()].GetAttackunits()
+
+    for _, att := range queue.GetAttackunits() {
+        attackunits = append(attackunits, att)
+    }
+
+    spells := self.battles[queue.GetBid()].GetSpells()
+
+    for _, att := range queue.GetSpells() {
+        spells = append(spells, att)
+    }
+
+    self.battles[queue.GetBid()].SetAttackunits(attackunits)
+    self.battles[queue.GetBid()].SetSpells(spells)
+    WriteResult(conn, self.battles[queue.GetBid()])
+
+    end := true
+    for _, p := range self.battles[queue.GetBid()].GetPartner() {
+        if p.GetHP() > 0 {
+            end = false
+        }
+    }
+
+    var exp uint32
+    exp = 0
+    if !end {
+        exp = 100
+        for _, m := range self.battles[queue.GetBid()].GetMoster() {
+            if m.GetHP() > 0 {
+                end = false
+            }
+        }
+    }
+
+    if end {
+        for _, p := range self.battles[queue.GetBid()].GetPartner() {
+            notify := &protobuf.NotifyBattleEnd{}
+            notify.SetPlayerlid(p.GetUid())
+            notify.SetExp(exp)
+            WriteResult(conn, notify)
+        }
+    }
 
     return nil
 }

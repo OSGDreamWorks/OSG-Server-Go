@@ -175,6 +175,11 @@ message SpellInfo{
     required Spell spell = 4;			//所使用的技能
 }
 
+message BattleTest{
+	repeated CreatureBaseInfo moster = 1;	//敌人数组
+	optional PlayerBaseInfo player = 2;		//玩家，可以选填
+}
+
 message BattleInfo{
 	required string bid = 1;				//战斗id
 	repeated CreatureBaseInfo partner = 2;  //队友数组
@@ -196,6 +201,6 @@ message BattleAttackQueue{
 }
 
 message NotifyBattleEnd{
-	required uint64 playerlid = 1;		//通知玩家结果
+	required string playerlid = 1;		//通知玩家结果
     optional uint32 exp = 2;			//奖励经验
 }

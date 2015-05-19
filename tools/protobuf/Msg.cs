@@ -959,6 +959,31 @@ namespace protobuf
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BattleTest")]
+  public partial class BattleTest : global::ProtoBuf.IExtensible
+  {
+    public BattleTest() {}
+    
+    private readonly global::System.Collections.Generic.List<protobuf.CreatureBaseInfo> _moster = new global::System.Collections.Generic.List<protobuf.CreatureBaseInfo>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"moster", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<protobuf.CreatureBaseInfo> moster
+    {
+      get { return _moster; }
+    }
+  
+    private protobuf.PlayerBaseInfo _player = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"player", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public protobuf.PlayerBaseInfo player
+    {
+      get { return _player; }
+      set { _player = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BattleInfo")]
   public partial class BattleInfo : global::ProtoBuf.IExtensible
   {
@@ -1071,9 +1096,9 @@ namespace protobuf
   {
     public NotifyBattleEnd() {}
     
-    private ulong _playerlid;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"playerlid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public ulong playerlid
+    private string _playerlid;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"playerlid", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string playerlid
     {
       get { return _playerlid; }
       set { _playerlid = value; }

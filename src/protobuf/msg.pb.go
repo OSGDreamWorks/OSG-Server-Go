@@ -29,6 +29,7 @@ It has these top-level messages:
 	AttackInfo
 	Spell
 	SpellInfo
+	BattleTest
 	BattleInfo
 	NotifyBattleStart
 	BattleAttackQueue
@@ -1699,6 +1700,42 @@ func (m *SpellInfo) SetSpell(value *Spell) {
 	}
 }
 
+type BattleTest struct {
+	Moster           []*CreatureBaseInfo `protobuf:"bytes,1,rep,name=moster" json:"moster,omitempty"`
+	Player           *PlayerBaseInfo     `protobuf:"bytes,2,opt,name=player" json:"player,omitempty"`
+	XXX_unrecognized []byte              `json:"-"`
+}
+
+func (m *BattleTest) Reset()         { *m = BattleTest{} }
+func (m *BattleTest) String() string { return proto.CompactTextString(m) }
+func (*BattleTest) ProtoMessage()    {}
+
+func (m *BattleTest) GetMoster() []*CreatureBaseInfo {
+	if m != nil {
+		return m.Moster
+	}
+	return nil
+}
+
+func (m *BattleTest) GetPlayer() *PlayerBaseInfo {
+	if m != nil {
+		return m.Player
+	}
+	return nil
+}
+
+func (m *BattleTest) SetMoster(value []*CreatureBaseInfo) {
+	if m != nil {
+		m.Moster = value
+	}
+}
+
+func (m *BattleTest) SetPlayer(value *PlayerBaseInfo) {
+	if m != nil {
+		m.Player = value
+	}
+}
+
 type BattleInfo struct {
 	Bid              *string             `protobuf:"bytes,1,req,name=bid" json:"bid,omitempty"`
 	Partner          []*CreatureBaseInfo `protobuf:"bytes,2,rep,name=partner" json:"partner,omitempty"`
@@ -1878,7 +1915,7 @@ func (m *BattleAttackQueue) SetSpells(value []*SpellInfo) {
 }
 
 type NotifyBattleEnd struct {
-	Playerlid        *uint64 `protobuf:"varint,1,req,name=playerlid" json:"playerlid,omitempty"`
+	Playerlid        *string `protobuf:"bytes,1,req,name=playerlid" json:"playerlid,omitempty"`
 	Exp              *uint32 `protobuf:"varint,2,opt,name=exp" json:"exp,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1887,11 +1924,11 @@ func (m *NotifyBattleEnd) Reset()         { *m = NotifyBattleEnd{} }
 func (m *NotifyBattleEnd) String() string { return proto.CompactTextString(m) }
 func (*NotifyBattleEnd) ProtoMessage()    {}
 
-func (m *NotifyBattleEnd) GetPlayerlid() uint64 {
+func (m *NotifyBattleEnd) GetPlayerlid() string {
 	if m != nil && m.Playerlid != nil {
 		return *m.Playerlid
 	}
-	return 0
+	return ""
 }
 
 func (m *NotifyBattleEnd) GetExp() uint32 {
@@ -1901,7 +1938,7 @@ func (m *NotifyBattleEnd) GetExp() uint32 {
 	return 0
 }
 
-func (m *NotifyBattleEnd) SetPlayerlid(value uint64) {
+func (m *NotifyBattleEnd) SetPlayerlid(value string) {
 	if m != nil {
 		m.Playerlid = &value
 	}
