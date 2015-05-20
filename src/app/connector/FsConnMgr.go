@@ -61,7 +61,7 @@ func (self *FServerConnMgr) GetWorkConn() server.RpcConn {
 }
 
 func (self *FServerConnMgr) Call(serviceMethod string, arg interface{}) error {
-	logger.Info("Call FServerConnMgr -----> %v", arg)
+	logger.Info("Call FServerConnMgr -----> (%v) %v", serviceMethod, arg)
 	return self.GetWorkConn().Call(serviceMethod, arg)
 }
 

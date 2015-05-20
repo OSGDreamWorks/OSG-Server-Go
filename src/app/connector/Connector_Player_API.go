@@ -55,7 +55,8 @@ func (self *Connector) BattleTest(conn server.RpcConn, test protobuf.BattleTest)
 
     test.SetPlayer(p.PlayerBaseInfo)
 
-    self.FsMgr.Call("FightServer.StartBattleTest", test)
+    self.FsMgr.Call("FightServer.StartBattleWithMoster", &test)
+    //self.FsMgr.Call("FightServer.StartBattle", p.PlayerBaseInfo)
 
     return nil
 }

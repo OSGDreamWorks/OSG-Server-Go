@@ -170,9 +170,9 @@ func (self *FightServer) delBattle(bid string) {
     }
 }
 
-func (self *FightServer) StartBattleTest(conn server.RpcConn, test protobuf.BattleTest) error {
+func (self *FightServer) StartBattleWithMoster(conn server.RpcConn, test protobuf.BattleTest) error {
 
-    logger.Debug("StartBattleTest")
+    logger.Debug("StartBattleWithMoster")
 
     id := common.GenUUID(fmt.Sprintf("%d", atomic.AddUint64(&self.id, 1)))
     base := &protobuf.BattleInfo{}
@@ -183,6 +183,10 @@ func (self *FightServer) StartBattleTest(conn server.RpcConn, test protobuf.Batt
 
     for _, enemy := range test.GetMoster() {
         mosters = append(mosters, enemy)
+    }
+
+    if len(mosters) == 0 {
+        mosters = append(mosters, RandomCreature("1"),RandomCreature("2"),RandomCreature("3"),RandomCreature("4"),RandomCreature("5"))
     }
 
     base.SetPartner(partners)

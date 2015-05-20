@@ -192,7 +192,7 @@ func (self *Connector) sendPlayerCountToGateServer() {
 			req.SetTcpServerIp(self.listenTcpIp)
 			req.SetHttpServerIp(self.listenHttpIp)
 
-			logger.Debug("playerCount %v", playerCount)
+			//logger.Debug("playerCount %v", playerCount)
 
 			err := self.gateserver.Call("GateServices.UpdateCnsPlayerCount", &req, &ret)
 
