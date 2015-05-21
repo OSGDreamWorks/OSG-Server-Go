@@ -279,7 +279,9 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		if result == false {
 			base = protobuf.PlayerBaseInfo{}
 			base.SetUid(login.GetUid())
-			base.SetName(login.GetAccount())
+
+			stat := &protobuf.StatusInfo{}
+			stat.SetName(login.GetAccount())
 			trans:= protobuf.Transform{}
 			vec3:= protobuf.Vector3{}
 			vec3.SetX(0)
@@ -293,15 +295,17 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 			trans.SetPosition(&vec3)
 			trans.SetRotation(&quat)
 			trans.SetScale(&vec3)
-			base.SetTransform(&trans)
-			base.SetLevel(1)
-			base.SetExperience(0)
-			base.SetHP(100)
-			base.SetMP(100)
-			base.SetRage(100)
-			base.SetMaxHP(100)
-			base.SetMaxMP(100)
-			base.SetMaxRage(100)
+			stat.SetTransform(&trans)
+			stat.SetLevel(1)
+			stat.SetExperience(0)
+			stat.SetHP(100)
+			stat.SetMP(100)
+			stat.SetRage(100)
+			base.SetStat(stat)
+			prop := &protobuf.PropertyInfo{}
+			prop.SetMaxHP(100)
+			prop.SetMaxMP(100)
+			base.SetProperty(prop)
 			db.Write("playerbase", rep.GetUid(), &base)
 			logger.Info("playerbase create %v", rep.GetUid())
 		}else {

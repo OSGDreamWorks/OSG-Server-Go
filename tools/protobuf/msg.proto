@@ -77,34 +77,59 @@ message ChatResult{
 	required string msg = 1;
 }
 
+message StatusInfo{
+    optional string name = 1;			//名字
+    optional uint32 level = 2;			//等级
+    optional uint32 experience = 3;		//经验
+	optional uint32 HP = 4;				//生命值
+	optional uint32 MP = 5;				//魔法值
+	optional uint32 Rage = 6;			//怒气值
+    optional uint32 gender = 7;			//性别
+    optional uint32 modelid = 8;		//模型id
+    optional Transform transform = 9;	//位置
+}
+
+message PropertyBaseInfo{
+	optional uint32 Strenght = 1;		//力量
+	optional uint32 Velocity = 2;		//速度
+	optional uint32 Mana = 3;			//魔法
+	optional uint32 Defence = 4;		//强壮
+	optional uint32 Stamina = 5;		//根骨
+}
+
+message PropertyInfo{
+	optional uint32 maxHP = 1;			//最大生命值
+	optional uint32 maxMP = 2;			//最大魔法值
+	optional uint32 ATK = 3;			//攻击力
+	optional uint32 Armor = 4;			//防御力
+	optional uint32 Agility = 5;		//敏捷
+	optional uint32 Spirit = 6;			//精神
+	optional uint32 Recovery = 7;		//生命回复
+}
+
+message PropertyReviseInfo{
+	optional uint32 UltimateKill = 1;	//必杀
+	optional uint32 Hit = 2;			//命中
+	optional uint32 CounterAttack = 3;	//反击
+	optional uint32 Dodge = 4;			//躲闪
+}
+
+message PropertyAgainstInfo{
+	optional uint32 MagicAgainst = 1;	//魔法抗性
+}
+
 message PlayerBaseInfo{
     required string uid = 1;
-    required string name = 2;			//名字
-    required uint32 level = 3;			//等级
-    required uint32 experience = 4;		//经验
-	required uint32 HP = 6;				//生命值
-	required uint32 MP = 7;				//魔法值
-	required uint32 Rage = 8;			//怒气值
-	required uint32 maxHP = 9;			//最大生命值
-	required uint32 maxMP = 10;			//最大魔法值
-	required uint32 maxRage = 11;		//最大怒气值
-    optional uint32 gender = 12;		//性别
-    optional uint32 modelid = 13;		//模型id
-    optional Transform transform = 14;	//位置
-	optional uint32 Strenght = 15;		//力量
-	optional uint32 Velocity = 16;		//速度
-	optional uint32 Mana = 17;			//魔法
-	optional uint32 Defence = 18;		//强壮
-	optional uint32 Stamina = 19;		//根骨
-	optional uint32 ATK = 20;			//攻击力
-	optional uint32 Armor = 21;			//防御力
-	optional uint32 Agility = 22;		//敏捷
-	optional uint32 Spirit = 23;		//精神
-	optional uint32 Recovery = 24;		//生命回复
+    required StatusInfo stat = 2;				//状态
+    optional PropertyBaseInfo bp = 3;			//基础属性
+    optional PropertyInfo property = 4;			//属性
+	optional PropertyReviseInfo revise = 5;		//修正值
+	optional PropertyAgainstInfo against = 6;	//抗性
 }
 
 message PlayerInfo{
-	required PlayerBaseInfo base = 1;
+    required string uid = 1;
+	required Login account = 2;
 }
 
 message Vector3{
@@ -128,26 +153,11 @@ message Transform{
 
 message CreatureBaseInfo{
     required string uid = 1;
-    required string name = 2;			//名字
-    required uint32 level = 3;			//等级
-    required uint32 experience = 4;		//经验
-	required uint32 HP = 5;				//生命值
-	required uint32 MP = 6;				//魔法值
-	required uint32 maxHP = 7;			//最大生命值
-	required uint32 maxMP = 8;			//最大魔法值
-    optional uint32 gender = 9;			//性别
-    optional uint32 modelid = 10;		//模型id
-    optional Transform transform = 11;	//位置
-	optional uint32 Strenght = 12;		//力量
-	optional uint32 Velocity = 13;		//速度
-	optional uint32 Mana = 14;			//魔法
-	optional uint32 Defence = 15;		//强壮
-	optional uint32 Stamina = 16;		//根骨
-	optional uint32 ATK = 17;			//攻击力
-	optional uint32 Armor = 18;			//防御力
-	optional uint32 Agility = 19;		//敏捷
-	optional uint32 Spirit = 20;		//精神
-	optional uint32 Recovery = 21;		//生命回复
+    required StatusInfo stat = 2;				//状态
+    optional PropertyBaseInfo bp = 3;			//基础属性
+    optional PropertyInfo property = 4;			//属性
+	optional PropertyReviseInfo revise = 5;		//修正值
+	optional PropertyAgainstInfo against = 6;	//抗性
 }
 
 message AttackInfo{
@@ -176,14 +186,14 @@ message SpellInfo{
 }
 
 message BattleTest{
-	repeated CreatureBaseInfo moster = 1;	//敌人数组
+	repeated CreatureBaseInfo enemy = 1;	//敌人数组
 	optional PlayerBaseInfo player = 2;		//玩家，可以选填
 }
 
 message BattleInfo{
 	required string bid = 1;				//战斗id
 	repeated CreatureBaseInfo partner = 2;  //队友数组
-	repeated CreatureBaseInfo moster = 3;	//敌人数组
+	repeated CreatureBaseInfo enemy = 3;	//敌人数组
 	repeated AttackInfo attackunits = 4;	//攻击序列
     repeated SpellInfo spells = 5;			//技能序列
 }
@@ -191,7 +201,7 @@ message BattleInfo{
 message NotifyBattleStart{
 	required string bid = 1;				//战斗id
 	repeated CreatureBaseInfo partner = 2;  //队友数组
-	repeated CreatureBaseInfo moster = 3;	//敌人数组
+	repeated CreatureBaseInfo enemy = 3;	//敌人数组
 }
 
 message BattleAttackQueue{

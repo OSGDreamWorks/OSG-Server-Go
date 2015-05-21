@@ -64,7 +64,7 @@ func (self *AuthServer) Login(req *protobuf.Login, ret *protobuf.LoginResult) er
 		}
 	}
 
-	info := &protobuf.Login{}
+	info := &protobuf.PlayerInfo{}
 	result, err :=db.Query("playerinfo", uid, info)
 
 	if err != nil {
@@ -74,30 +74,44 @@ func (self *AuthServer) Login(req *protobuf.Login, ret *protobuf.LoginResult) er
 	}
 
 	if result == false {//用户注册
+
+		account := &protobuf.Login{}
+		account.SetAccount(req.GetAccount())
+		account.SetPassword(common.GenPassword(req.GetAccount(), req.GetPassword()))
+		account.SetLanguage(req.GetLanguage())
+		account.SetOption(req.GetOption())
+		account.SetSessionKey(common.GenSessionKey())
+		account.SetUdid(req.GetUdid())
+		account.SetCreateTime(uint32(time.Now().Unix()))
+
 		info.SetUid(uid)
-		info.SetAccount(req.GetAccount())
-		info.SetPassword(common.GenPassword(req.GetAccount(), req.GetPassword()))
-		info.SetLanguage(req.GetLanguage())
-		info.SetOption(req.GetOption())
-		info.SetSessionKey(common.GenSessionKey())
-		info.SetUdid(req.GetUdid())
-		info.SetCreateTime(uint32(time.Now().Unix()))
+		info.SetAccount(account)
+
 		db.Write("playerinfo", uid, info)
 		logger.Info("playerinfo create")
 	}else {//用户登陆
-		if !common.CheckPassword(info.GetPassword(), req.GetAccount(), req.GetPassword()) {
+
+		account := info.GetAccount()
+
+		if !common.CheckPassword(account.GetPassword(), req.GetAccount(), req.GetPassword()) {
 			ret.SetResult(protobuf.LoginResult_AUTH_FAILED)
 			ret.SetServerTime(uint32(time.Now().Unix()))
 			return nil
 		}
-		info.SetSessionKey(common.GenSessionKey())
+		account.SetSessionKey(common.GenSessionKey())
+
+		info.SetAccount(account)
+
 		db.Write("playerinfo", uid, info)
 		logger.Info("playerinfo find")
 	}
 
 	ret.SetResult(protobuf.LoginResult_OK)
 	ret.SetServerTime(uint32(time.Now().Unix()))
-	ret.SetSessionKey(info.GetSessionKey())
+	account := info.GetAccount()
+	if account != nil {
+		ret.SetSessionKey(account.GetSessionKey())
+	}
 	ret.SetUid(info.GetUid())
 
 	logger.Info("ComeInto AuthServer.Login %v, %v", req, ret)

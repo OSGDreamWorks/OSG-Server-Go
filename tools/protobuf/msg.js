@@ -294,6 +294,187 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
             ]
         },
         {
+            "name": "StatusInfo",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "name",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "level",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "experience",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "HP",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "MP",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Rage",
+                    "id": 6
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "gender",
+                    "id": 7
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "modelid",
+                    "id": 8
+                },
+                {
+                    "rule": "optional",
+                    "type": "Transform",
+                    "name": "transform",
+                    "id": 9
+                }
+            ]
+        },
+        {
+            "name": "PropertyBaseInfo",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Strenght",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Velocity",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Mana",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Defence",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Stamina",
+                    "id": 5
+                }
+            ]
+        },
+        {
+            "name": "PropertyInfo",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "maxHP",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "maxMP",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "ATK",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Armor",
+                    "id": 4
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Agility",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Spirit",
+                    "id": 6
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Recovery",
+                    "id": 7
+                }
+            ]
+        },
+        {
+            "name": "PropertyReviseInfo",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "UltimateKill",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Hit",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "CounterAttack",
+                    "id": 3
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "Dodge",
+                    "id": 4
+                }
+            ]
+        },
+        {
+            "name": "PropertyAgainstInfo",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "MagicAgainst",
+                    "id": 1
+                }
+            ]
+        },
+        {
             "name": "PlayerBaseInfo",
             "fields": [
                 {
@@ -304,135 +485,33 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                 },
                 {
                     "rule": "required",
-                    "type": "string",
-                    "name": "name",
+                    "type": "StatusInfo",
+                    "name": "stat",
                     "id": 2
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "level",
+                    "rule": "optional",
+                    "type": "PropertyBaseInfo",
+                    "name": "bp",
                     "id": 3
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "experience",
+                    "rule": "optional",
+                    "type": "PropertyInfo",
+                    "name": "property",
                     "id": 4
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "HP",
+                    "rule": "optional",
+                    "type": "PropertyReviseInfo",
+                    "name": "revise",
+                    "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "PropertyAgainstInfo",
+                    "name": "against",
                     "id": 6
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "MP",
-                    "id": 7
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "Rage",
-                    "id": 8
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "maxHP",
-                    "id": 9
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "maxMP",
-                    "id": 10
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "maxRage",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "gender",
-                    "id": 12
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "modelid",
-                    "id": 13
-                },
-                {
-                    "rule": "optional",
-                    "type": "Transform",
-                    "name": "transform",
-                    "id": 14
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Strenght",
-                    "id": 15
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Velocity",
-                    "id": 16
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Mana",
-                    "id": 17
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Defence",
-                    "id": 18
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Stamina",
-                    "id": 19
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "ATK",
-                    "id": 20
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Armor",
-                    "id": 21
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Agility",
-                    "id": 22
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Spirit",
-                    "id": 23
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Recovery",
-                    "id": 24
                 }
             ]
         },
@@ -441,9 +520,15 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
             "fields": [
                 {
                     "rule": "required",
-                    "type": "PlayerBaseInfo",
-                    "name": "base",
+                    "type": "string",
+                    "name": "uid",
                     "id": 1
+                },
+                {
+                    "rule": "required",
+                    "type": "Login",
+                    "name": "account",
+                    "id": 2
                 }
             ]
         },
@@ -533,123 +618,33 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                 },
                 {
                     "rule": "required",
-                    "type": "string",
-                    "name": "name",
+                    "type": "StatusInfo",
+                    "name": "stat",
                     "id": 2
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "level",
+                    "rule": "optional",
+                    "type": "PropertyBaseInfo",
+                    "name": "bp",
                     "id": 3
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "experience",
+                    "rule": "optional",
+                    "type": "PropertyInfo",
+                    "name": "property",
                     "id": 4
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "HP",
+                    "rule": "optional",
+                    "type": "PropertyReviseInfo",
+                    "name": "revise",
                     "id": 5
                 },
                 {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "MP",
+                    "rule": "optional",
+                    "type": "PropertyAgainstInfo",
+                    "name": "against",
                     "id": 6
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "maxHP",
-                    "id": 7
-                },
-                {
-                    "rule": "required",
-                    "type": "uint32",
-                    "name": "maxMP",
-                    "id": 8
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "gender",
-                    "id": 9
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "modelid",
-                    "id": 10
-                },
-                {
-                    "rule": "optional",
-                    "type": "Transform",
-                    "name": "transform",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Strenght",
-                    "id": 12
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Velocity",
-                    "id": 13
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Mana",
-                    "id": 14
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Defence",
-                    "id": 15
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Stamina",
-                    "id": 16
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "ATK",
-                    "id": 17
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Armor",
-                    "id": 18
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Agility",
-                    "id": 19
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Spirit",
-                    "id": 20
-                },
-                {
-                    "rule": "optional",
-                    "type": "uint32",
-                    "name": "Recovery",
-                    "id": 21
                 }
             ]
         },
@@ -740,7 +735,7 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "CreatureBaseInfo",
-                    "name": "moster",
+                    "name": "enemy",
                     "id": 1
                 },
                 {
@@ -769,7 +764,7 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "CreatureBaseInfo",
-                    "name": "moster",
+                    "name": "enemy",
                     "id": 3
                 },
                 {
@@ -804,7 +799,7 @@ var _root = dcodeIO.ProtoBuf.newBuilder({})['import']({
                 {
                     "rule": "optional",
                     "type": "CreatureBaseInfo",
-                    "name": "moster",
+                    "name": "enemy",
                     "id": 3
                 }
             ]
