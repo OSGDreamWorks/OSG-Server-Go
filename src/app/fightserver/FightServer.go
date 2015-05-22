@@ -164,7 +164,7 @@ func (self *FightServer) delBattle(bid string) {
 
 func (self *FightServer) StartBattleTest(conn server.RpcConn, test protobuf.BattleTest) error {
 
-    logger.Debug("StartBattleWithMoster")
+    logger.Debug("StartBattleTest")
 
     id := common.GenUUID(fmt.Sprintf("%d", atomic.AddUint64(&self.id, 1)))
     base := &protobuf.BattleInfo{}
@@ -252,7 +252,7 @@ func (self *FightServer) CalculateBattleResult(conn server.RpcConn, queue protob
 
     self.battles[queue.GetBid()].SetAttackunits(attackunits)
     self.battles[queue.GetBid()].SetSpells(spells)
-    WriteResult(conn, self.battles[queue.GetBid()])
+    WriteResult(conn, self.battles[queue.GetBid()].BattleInfo)
 
     end := true
     for _, p := range self.battles[queue.GetBid()].GetPartner() {
