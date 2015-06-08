@@ -14,6 +14,7 @@ import (
 	"runtime/debug"
 	"sync"
 	"common"
+	"fmt"
 )
 
 type serverInfo struct {
@@ -48,9 +49,45 @@ var upgrader = websocket.Upgrader{
 
 func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Fprintln(w, "rpc: error")
+		return
+	}
+
+	logger.Debug("wsServeConnHandler : %v", r.FormValue("method"))
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		logger.Info("Upgrade:", err)
+		logger.Info("Upgrade:", err.Error())
+		conn, bufrw, err := w.(http.Hijacker).Hijack()
+		if err != nil {
+			logger.Debug("rpc hijacking %v : %v", r.RemoteAddr, err.Error())
+			return
+		}else {
+
+			httpConn := server.NewTCPSocketConn(pConnector.rpcServer, conn, 1, 1, 1)
+			logger.Debug("rpc hijacking %v : %v",  r.RemoteAddr, r.FormValue("method"))
+
+			fmt.Fprintln(w, "rpc: hello")
+
+			buf := make([]byte, 10)
+			for i := 0; i < len(buf); i++ {
+				buf[i] = byte(i)
+			}
+
+			_, err = bufrw.Write(buf)
+			if err == nil {
+				err = bufrw.Flush()
+			}
+			if err != nil {
+				fmt.Printf("ResponseError: %s\\n", err)
+			} else {
+				fmt.Println("Bye, Jack!")
+			}
+
+			logger.Debug("httpConn WriteObj %v", httpConn.GetRemoteIp())
+		}
 		return
 	}
 
