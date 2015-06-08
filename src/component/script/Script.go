@@ -1,54 +1,50 @@
 package script
 
 import (
-    "github.com/Shopify/go-lua"
+    "github.com/yuin/gopher-lua"
     "common/logger"
 )
 
 type Script struct {
-    state           *lua.State
+    state           *lua.LState
 }
 
 func NewScript() *Script {
-    l := lua.NewState()
-    lua.OpenLibraries(l)
-    return &Script{state : l}
+    return &Script{state : lua.NewState()}
 }
 
-func (self *Script) close() {
+func (self *Script) Close() {
+    self.state.Close()
 }
 
-func (self *Script) newTable() {
-    self.state.NewTable()
+func (self *Script) RegisterGlobalClassBegin(name string, value interface{}) {
+    mt := self.state.NewTypeMetatable(name)
+    self.state.SetGlobal(name, mt)
+    ud := self.state.NewUserData()
+    ud.Value = value
+    self.state.SetMetatable(ud, self.state.GetTypeMetatable(name))
 }
 
-func (self *Script) setTable(index int) {
-    self.state.SetTable(index)
+func (self *Script) RegisterGlobalClassFunction(name string, fun string, f lua.LGFunction) {
+    mt := self.state.GetTypeMetatable(name)
+    self.state.SetField(mt, fun, self.state.NewFunction(f))
 }
 
-func (self *Script) TestTable(name string) {
-    self.newTable()
-    self.state.PushFString("ok")
-    self.state.PushFString("%s", "111")
-    self.setTable(-3)
-    self.state.PushInteger(2)
-    self.state.PushFString("%s", "222")
-    self.setTable(-3)
-    self.state.SetGlobal(name)
+func (self *Script) RegisterGlobalClassEnd(name string, value interface{}) {
 }
 
-func (self *Script) RegisterGlobalFunction(name string, f lua.Function) {
-    self.state.Register(name,f)
+func (self *Script) RegisterGlobalFunction(name string, f lua.LGFunction) {
+    self.state.SetGlobal(name, self.state.NewFunction(f))
 }
 
 func (self *Script) ExecuteString(codes string) {
-    if err := lua.DoString(self.state, codes); err != nil {
+    if err := self.state.DoString(codes); err != nil {
         logger.Fatal("script: ExecuteScriptFile %s, Err : %s", codes, err.Error())
     }
 }
 
 func (self *Script) ExecuteScriptFile(file string) {
-    if err := lua.DoFile(self.state, file); err != nil {
+    if err := self.state.DoFile(file); err != nil {
         logger.Fatal("script: ExecuteScriptFile %s, Err : %s", file, err.Error())
     }
 }

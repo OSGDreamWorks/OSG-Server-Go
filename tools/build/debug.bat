@@ -20,7 +20,7 @@ cd %PKGDIR%
 go get github.com/googollee/go-socket.io
 go get github.com/garyburd/redigo/redis
 go get github.com/go-sql-driver/mysql
-go get github.com/Shopify/go-lua
+go get github.com/yuin/gopher-lua
 go get code.google.com/p/goprotobuf/proto
 go get code.google.com/p/snappy-go/snappy
 cd %PRODIR%

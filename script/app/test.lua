@@ -30,13 +30,11 @@ end
 
 -- log
 log = function(...)
-    print(" "..os.time().."  "..string.format(...))
+    print(" "..os.date().."  "..string.format(...))
 end
 
 log("hello")
 
 local test = Hello("123")
-Hello()
-Hello(1,"1")
 
 
