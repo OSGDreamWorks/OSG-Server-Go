@@ -5,9 +5,12 @@ import (
     "common/logger"
 )
 
+const luaNewFunctionName = "new"
+const luaIndexTypeName = "__index"
+
 func RegisterAllModules(L *lua.LState) int {
     logger.Debug("osg module Loader")
-    Register_lua_server_RpcConn(L)
+    Register_lua_server_ProtoBufConn(L)
     Register_lua_server_Server(L)
     return 1
 }
@@ -30,20 +33,20 @@ func (self *LuaScript) Close() {
     self.state.Close()
 }
 
-func (self *LuaScript) RegisterGlobalClassBegin(name string, value interface{}) {
+func (self *LuaScript) RegisterGlobalClassBegin(name string, value interface{}) *lua.LTable {
     mt := self.state.NewTypeMetatable(name)
     self.state.SetGlobal(name, mt)
+    return mt
+}
+
+func (self *LuaScript) RegisterGlobalClassFunction(mt *lua.LTable, fun string, v lua.LValue) {
+    self.state.SetField(mt, fun, v)
+}
+
+func (self *LuaScript) RegisterGlobalClassEnd(name string, value interface{}) {
     ud := self.state.NewUserData()
     ud.Value = value
     self.state.SetMetatable(ud, self.state.GetTypeMetatable(name))
-}
-
-func (self *LuaScript) RegisterGlobalClassFunction(name string, fun string, f lua.LGFunction) {
-    mt := self.state.GetTypeMetatable(name)
-    self.state.SetField(mt, fun, self.state.NewFunction(f))
-}
-
-func (self *LuaScript) RegisterGlobalClassEnd(name string) {
 }
 
 func (self *LuaScript) RegisterGlobalFunction(name string, f lua.LGFunction) {
