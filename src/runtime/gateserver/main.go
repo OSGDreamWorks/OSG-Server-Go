@@ -1,15 +1,12 @@
 package main
 
 import (
-	"app/gateserver"
 	"common/logger"
-	"common/config"
 	"flag"
 	"os"
 	"syscall"
 	"common"
 	"component/script"
-	"github.com/yuin/gopher-lua"
 )
 
 var (
@@ -19,14 +16,16 @@ var (
 func main() {
 	logger.Info("start gate server")
 
-	var cfg config.GateConfig
-	if err := config.ReadConfig(*gateConfigFile, &cfg); err != nil {
-		logger.Fatal("load config failed, error is: %v", err)
-		return
-	}
-
-	go gateserver.CreateGateServicesForServer(cfg)
-	go gateserver.CreateGateServicesForClient(cfg)
+//	var cfg config.GateConfig
+//	if err := config.ReadConfig(*gateConfigFile, &cfg); err != nil {
+//		logger.Fatal("load config failed, error is: %v", err)
+//		return
+//	}
+//
+//	go gateserver.CreateGateServicesForServer(cfg)
+//	go gateserver.CreateGateServicesForClient(cfg)
+	script.DefaultLuaScript().ExecuteScriptFile("script/app/gateserver/main.lua")
+	script.DefaultLuaScript().ExecuteString("print_r(_G)")
 
 	handler := func(s os.Signal, arg interface{}) {
 		logger.Info("handle signal: %v\n", s)
