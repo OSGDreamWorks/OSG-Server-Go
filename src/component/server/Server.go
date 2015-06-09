@@ -330,11 +330,14 @@ func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err erro
 		return
 	}
 
+	ud := server.state.NewUserData()
+	ud.Value = &conn
+
 	err = server.state.CallByParam(lua.P{
 		Fn: mtype.luaFn,
 		NRet: 1,
 		Protect: true,
-	}, lua.LString("111"))
+	}, service.rcvr.Interface().(*lua.LTable), ud, lua.LString(string(buf)))
 
 	server.state.Get(-1)
 	server.state.Pop(1)
@@ -540,7 +543,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
 	} else if mtype.ArgType.Kind()  == reflect.Slice{
-		argv = reflect.ValueOf(req.Request.SerializedRequest)
+		argv = reflect.ValueOf(req.Request.GetSerializedRequest())
 		return
 	}else {
 		argv = reflect.New(mtype.ArgType)
