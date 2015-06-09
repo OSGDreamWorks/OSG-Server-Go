@@ -10,9 +10,11 @@ const luaIndexTypeName = "__index"
 
 func RegisterAllModules(L *lua.LState) int {
     logger.Debug("osg module Loader")
+    Register_lua_json(L)
+    Register_lua_common(L)
     Register_lua_server_ProtoBufConn(L)
     Register_lua_server_Server(L)
-    return 1
+    return 0
 }
 
 
@@ -43,10 +45,7 @@ func (self *LuaScript) RegisterGlobalClassFunction(mt *lua.LTable, fun string, v
     self.state.SetField(mt, fun, v)
 }
 
-func (self *LuaScript) RegisterGlobalClassEnd(name string, value interface{}) {
-    ud := self.state.NewUserData()
-    ud.Value = value
-    self.state.SetMetatable(ud, self.state.GetTypeMetatable(name))
+func (self *LuaScript) RegisterGlobalClassEnd(name string) {
 }
 
 func (self *LuaScript) RegisterGlobalFunction(name string, f lua.LGFunction) {

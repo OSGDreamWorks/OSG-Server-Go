@@ -8,14 +8,13 @@ import (
 
 const luaServerTypeName = "Server"
 
-func Register_lua_server_Server(L *lua.LState) int {
+func Register_lua_server_Server(L *lua.LState) {
     logger.Debug("Register_server_%s", luaServerTypeName)
     svc := &server.Server{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaServerTypeName, svc)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_server_Server_newClass))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexServerMethods))
-    //DefaultScript.RegisterGlobalClassEnd(luaServerTypeName, svc)
-    return 1
+    DefaultScript.RegisterGlobalClassEnd(luaServerTypeName)
 }
 
 var indexServerMethods = map[string]lua.LGFunction{

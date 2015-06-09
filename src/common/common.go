@@ -12,6 +12,7 @@ import (
     "crypto/rc4"
     "encoding/binary"
     "common/logger"
+    "syscall"
 )
 
 func Base64Encode(src []byte) []byte {
@@ -177,10 +178,24 @@ func (set *signalSet) handle(sig os.Signal, arg interface{}) (err error) {
     panic("won't reach here")
 }
 
-func WatchSystemSignal(watchsingals *[]os.Signal, callbackHandler SignalHandler) {
+func WatchSystemSignal() {
+
+    callbackHandler := func(s os.Signal, arg interface{}) {
+        logger.Info("handle signal: %v\n", s)
+        logger.Info("stop game server")
+        os.Exit(0)
+    }
+
+    watchsingals := []os.Signal{syscall.SIGINT,
+        syscall.SIGILL,
+        syscall.SIGFPE,
+        syscall.SIGSEGV,
+        syscall.SIGTERM,
+        syscall.SIGABRT}
+
     ss := signalSetNew()
 
-    for _, wathsingnal := range *watchsingals {
+    for _, wathsingnal := range watchsingals {
         ss.register(wathsingnal, callbackHandler)
     }
 

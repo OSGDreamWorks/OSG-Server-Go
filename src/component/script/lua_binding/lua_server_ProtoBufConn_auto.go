@@ -12,14 +12,13 @@ var indexProtoBufConnMethods = map[string]lua.LGFunction{
     "SetResultServer": Register_lua_server_ProtoBufConn_SetResultServer,
 }
 
-func Register_lua_server_ProtoBufConn(L *lua.LState) int {
+func Register_lua_server_ProtoBufConn(L *lua.LState) {
     logger.Debug("Register_server_%s", luaProtoBufConnTypeName)
     conn := &server.ProtoBufConn{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaProtoBufConnTypeName, conn)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_server_ProtoBufConn_newClass))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexProtoBufConnMethods))
-    //DefaultScript.RegisterGlobalClassEnd(luaRpcConnTypeName, conn)
-    return 1
+    DefaultScript.RegisterGlobalClassEnd(luaProtoBufConnTypeName)
 }
 
 func Register_lua_server_ProtoBufConn_newClass(L *lua.LState) int {

@@ -1,4 +1,4 @@
--- log
+-- logger
 local logger = {}
 
 logger.Dump = function(...)
