@@ -63,3 +63,15 @@ func (self *LuaScript) ExecuteScriptFile(file string) {
         logger.Fatal("script: ExecuteScriptFile %s, Err : %s", file, err.Error())
     }
 }
+
+func (self *LuaScript) ExecuteFunction(fn lua.LValue, n_ret int, args ...lua.LValue) (err error, ret lua.LValue) {
+    err = self.state.CallByParam(lua.P{
+        Fn: fn,
+        NRet: n_ret,
+        Protect: true,
+    }, args ...)
+
+    ret = self.state.Get(-n_ret)
+    self.state.Pop(n_ret)
+    return
+}

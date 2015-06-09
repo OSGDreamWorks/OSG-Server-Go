@@ -18,16 +18,38 @@ func Register_lua_server_Server(L *lua.LState) {
 }
 
 var indexServerMethods = map[string]lua.LGFunction{
+    "Register": Register_lua_server_Server_Register,
+    "ListenAndServe": Register_lua_server_Server_ListenAndServe,
     "ServeConn": Register_lua_server_Server_ServeConn,
 }
 
 func Register_lua_server_Server_newClass(L *lua.LState) int {
     svc := server.NewServer()
+    svc.SetLuaState(L)
     ud := L.NewUserData()
     ud.Value = svc
     L.SetMetatable(ud, L.GetTypeMetatable(luaServerTypeName))
     L.Push(ud)
     return 1
+}
+
+func Register_lua_server_Server_Register(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    arg := L.CheckTable(2)
+    if v, ok := ud.Value.(*server.Server); ok {
+        v.RegisterFromLua(arg)
+    }
+    return 0
+}
+
+func Register_lua_server_Server_ListenAndServe(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    tcpAddr := L.CheckString(2)
+    httpAddr := L.CheckString(3)
+    if v, ok := ud.Value.(*server.Server); ok {
+        v.ListenAndServe(tcpAddr, httpAddr)
+    }
+    return 0
 }
 
 func Register_lua_server_Server_ServeConn(L *lua.LState) int {

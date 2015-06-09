@@ -11,6 +11,4 @@ local cfg = config.ReadConfig("etc/gateserver.json")
 gateServicesForServer:CreateServices(cfg)
 gateServicesForClient:CreateServices(cfg)
 
-logger.Dump(_G)
-
 common.WatchSystemSignal()

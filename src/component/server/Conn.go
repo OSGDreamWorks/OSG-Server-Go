@@ -330,7 +330,7 @@ func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Request, body interface{}
 		return proto.Unmarshal(req.GetSerializedRequest(), value)
 	}
 
-	return fmt.Errorf("value type error %v", body)
+	return fmt.Errorf("GetRequestBody value type error %v", body)
 }
 
 func (conn *ProtoBufConn) WriteObj(value interface{}) error {

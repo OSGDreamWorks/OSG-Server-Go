@@ -2,17 +2,22 @@ package server
 
 import (
 	"common/logger"
-	"protobuf"
 	"errors"
+	"github.com/gorilla/websocket"
 	"io"
 	"net"
+	"net/http"
+	"protobuf"
 	"reflect"
+	"runtime/debug"
 	sysdebug "runtime/debug"
 	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 	"unicode"
 	"unicode/utf8"
+	"github.com/yuin/gopher-lua"
 )
 
 // Precompute the reflect type for error.  Can't use error directly
@@ -23,6 +28,7 @@ type methodType struct {
 	sync.Mutex // protects counters
 	method     reflect.Method
 	ArgType    reflect.Type
+	luaFn	   *lua.LFunction
 	numCalls   uint
 }
 
@@ -46,7 +52,12 @@ func (s *service) call(server *Server, mtype *methodType, req *RequestWrap, argv
 	mtype.Unlock()
 	function := mtype.method.Func
 	// Invoke the method, providing a new value for the reply.
-	returnValues := function.Call([]reflect.Value{s.rcvr, reflect.ValueOf(conn), argv})
+	var returnValues []reflect.Value
+	if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+		returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), reflect.ValueOf(conn), argv, reflect.ValueOf(req.GetMethod())})
+	}else {
+		returnValues = function.Call([]reflect.Value{s.rcvr, reflect.ValueOf(conn), argv})
+	}
 	// The return value for the method is an error.
 	errInter := returnValues[0].Interface()
 	errmsg := ""
@@ -64,30 +75,35 @@ type RequestWrap struct {
 
 // Server represents an RPC Server.
 type Server struct {
-	mu         sync.RWMutex // protects the serviceMap
-	serviceMap map[string]*service
-	id         uint64
-	connMap    map[uint64]RpcConn
+	mu           sync.RWMutex // protects the serviceMap
+	serviceMap   map[string]*service
+	id           uint64
+	connMap      map[uint64]RpcConn
 	connLock     sync.RWMutex
 	onConn       []func(conn RpcConn)
 	onDisConn    []func(conn RpcConn)
 	onCallBefore []func(conn RpcConn)
 	onCallAfter  []func(conn RpcConn)
 	quitSync     sync.RWMutex
-	quit       bool
+	quit         bool
+	state        *lua.LState
 }
 
 // NewServer returns a new Server.
 func NewServer() *Server {
 	return &Server{
-		quit:       false,
-		serviceMap: make(map[string]*service),
-		connMap:    make(map[uint64]RpcConn),
+		quit:         false,
+		serviceMap:   make(map[string]*service),
+		connMap:      make(map[uint64]RpcConn),
 		onConn:       make([]func(conn RpcConn), 0),
 		onDisConn:    make([]func(conn RpcConn), 0),
 		onCallBefore: make([]func(conn RpcConn), 0),
 		onCallAfter:  make([]func(conn RpcConn), 0),
 	}
+}
+
+func (server *Server) SetLuaState(s *lua.LState) {
+	server.state = s
 }
 
 func (server *Server) RegCallBackOnConn(cb func(conn RpcConn)) {
@@ -116,6 +132,19 @@ func (server *Server) RegCallBackOnCallAfter(cb func(conn RpcConn)) {
 
 func (server *Server) Register(rcvr interface{}) error {
 	return server.register(rcvr, "", false)
+}
+
+func (server *Server) RegisterFromLua(rcvr *lua.LTable) error {
+	sname := ""
+	rcvr.ForEach(func(key, value lua.LValue) {
+		switch k := key.(type) {
+			case lua.LString:
+				if string(k) == "name" {
+					sname = value.String()
+				}
+		}
+	})
+	return server.register(rcvr, sname, sname!="")
 }
 
 func (server *Server) register(rcvr interface{}, name string, useName bool) error {
@@ -147,13 +176,13 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	s.method = make(map[string]*methodType)
 
 	// Install the methods
-	//fmt.Printf("Install the methods begine!")
-	s.method = suitableMethods(s.typ, true)
+	//logger.Debug("Install the methods begine!")
+	s.method = server.suitableMethods(rcvr, s.typ, true)
 
 	if len(s.method) == 0 {
 		str := ""
 		// To help the user, see if a pointer receiver would work.
-		method := suitableMethods(reflect.PtrTo(s.typ), false)
+		method := server.suitableMethods(rcvr, reflect.PtrTo(s.typ), false)
 		if len(method) != 0 {
 			str = "rpc.Register: type " + sname + " has no exported methods of suitable type (hint: pass a pointer to value of that type)"
 		} else {
@@ -186,62 +215,193 @@ func isExportedOrBuiltinType(t reflect.Type) bool {
 
 // suitableMethods returns suitable Rpc methods of typ, it will report
 // error using logger if reportErr is true.
-func suitableMethods(typ reflect.Type, reportErr bool) map[string]*methodType {
+func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, reportErr bool) map[string]*methodType {
 	methods := make(map[string]*methodType)
-	for m := 0; m < typ.NumMethod(); m++ {
-		method := typ.Method(m)
-		mtype := method.Type
-		mname := method.Name
 
-		//fmt.Printf("suitableMethods %s, %s, %s, %d \n", mtype, mname, method.PkgPath, mtype.NumIn())
-		// Method must be exported.
-		if method.PkgPath != "" {
-			continue
-		}
+	if typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
 
-		// Method needs three ins: receiver, connid, *args.
-		if mtype.NumIn() != 3 {
-			if reportErr {
-				logger.Info("method %s has wrong number of ins: %v", mname, mtype.NumIn())
+		rcvr.(*lua.LTable).ForEach(func(key, value lua.LValue) {
+			if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
+				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
+
+				if !ok {
+
+				}
+
+				mtype := method.Type
+				mname := method.Name
+
+				// Second arg need not be a pointer.
+				argType := mtype.In(2)
+				if !isExportedOrBuiltinType(argType) {
+					if reportErr {
+						logger.Info("%s argument type not exported: %s", mname, argType)
+					}
+					//continue
+				}
+
+				methods[key.String()] = &methodType{method: method, ArgType: argType, luaFn: value.(*lua.LFunction)}
+
+				logger.Debug("%v, %v", key.String(), methods[key.String()])
 			}
-			continue
-		}
+		})
 
-		idType := mtype.In(1)
+	} else {
 
-		if !idType.AssignableTo(reflect.TypeOf((*RpcConn)(nil)).Elem()) {
-			if reportErr {
-				logger.Info("%s conn %s must be %s", mname, idType.Name(), reflect.TypeOf((*RpcConn)(nil)).Elem().Name())
-			}
-			continue
-		}
+		for m := 0; m < typ.NumMethod(); m++ {
+			method := typ.Method(m)
+			mtype := method.Type
+			mname := method.Name
 
-		// Second arg need not be a pointer.
-		argType := mtype.In(2)
-		if !isExportedOrBuiltinType(argType) {
-			if reportErr {
-				logger.Info("%s argument type not exported: %s", mname, argType)
+			//fmt.Printf("suitableMethods %s, %s, %s, %d \n", mtype, mname, method.PkgPath, mtype.NumIn())
+			// Method must be exported.
+			if method.PkgPath != "" {
+				continue
 			}
-			continue
-		}
 
-		// Method needs one out.
-		if mtype.NumOut() != 1 {
-			if reportErr {
-				logger.Info("method %s has wrong number of outs: %v", mname, mtype.NumOut())
+			// Method needs three ins: receiver, connid, *args.
+			if mtype.NumIn() != 3 {
+				if reportErr {
+					logger.Info("method %s has wrong number of ins: %v", mname, mtype.NumIn())
+				}
+				continue
 			}
-			continue
-		}
-		// The return type of the method must be error.
-		if returnType := mtype.Out(0); returnType != typeOfError {
-			if reportErr {
-				logger.Info("method %s returns %s not error", mname, returnType.String())
+
+			idType := mtype.In(1)
+
+			if !idType.AssignableTo(reflect.TypeOf((*RpcConn)(nil)).Elem()) {
+				if reportErr {
+					logger.Info("%s conn %s must be %s", mname, idType.Name(), reflect.TypeOf((*RpcConn)(nil)).Elem().Name())
+				}
+				continue
 			}
-			continue
+
+			// Second arg need not be a pointer.
+			argType := mtype.In(2)
+			if !isExportedOrBuiltinType(argType) {
+				if reportErr {
+					logger.Info("%s argument type not exported: %s", mname, argType)
+				}
+				continue
+			}
+
+			// Method needs one out.
+			if mtype.NumOut() != 1 {
+				if reportErr {
+					logger.Info("method %s has wrong number of outs: %v", mname, mtype.NumOut())
+				}
+				continue
+			}
+			// The return type of the method must be error.
+			if returnType := mtype.Out(0); returnType != typeOfError {
+				if reportErr {
+					logger.Info("method %s returns %s not error", mname, returnType.String())
+				}
+				continue
+			}
+			methods[mname] = &methodType{method: method, ArgType: argType}
 		}
-		methods[mname] = &methodType{method: method, ArgType: argType}
 	}
+
 	return methods
+}
+
+func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err error) {
+	logger.Debug("CallLua %v", method)
+
+	serviceMethod := strings.Split(method, ".")
+	if len(serviceMethod) != 2 {
+		err = errors.New("CallLua: service/method request ill-formed: " + method)
+		return
+	}
+
+	// Look up the request.
+	server.mu.RLock()
+	service := server.serviceMap[serviceMethod[0]]
+	server.mu.RUnlock()
+	if service == nil {
+		err = errors.New("CallLua: can't find service " + method)
+		return
+	}
+
+	mtype := service.method[serviceMethod[1]]
+	if mtype == nil {
+		err = errors.New("CallLua: can't find method " + method)
+		return
+	}
+
+	err = server.state.CallByParam(lua.P{
+		Fn: mtype.luaFn,
+		NRet: 1,
+		Protect: true,
+	}, lua.LString("111"))
+
+	server.state.Get(-1)
+	server.state.Pop(1)
+
+	return
+}
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  4096,
+	WriteBufferSize: 4096,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
+func (server *Server) wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
+
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		logger.Info("Upgrade:", err)
+		return
+	}
+
+	rpcConn := NewWebSocketConn(server, *conn, 4, 30, 2)
+	defer func() {
+		rpcConn.Close()
+	}()
+
+	server.ServeConn(rpcConn)
+}
+
+func (server *Server) ListenAndServe(tcpAddr string, httpAddr string) {
+	//logger.Debug("ListenAndServe :[%s] - [%s]", tcpAddr, httpAddr)
+	listener, err := net.Listen("tcp", tcpAddr)
+	if err != nil {
+		logger.Fatal("net.Listen: %s", err.Error())
+	}
+
+	go func() {
+		for {
+			//For Client/////////////////////////////
+			time.Sleep(time.Millisecond * 5)
+			conn, err := listener.Accept()
+			if err != nil {
+				logger.Error("gateserver StartServices %s", err.Error())
+				break
+			}
+			go func() {
+				rpcConn := NewTCPSocketConn(server, conn, 4, 30, 1)
+				defer func() {
+					if r := recover(); r != nil {
+						logger.Error("player rpc runtime error begin:", r)
+						debug.PrintStack()
+						rpcConn.Close()
+
+						logger.Error("player rpc runtime error end ")
+					}
+				}()
+				server.ServeConn(rpcConn)
+			}()
+		}
+	}()
+
+	go func() {
+		http.HandleFunc("/", server.wsServeConnHandler)
+		http.ListenAndServe(httpAddr, nil)
+	}()
 }
 
 // ServeConn runs the server on a single connection.
@@ -379,10 +539,14 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	argIsValue := false // if true, need to indirect before calling.
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
-	} else {
+	} else if mtype.ArgType.Kind()  == reflect.Slice{
+		argv = reflect.ValueOf(req.Request.SerializedRequest)
+		return
+	}else {
 		argv = reflect.New(mtype.ArgType)
 		argIsValue = true
 	}
+
 	// argv guaranteed to be a pointer now.
 	if err = conn.GetRequestBody(&req.Request, argv.Interface()); err != nil {
 		return
@@ -404,7 +568,6 @@ func (server *Server) freeRequest(req *RequestWrap) {
 }
 
 type RpcConn interface {
-
 	SetResultServer(name string)
 
 	IsWebConn() bool

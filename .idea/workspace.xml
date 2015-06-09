@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d9e5531-3e17-495b-8597-cc9043050131" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/script/common/config.lua" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_json_auto.go" />
-      <change type="DELETED" beforePath="D:\workspace\OSGDreamWorks\OSG-Server-Go\script\app\gateserver\main.lua" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/common.go" afterPath="$PROJECT_DIR$/src/common/common.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/common/logger.lua" afterPath="$PROJECT_DIR$/script/common/logger.lua" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/server/Conn.go" afterPath="$PROJECT_DIR$/src/component/server/Conn.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua" afterPath="$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/server/Server.go" afterPath="$PROJECT_DIR$/src/component/server/Server.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/runtime/gateserver/main.go" afterPath="$PROJECT_DIR$/src/runtime/gateserver/main.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/runtime/gateserver/main.lua" afterPath="$PROJECT_DIR$/script/runtime/gateserver/main.lua" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OSG-Server-Go.iws" />
@@ -34,31 +31,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="lua_osg_auto.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go">
+      <file leaf-file-name="lua_server_Server_auto.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+              <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+              <folding>
+                <element signature="e#21#107#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GateServer.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/gateserver/GateServer.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="value.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/value.go">
+      <file leaf-file-name="Server.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="152" column="5" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="5" />
-              <folding />
+            <state vertical-scroll-proportion="-5.5333333">
+              <caret line="331" column="0" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
+              <folding>
+                <element signature="e#16#275#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="state.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/state.go">
+      <file leaf-file-name="main.lua" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/runtime/gateserver/main.lua">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1400" column="18" selection-start-line="1400" selection-start-column="18" selection-end-line="1400" selection-end-column="18" />
+              <caret line="8" column="52" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -68,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/src/runtime/gateserver/main.go">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding>
                 <element signature="e#14#61#0" expanded="true" />
               </folding>
@@ -76,64 +87,56 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.lua" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/script/runtime/gateserver/main.lua">
+      <file leaf-file-name="lua_server_ProtoBufConn_auto.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42733565">
-              <caret line="13" column="15" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="15" selection-end-column="63" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GateServicesForClient.lua" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GateServicesForClient.lua" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.52">
-              <caret line="2" column="45" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.64735943">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GateServicesForServer.lua" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForServer.lua">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.04">
-              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="define.lua" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/common/define.lua">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.08">
-              <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="common.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/common/common.go">
+      <file leaf-file-name="Script.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="204" column="31" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lua_common_auto.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_common_auto.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="63" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
+              <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
               <folding>
-                <element signature="e#21#97#0" expanded="true" />
+                <element signature="e#16#61#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lua_osg_auto.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+              <folding>
+                <element signature="e#21#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="value.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/value.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -169,9 +172,7 @@
         <option value="$PROJECT_DIR$/src/runtime/fightserver/main.go" />
         <option value="$PROJECT_DIR$/src/app/fightserver/Battle.go" />
         <option value="$PROJECT_DIR$/src/runtime/test/main.go" />
-        <option value="$PROJECT_DIR$/src/component/server/Server.go" />
         <option value="$PROJECT_DIR$/src/app/connector/FsConnMgr.go" />
-        <option value="$PROJECT_DIR$/src/component/server/Conn.go" />
         <option value="$PROJECT_DIR$/src/app/authserver/AuthServer.go" />
         <option value="$PROJECT_DIR$/src/app/connector/Player.go" />
         <option value="$PROJECT_DIR$/src/app/connector/Connector.go" />
@@ -195,20 +196,22 @@
         <option value="$PROJECT_DIR$/src/component/script/Script.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
         <option value="$PROJECT_DIR$/script/common/logger.lua" />
         <option value="$PROJECT_DIR$/script/common/config.lua" />
         <option value="$PROJECT_DIR$/script/app/gateserver/GateServer.lua" />
         <option value="$PROJECT_DIR$/script/app/gateserver/main.lua" />
-        <option value="$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua" />
         <option value="$PROJECT_DIR$/script/app/gateserver/GateServicesForServer.lua" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_json_auto.go" />
         <option value="$PROJECT_DIR$/script/common/define.lua" />
         <option value="$PROJECT_DIR$/src/common/common.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_common_auto.go" />
         <option value="$PROJECT_DIR$/src/runtime/gateserver/main.go" />
         <option value="$PROJECT_DIR$/script/runtime/gateserver/main.lua" />
+        <option value="$PROJECT_DIR$/src/component/server/Conn.go" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
+        <option value="$PROJECT_DIR$/src/component/server/Server.go" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go" />
+        <option value="$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua" />
       </list>
     </option>
   </component>
@@ -229,7 +232,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="2" />
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -254,8 +257,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -345,6 +346,10 @@
               <option name="myItemId" value="component" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -391,6 +396,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lua_binding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OSG-Server-Go" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OSG-Server-Go" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="component" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rpc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OSG-Server-Go" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OSG-Server-Go" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="component" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -678,6 +723,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -1059,15 +1106,16 @@
       <workItem from="1432287550315" duration="2025000" />
       <workItem from="1432791551532" duration="17037000" />
       <workItem from="1433726911481" duration="25366000" />
-      <workItem from="1433816255459" duration="7040000" />
+      <workItem from="1433816255459" duration="9760000" />
+      <workItem from="1433831130753" duration="15111000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="208195000" />
+    <option name="totallyTimeSpent" value="226026000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="0" width="1936" height="1056" extended-state="0" />
+    <frame x="2" y="0" width="1936" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1077,7 +1125,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31675676" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32233223" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1118,62 +1166,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/fightserver/Battle.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/fightserver/FightServer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="253" column="50" selection-start-line="253" selection-start-column="50" selection-end-line="253" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/connector/FsConnMgr.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/build/build.bat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.933333">
-          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/build/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.566667">
-          <caret line="23" column="33" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="33" />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/build/debug.bat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/build/debug.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/runtime/test/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1190,13 +1182,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/_lua5.1-tests/constructs.lua">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="126.9">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/_glua-tests/table.lua">
@@ -1207,40 +1199,16 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/_lua5.1-tests/attrib.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/config.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/state_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/table.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/function.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1256,23 +1224,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../DoomsdayInvasion/program/trunk/client/ccs_project/DoomsdayInvasion/src/cocos/cocos2d/Cocos2d.lua">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.092496">
           <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/app/test.lua">
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/app/test.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.3333335">
           <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
         </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/oslib.go">
@@ -1303,29 +1271,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="407" column="19" selection-start-line="407" selection-start-column="4" selection-end-line="407" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/server/Conn.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="126" column="17" selection-start-line="126" selection-start-column="5" selection-end-line="126" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1334,7 +1279,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="30" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1342,7 +1286,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="6" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1350,22 +1293,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="110" column="35" selection-start-line="110" selection-start-column="35" selection-end-line="110" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/etc/gateserver.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.428571">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/auxlib.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="324" column="18" selection-start-line="324" selection-start-column="18" selection-end-line="324" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -1379,20 +1306,106 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/_lua5.1-tests/files.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="100.23637">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="100.23637">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
+    <entry file="file://$PROJECT_DIR$/script/common/logger.lua">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8181818">
+          <caret line="38" column="3" selection-start-line="36" selection-start-column="15" selection-end-line="38" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/common/config.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.28">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/common/define.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.08">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/common.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="298" column="19" selection-start-line="298" selection-start-column="9" selection-end-line="298" selection-end-column="19" />
+          <caret line="204" column="31" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/fightserver/FightServer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="265" column="11" selection-start-line="265" selection-start-column="11" selection-end-line="265" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/etc/gateserver.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_json_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="37" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/auxlib.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/table.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="275" column="18" selection-start-line="275" selection-start-column="18" selection-end-line="275" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/function.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForServer.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -1405,87 +1418,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go">
+    <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="15" selection-end-column="63" />
+          <caret line="298" column="19" selection-start-line="298" selection-start-column="9" selection-end-line="298" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
+    <entry file="file://$PROJECT_DIR$/src/component/rpc/Server.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="107" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="107" />
+          <caret line="145" column="19" selection-start-line="145" selection-start-column="8" selection-end-line="145" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_json_auto.go">
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/code.google.com/p/goprotobuf/proto/decode.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="37" selection-end-column="35" />
-          <folding>
-            <element signature="e#21#131#0" expanded="true" />
-          </folding>
+          <caret line="328" column="24" selection-start-line="328" selection-start-column="24" selection-end-line="328" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/gateserver/GateServer.go">
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/code.google.com/p/goprotobuf/proto/properties.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="107" column="48" selection-start-line="107" selection-start-column="27" selection-end-line="107" selection-end-column="48" />
+          <caret line="636" column="5" selection-start-line="636" selection-start-column="5" selection-end-line="636" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/common/logger.lua">
+    <entry file="file://$PROJECT_DIR$/src/component/server/Conn.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8181818">
-          <caret line="38" column="3" selection-start-line="36" selection-start-column="15" selection-end-line="38" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/common/config.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.28">
-          <caret line="3" column="39" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="39" />
+        <state vertical-scroll-proportion="-8.066667">
+          <caret line="323" column="0" selection-start-line="323" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/common/define.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.08">
-          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/common.go">
+    <entry file="file://C:/Go/src/reflect/value.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="204" column="31" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
+          <caret line="292" column="32" selection-start-line="292" selection-start-column="32" selection-end-line="292" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/value.go">
+    <entry file="file://$PROJECT_DIR$/src/protobuf/msg.pb.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="152" column="5" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="5" />
+          <caret line="172" column="82" selection-start-line="172" selection-start-column="76" selection-end-line="172" selection-end-column="82" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go">
+    <entry file="file://C:/Go/src/reflect/type.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+          <caret line="34" column="57" selection-start-line="34" selection-start-column="57" selection-end-line="34" selection-end-column="57" />
           <folding />
         </state>
       </provider>
@@ -1493,7 +1485,7 @@
     <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/state.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1400" column="18" selection-start-line="1400" selection-start-column="18" selection-end-line="1400" selection-end-column="18" />
+          <caret line="996" column="25" selection-start-line="996" selection-start-column="22" selection-end-line="996" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -1502,42 +1494,96 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="63" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
-          <folding>
-            <element signature="e#21#97#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_ProtoBufConn_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="15" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/runtime/gateserver/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="e#14#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua">
+    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/value.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.52">
-          <caret line="2" column="45" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForServer.lua">
+    <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.04">
-          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+          <folding>
+            <element signature="e#16#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+          <folding>
+            <element signature="e#21#107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.5333333">
+          <caret line="331" column="0" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
+          <folding>
+            <element signature="e#16#275#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+          <folding>
+            <element signature="e#21#84#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script/runtime/gateserver/main.lua">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42733565">
-          <caret line="13" column="15" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="52" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/gateserver/GateServer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/app/gateserver/GateServicesForClient.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.64735943">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
