@@ -1,0 +1,25 @@
+package protobuf;
+
+import "PB_PacketDefine.proto";
+
+option optimize_for = SPEED;
+
+enum SL_Protocol {
+	eSL_PacketBegin			= 12000;
+	//----------------------------
+	eSL_Connected			= 12000;
+	eSL_Disconnected 		= 12001;
+	eSL_UpdatePlayerCount	= 12002;
+	//----------------------------
+	eSL_PacketEnd			= 20000;
+}
+
+enum LA_Protocol {
+	eLA_PacketBegin			= 11000;
+	//----------------------------
+	eLA_Connected			= 11000;
+	eLA_Disconnected 		= 11001;
+	eLA_CheckAccount 		= 11002;
+	//----------------------------
+	eLA_PacketEnd			= 12000;
+}

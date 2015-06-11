@@ -1,0 +1,28 @@
+package protobuf;
+
+option optimize_for = SPEED;
+
+message Request{
+	required uint64 id = 1;
+	required string method = 2;
+	optional bytes serialized_request = 3;
+	optional string timer = 4;
+	optional string desc = 5;
+	extensions 100 to max;
+}
+
+message RpcErrorResponse{
+	required string method = 1;
+	required string text = 2;
+}
+
+message Vector3 {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+}
+
+message Vector2 {
+	required float x = 1;
+	required float y = 2;
+}

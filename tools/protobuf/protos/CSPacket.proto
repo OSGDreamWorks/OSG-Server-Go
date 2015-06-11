@@ -1,0 +1,11 @@
+package protobuf;
+
+import "PB_PacketDefine.proto";
+
+option optimize_for = SPEED;
+
+message CS_CheckSession{
+	required string uid = 1;
+	required string sessionKey = 2;
+	optional uint32 create_time = 3;
+}

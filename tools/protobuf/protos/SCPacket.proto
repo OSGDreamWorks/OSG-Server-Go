@@ -1,0 +1,18 @@
+package protobuf;
+
+import "PB_PacketDefine.proto";
+
+option optimize_for = SPEED;
+
+message SC_CheckSessionResult{
+	enum Result {
+		OK = 0;
+		SERVERERROR = 1;
+		USERNOTFOUND = 2;
+		AUTH_FAILED = 3;
+		ISONFIRE = 4;
+	}
+	required Result result = 1 [default = OK];
+	optional uint32 server_time = 2;
+	optional string errmsg = 3;
+}

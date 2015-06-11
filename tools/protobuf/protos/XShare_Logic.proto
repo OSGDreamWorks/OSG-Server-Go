@@ -1,0 +1,66 @@
+package protobuf;
+
+option optimize_for = SPEED;
+
+//============================================
+//--4>: 客户端和服务器共享数据定义
+//		逻辑功能相关的需要和客户端共享的枚举和常量
+//============================================
+
+
+message PlayerInfo{
+    required string uid = 1;
+    required bytes stat = 2;				//状态
+    optional bytes bp = 3;					//基础属性
+    optional bytes property = 4;			//属性
+	optional bytes revise = 5;				//修正值
+	optional bytes against = 6;				//抗性
+}
+
+//地图自定义属性结构
+message MapPropertie{
+	required string name = 1;										//地图自定义属性name
+	required string value = 2;										//地图自定义属性value
+}
+
+//地图地形图片结构
+message Tileset{
+	required uint32 tilewidth = 1;									//地图地形格子宽度
+	required uint32 tileheight = 2;									//地图地形格子高度
+	optional string name = 3;										//地图地形名称
+	optional string image = 4;										//地图地形图片路径
+}
+
+//地图对象结构
+message MapObject{
+	required uint32 gid = 1;										//对象gid
+	required uint32 x = 2;											//对象X坐标
+	required uint32 y = 3;											//对象Y坐标
+	required uint32 width = 4;										//对象宽度
+	required uint32 height = 5;										//对象高度
+	repeated bytes properties = 6;									//对象自定义属性列表
+	optional string name = 7;										//对象名称
+	optional string type = 8;										//对象类型 暂未定义用途
+}
+
+//地图地形层结构
+message TileLayer{
+	required string type = 1;										//地图层类型 tilelayer-->地形层 objectgroup-->对象层
+	repeated uint32 datas = 2 [packed=true];						//地形层数据列表 数据格式((ID3 << 20) | (ID2 << 10) | ID1)
+	repeated bytes objects = 3;										//对象层数据列表
+	optional uint32 width = 4;										//地图层宽度
+	optional uint32 height = 5;										//地图层高度
+	optional string name = 6;										//地图层名称
+}
+
+//地图数据结构
+message TileMap{
+	required uint32 width = 1;										//地图宽度以格子为单位
+	required uint32 height = 2;										//地图高度以格子为单位
+	required uint32 tilewidth = 3;									//地图格子宽度以像素为单位
+	required uint32 tileheight = 4;									//地图格子高度以像素为单位
+	repeated bytes tilesets = 5;									//地图地形列表
+	repeated bytes layers = 6;										//地图地形列表
+	optional string orientation = 7 [default="isometric"];			//地图方向属性 orthogonal-->正常 isometric-->45度 staggered-->45度交错 hexagonal-->六边形
+	optional string version = 8 [default="1.0"];					//地图数据版本控制
+}
