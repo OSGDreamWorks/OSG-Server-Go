@@ -8,7 +8,7 @@ import (
 const luaNewFunctionName = "new"
 const luaIndexTypeName = "__index"
 
-func RegisterAllModules(L *lua.LState) int {
+func RegisterOsgModule(L *lua.LState) int {
     logger.Debug("osg module Loader")
     Register_lua_json(L)
     Register_lua_common(L)
@@ -27,7 +27,9 @@ var DefaultScript LuaScript
 func NewScript() *LuaScript {
     l := lua.NewState()
     DefaultScript = LuaScript{state : l}
-    l.PreloadModule("osg", RegisterAllModules)
+    l.PreloadModule("pb", RegisterPbModule)
+    l.PreloadModule("protobuf", RegisterProtobufModule)
+    l.PreloadModule("osg", RegisterOsgModule)
     return &DefaultScript
 }
 

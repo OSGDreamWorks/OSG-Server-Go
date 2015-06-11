@@ -302,20 +302,23 @@ func (conn *ProtoBufConn) writeRequest(r *protobuf.Request) error {
 	return nil
 }
 
-func (conn *ProtoBufConn) Call(serviceMethod string, args interface{}) error {
+func (conn *ProtoBufConn) Call(serviceMethod string, args interface{}) (err error) {
 
 	var msg proto.Message
+	var buf []byte
 
 	switch m := args.(type) {
 	case proto.Message:
 		msg = m
+
+		buf, err = proto.Marshal(msg)
+		if err != nil {
+			return err
+		}
+	case []byte:
+		buf = m
 	default:
 		return fmt.Errorf("Call args type error %v", args)
-	}
-
-	buf, err := proto.Marshal(msg)
-	if err != nil {
-		return err
 	}
 
 	req := &protobuf.Request{}
@@ -334,6 +337,7 @@ func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Request, body interface{}
 }
 
 func (conn *ProtoBufConn) WriteObj(value interface{}) error {
+
 	var msg proto.Message
 
 	switch m := value.(type) {

@@ -6,10 +6,12 @@ import (
     "component/server"
 )
 
-const luaProtoBufConnTypeName = "ProtoBufConn"
+const luaProtoBufConnTypeName = "RpcConn"
 
 var indexProtoBufConnMethods = map[string]lua.LGFunction{
     "SetResultServer": Register_lua_server_ProtoBufConn_SetResultServer,
+    "WriteObj": Register_lua_server_ProtoBufConn_Call,
+    "Call": Register_lua_server_ProtoBufConn_Call,
 }
 
 func Register_lua_server_ProtoBufConn(L *lua.LState) {
@@ -35,6 +37,24 @@ func Register_lua_server_ProtoBufConn_SetResultServer(L *lua.LState) int {
     resultServer:= L.CheckString(2)
     if v, ok := ud.Value.(*server.ProtoBufConn); ok {
         v.SetResultServer(resultServer)
+    }
+    return 0
+}
+
+func Register_lua_server_ProtoBufConn_Call(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    method := L.CheckString(2)
+    buffer := L.CheckString(3)
+    if  v, ok := ud.Value.(*server.ProtoBufConn); ok {
+        err := v.Call(method, []byte(buffer))
+        if err != nil {
+            logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())
+        }
+    }else if  v, ok := ud.Value.(*server.RpcConn); ok {
+        err := (*v).Call(method,[]byte(buffer))
+        if err != nil {
+            logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())
+        }
     }
     return 0
 }

@@ -1,4 +1,5 @@
 local osg = require("osg")
+local msg_pb = require("script.protobuf.msg_pb")
 local logger = require("script.common.logger")
 local config = require("script.common.config")
 local common = require("script.common.define")

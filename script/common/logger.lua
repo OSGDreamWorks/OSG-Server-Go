@@ -34,6 +34,19 @@ logger.Dump = function(...)
 	print(_dump(root, "",""))
 end
 
+logger.DumpString = function(v)
+
+	if type(v) == "string" then
+		local info = ""
+		for i = 1, string.len(v) do
+			local charcode = tonumber(string.byte(v, i, i));
+			info = info .. string.format("%02X ", charcode);
+		end
+		print(os.date("%Y/%m/%d %H:%M:%S").." Info: [Lua] "..info)
+	end
+
+end
+
 logger.Debug = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Debug: [Lua] "..string.format(...))
 end
