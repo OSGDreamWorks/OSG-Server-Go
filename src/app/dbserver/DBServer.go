@@ -28,6 +28,7 @@ type DBServer struct {
 var pDbServices *DBServer
 
 func CreateServices(cfg config.DBConfig) *DBServer {
+
 	pDbServices = NewDBServer(cfg)
 	go func () {
 		tsock, err := net.Listen("tcp", cfg.DBHost)
@@ -40,6 +41,7 @@ func CreateServices(cfg config.DBConfig) *DBServer {
 
 		tsock.Close()
 	}()
+
 	return pDbServices
 }
 

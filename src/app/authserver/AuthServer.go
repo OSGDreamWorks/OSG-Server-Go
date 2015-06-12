@@ -15,6 +15,28 @@ type AuthServer struct {
 	exit        chan bool
 }
 
+var pAuthServices *AuthServer
+
+func CreateServices(authcfg config.AuthConfig)  *AuthServer {
+
+	pAuthServices := NewAuthServer(authcfg)
+
+	go func () {
+		tsock, err := net.Listen("tcp", authcfg.AuthHost)
+		if err != nil {
+			logger.Fatal("net.Listen: %s", err.Error())
+		}
+
+		StartServices(pAuthServices, tsock)
+
+		WaitForExit(pAuthServices)
+
+		tsock.Close()
+	}()
+
+	return pAuthServices
+}
+
 func StartServices(self *AuthServer, listener net.Listener) {
 
 	rpcServer := rpc.NewServer()
@@ -52,7 +74,7 @@ func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 	return server
 }
 
-func (self *AuthServer) Login(req *protobuf.Login, ret *protobuf.LoginResult) error {
+func (self *AuthServer) Login(req *protobuf.LA_CheckAccount, ret *protobuf.LA_CheckAccount) error {
 
 	uid := common.GenUUID(req.GetAccount())
 

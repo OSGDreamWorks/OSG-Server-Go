@@ -23,7 +23,7 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
     logger.Debug(checkAccount.password)
 
     local checkAccountResult = LCPacket_pb.LC_CheckAccountResult()
-    checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.Result.OK
+    checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.OK
     checkAccountResult.server_time = os.time()
     checkAccountResult.sessionKey = "test"
     checkAccountResult.uid = checkAccount.account
