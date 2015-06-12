@@ -9,3 +9,6 @@ message CS_CheckSession{
 	required string sessionKey = 2;
 	optional uint32 create_time = 3;
 }
+
+message CS_Ping{
+}

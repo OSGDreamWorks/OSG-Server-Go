@@ -306,7 +306,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 	return methods
 }
 
-const luaProtoBufConnTypeName = "RpcConn"
+const luaRpcConnTypeName = "RpcConn"
 
 func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err error) {
 	logger.Debug("CallLua %v", method)
@@ -334,7 +334,7 @@ func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err erro
 
 	ud := server.state.NewUserData()
 	ud.Value = &conn
-	server.state.SetMetatable(ud, server.state.GetTypeMetatable(luaProtoBufConnTypeName))
+	server.state.SetMetatable(ud, server.state.GetTypeMetatable(luaRpcConnTypeName))
 
 	err2 := server.state.CallByParam(lua.P{
 		Fn: mtype.luaFn,

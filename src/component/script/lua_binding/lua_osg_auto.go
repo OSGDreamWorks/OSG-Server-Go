@@ -3,6 +3,8 @@ package lua_binding
 import (
     "github.com/yuin/gopher-lua"
     "common/logger"
+    "reflect"
+    "protobuf"
 )
 
 const luaNewFunctionName = "new"
@@ -12,7 +14,9 @@ func RegisterOsgModule(L *lua.LState) int {
     logger.Debug("osg module Loader")
     Register_lua_json(L)
     Register_lua_common(L)
-    Register_lua_server_ProtoBufConn(L)
+    Register_lua_rpc_RpcClient(L)
+    Register_lua_rpc_RpcServer(L)
+    Register_lua_server_RpcConn(L)
     Register_lua_server_Server(L)
     return 0
 }
@@ -20,17 +24,36 @@ func RegisterOsgModule(L *lua.LState) int {
 
 type LuaScript struct {
     state           *lua.LState
+    pbMap           map[string]reflect.Type
 }
 
 var DefaultScript LuaScript
 
 func NewScript() *LuaScript {
+
     l := lua.NewState()
-    DefaultScript = LuaScript{state : l}
+    DefaultScript = LuaScript{state : l, pbMap :  make(map[string]reflect.Type)}
+
+    DefaultScript.suitablePbMap()
+
     l.PreloadModule("pb", RegisterPbModule)
     l.PreloadModule("protobuf", RegisterProtobufModule)
     l.PreloadModule("osg", RegisterOsgModule)
+
     return &DefaultScript
+}
+
+func (self *LuaScript) suitablePbMap() {
+    self.pbMap["LA_CheckAccount"] = reflect.TypeOf(protobuf.LA_CheckAccount{})
+    self.pbMap["AL_CheckAccountResult"] = reflect.TypeOf(protobuf.AL_CheckAccountResult{})
+}
+
+func (self *LuaScript) GetPbType(name string) reflect.Type {
+    if v, ok := self.pbMap[name]; ok {
+        return v
+    }
+    logger.Error("not regist %v in suitablePbMap...", name)
+    return nil
 }
 
 func (self *LuaScript) Close() {

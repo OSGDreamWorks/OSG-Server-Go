@@ -1,7 +1,10 @@
 --¼ÓÔØprotobufÄ£¿é
 local CLPacket_pb = require("CLPacket_pb")
 local LCPacket_pb = require("LCPacket_pb")
+local LAPacket_pb = require("LAPacket_pb")
+local ALPacket_pb = require("ALPacket_pb")
 
+local config = require("script.common.config")
 local logger = require("script.common.logger")
 local common = require("script.common.define")
 
@@ -10,9 +13,14 @@ local GateServicesForClient = {}
 GateServicesForClient.name = "LoginServer"
 
 function GateServicesForClient:CreateServices(cfg)
-    self.rpcServer = Server:new()
-    self.rpcServer:Register(self)
-    self.rpcServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
+
+    self.loginServer = Server:new()
+    self.loginServer:Register(self)
+
+    local authCfg = config.ReadConfig("etc/authserver.json")
+    self.authServer = RpcClient:new(authCfg.AuthHost)
+
+    self.loginServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
 end
 
 function GateServicesForClient:CL_CheckAccount(conn, buf)
@@ -22,11 +30,30 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
     logger.Debug(checkAccount.account)
     logger.Debug(checkAccount.password)
 
+    local rpcCall = LAPacket_pb.LA_CheckAccount()
+    rpcCall.account = checkAccount.account
+    rpcCall.password = checkAccount.password
+
+    local rep = ""
+
+    self.authServer:Call("AuthServer.LA_CheckAccount", rpcCall:SerializeToString(), rep, "LA_CheckAccount", "AL_CheckAccountResult")
+
+    local rpcResult = ALPacket_pb.AL_CheckAccountResult()
+
     local checkAccountResult = LCPacket_pb.LC_CheckAccountResult()
-    checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.OK
-    checkAccountResult.server_time = os.time()
-    checkAccountResult.sessionKey = "test"
-    checkAccountResult.uid = checkAccount.account
+    checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.SERVERERROR
+
+    if rep ~= "" then
+
+        rpcResult:ParseFromString(rep)
+
+        checkAccountResult.result = rpcResult.result
+        checkAccountResult.server_time = rpcResult.server_time
+        checkAccountResult.sessionKey = rpcResult.sessionKey
+        checkAccountResult.uid = rpcResult.uid
+
+    end
+
     conn:WriteObj("protobuf.LC_CheckAccountResult", checkAccountResult:SerializeToString())
 
     return 0

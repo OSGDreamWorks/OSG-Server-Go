@@ -9,7 +9,9 @@ local LCPacket_pb = require("script.protobuf.LCPacket_pb")
 local CSPacket_pb = require("script.protobuf.CSPacket_pb")
 local SCPacket_pb = require("script.protobuf.SCPacket_pb")
 local LAPacket_pb = require("script.protobuf.LAPacket_pb")
+local LAPacket_pb = require("script.protobuf.ALPacket_pb")
 local SLPacket_pb = require("script.protobuf.SLPacket_pb")
+local SLPacket_pb = require("script.protobuf.LSPacket_pb")
 --加载osg模块
 local osg = require("osg")
 --引用使用的类

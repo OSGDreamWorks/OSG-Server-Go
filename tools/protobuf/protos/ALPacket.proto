@@ -1,10 +1,10 @@
 package protobuf;
 
-import "PB_PacketDefine.proto";
+import "PB_PacketServerDefine.proto";
 
 option optimize_for = SPEED;
 
-message SC_CheckSessionResult{
+message AL_CheckAccountResult{
 	enum Result {
 		OK = 0;
 		SERVERERROR = 1;
@@ -13,10 +13,8 @@ message SC_CheckSessionResult{
 		ISONFIRE = 4;
 	}
 	required Result result = 1 [default = OK];
-	optional uint32 server_time = 2;
-	optional string errmsg = 3;
-}
-
-message CS_PingResult{
-	required uint32 server_time = 1;
+	required uint32 server_time = 2;
+	required string sessionKey = 3;
+	required string uid = 4;
+	optional string errmsg = 5;
 }

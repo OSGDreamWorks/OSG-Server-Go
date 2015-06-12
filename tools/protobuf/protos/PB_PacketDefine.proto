@@ -3,6 +3,7 @@ package protobuf;
 option optimize_for = SPEED;
 
 enum CL_Protocol {
+	option allow_alias = true;
 	eCL_PacketBegin			= 10000;
 	//----------------------------
 	eCL_Connected			= 10000;
@@ -13,6 +14,7 @@ enum CL_Protocol {
 }
 
 enum LC_Protocol {
+	option allow_alias = true;
 	eLC_PacketBegin			= 10500;
 	//----------------------------
 	eLC_Connected			= 10500;
@@ -23,21 +25,25 @@ enum LC_Protocol {
 }
 
 enum CS_Protocol {
+	option allow_alias = true;
 	eCS_PacketBegin			= 20000;
 	//----------------------------
 	eCS_Connected			= 20000;
 	eCS_Disconnected 		= 20001;
 	eCS_CheckSession 		= 20002;
+	eCS_Ping 				= 20003;
 	//----------------------------
 	eCS_PacketEnd			= 30000;
 }
 
 enum SC_Protocol {
+	option allow_alias = true;
 	eSC_PacketBegin			= 30000;
 	//----------------------------
 	eSC_Connected			= 30000;
 	eSC_Disconnected 		= 30001;
 	eSC_CheckSessionResult 	= 30002;
+	eCS_PingResult 			= 30003;
 	//----------------------------
 	eSC_PacketEnd			= 40000;
 }
