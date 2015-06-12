@@ -242,7 +242,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 
 				methods[key.String()] = &methodType{method: method, ArgType: argType, luaFn: value.(*lua.LFunction)}
 
-				logger.Debug("%v, %v", key.String(), methods[key.String()])
+				logger.Debug("regist %v", key.String())
 			}
 		})
 

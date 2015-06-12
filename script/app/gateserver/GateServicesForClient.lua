@@ -1,38 +1,33 @@
+--¼ÓÔØprotobufÄ£¿é
+local CLPacket_pb = require("CLPacket_pb")
+local LCPacket_pb = require("LCPacket_pb")
+
 local logger = require("script.common.logger")
 local common = require("script.common.define")
 
 local GateServicesForClient = {}
 
-GateServicesForClient.name = "GateServer"
+GateServicesForClient.name = "LoginServer"
 
 function GateServicesForClient:CreateServices(cfg)
     self.rpcServer = Server:new()
-    logger.Dump(_G)
     self.rpcServer:Register(self)
     self.rpcServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
 end
 
-function GateServicesForClient:TestPrint(conn, buf)
-    logger.Debug("hello")
-end
+function GateServicesForClient:CL_CheckAccount(conn, buf)
 
-function GateServicesForClient:TestPrint2(conn, buf)
+    local checkAccount = CLPacket_pb.CL_CheckAccount()
+    checkAccount:ParseFromString(buf)
+    logger.Debug(checkAccount.account)
+    logger.Debug(checkAccount.password)
 
-    local msg_pb = require("msg_pb")
-
-    local chatdata = msg_pb.Login()
-    chatdata:ParseFromString(buf)
-    logger.DumpString(buf)
-    logger.Debug(chatdata.account)
-    logger.Debug(chatdata.password)
-    logger.Debug("%d",chatdata.create_time)
-
-    local loginResultdata = msg_pb.LoginResult()
-    loginResultdata.result = msg_pb.LoginResult.OK
-    loginResultdata.server_time = os.time()
-    loginResultdata.sessionKey = "test"
-    loginResultdata.uid = chatdata.account
-    conn:WriteObj("protobuf.LoginResult", loginResultdata:SerializeToString())
+    local checkAccountResult = LCPacket_pb.LC_CheckAccountResult()
+    checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.Result.OK
+    checkAccountResult.server_time = os.time()
+    checkAccountResult.sessionKey = "test"
+    checkAccountResult.uid = checkAccount.account
+    conn:WriteObj("protobuf.LC_CheckAccountResult", checkAccountResult:SerializeToString())
 
     return 0
 
