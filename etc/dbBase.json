@@ -31,12 +31,12 @@
     ]
   },
   "tables" : {
-    "playerbase" : {
+    "PlayerInfo" : {
       "cache-profile" : "main",
       "db-profile" : "main",
       "expiry" : 0
     },
-    "playerinfo" : {
+    "AccountInfo" : {
       "cache-profile" : "main",
       "db-profile" : "main",
       "introduce" : "redis会用一个正向及一个反向map来存，反向表在表名字后面加_re",

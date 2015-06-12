@@ -5,7 +5,6 @@ import (
 	"common/config"
 	"common/logger"
 	"flag"
-	"net"
 	"common"
 )
 

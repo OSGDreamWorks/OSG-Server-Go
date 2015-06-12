@@ -74,30 +74,30 @@ func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 	return server
 }
 
-func (self *AuthServer) Login(req *protobuf.LA_CheckAccount, ret *protobuf.LA_CheckAccount) error {
+func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *protobuf.AL_CheckAccountResult) error {
 
 	uid := common.GenUUID(req.GetAccount())
 
 	if len(req.GetUid()) > 0{
 		if req.GetUid() != uid {//客户端伪造uid
-			ret.SetResult(protobuf.LoginResult_AUTH_FAILED)
+			ret.SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
 			ret.SetServerTime(uint32(time.Now().Unix()))
 			return nil
 		}
 	}
 
-	info := &protobuf.PlayerInfo{}
-	result, err :=db.Query("playerinfo", uid, info)
+	info := &protobuf.AccountInfo{}
+	result, err :=db.Query("AccountInfo", uid, info)
 
 	if err != nil {
-		ret.SetResult(protobuf.LoginResult_SERVERERROR)
+		ret.SetResult(protobuf.AL_CheckAccountResult_SERVERERROR)
 		ret.SetServerTime(uint32(time.Now().Unix()))
 		return nil
 	}
 
 	if result == false {//用户注册
 
-		account := &protobuf.Login{}
+		account := &protobuf.AccountInfo{}
 		account.SetAccount(req.GetAccount())
 		account.SetPassword(common.GenPassword(req.GetAccount(), req.GetPassword()))
 		account.SetLanguage(req.GetLanguage())
@@ -106,34 +106,22 @@ func (self *AuthServer) Login(req *protobuf.LA_CheckAccount, ret *protobuf.LA_Ch
 		account.SetUdid(req.GetUdid())
 		account.SetCreateTime(uint32(time.Now().Unix()))
 
-		info.SetUid(uid)
-		info.SetAccount(account)
-
-		db.Write("playerinfo", uid, info)
-		logger.Info("playerinfo create")
+		db.Write("AccountInfo", uid, account)
+		logger.Info("Auth AccountInfo create")
 	}else {//用户登陆
-
-		account := info.GetAccount()
-
-		if !common.CheckPassword(account.GetPassword(), req.GetAccount(), req.GetPassword()) {
-			ret.SetResult(protobuf.LoginResult_AUTH_FAILED)
+		if !common.CheckPassword(info.GetPassword(), req.GetAccount(), req.GetPassword()) {
+			ret.SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
 			ret.SetServerTime(uint32(time.Now().Unix()))
 			return nil
 		}
-		account.SetSessionKey(common.GenSessionKey())
-
-		info.SetAccount(account)
-
-		db.Write("playerinfo", uid, info)
-		logger.Info("playerinfo find")
+		info.SetSessionKey(common.GenSessionKey())//保存进缓存
+		db.Write("AccountInfo", uid, info)
+		logger.Info("Auth Account find")
 	}
 
-	ret.SetResult(protobuf.LoginResult_OK)
+	ret.SetResult(protobuf.AL_CheckAccountResult_OK)
 	ret.SetServerTime(uint32(time.Now().Unix()))
-	account := info.GetAccount()
-	if account != nil {
-		ret.SetSessionKey(account.GetSessionKey())
-	}
+	ret.SetSessionKey(info.GetSessionKey())
 	ret.SetUid(info.GetUid())
 
 	logger.Info("ComeInto AuthServer.Login %v, %v", req, ret)
