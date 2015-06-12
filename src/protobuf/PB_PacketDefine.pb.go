@@ -24,11 +24,13 @@ var _ = math.Inf
 type CL_Protocol int32
 
 const (
-	CL_Protocol_eCL_PacketBegin  CL_Protocol = 10000
+	CL_Protocol_eCL_PacketBegin CL_Protocol = 10000
+	// ----------------------------
 	CL_Protocol_eCL_Connected    CL_Protocol = 10000
 	CL_Protocol_eCL_Disconnected CL_Protocol = 10001
 	CL_Protocol_eCL_CheckAccount CL_Protocol = 10002
-	CL_Protocol_eCL_PacketEnd    CL_Protocol = 10500
+	// ----------------------------
+	CL_Protocol_eCL_PacketEnd CL_Protocol = 10500
 )
 
 var CL_Protocol_name = map[int32]string{
@@ -69,11 +71,13 @@ func (x *CL_Protocol) UnmarshalJSON(data []byte) error {
 type LC_Protocol int32
 
 const (
-	LC_Protocol_eLC_PacketBegin        LC_Protocol = 10500
+	LC_Protocol_eLC_PacketBegin LC_Protocol = 10500
+	// ----------------------------
 	LC_Protocol_eLC_Connected          LC_Protocol = 10500
 	LC_Protocol_eLC_Disconnected       LC_Protocol = 10501
 	LC_Protocol_eLC_CheckAccountResult LC_Protocol = 10502
-	LC_Protocol_eLC_PacketEnd          LC_Protocol = 11000
+	// ----------------------------
+	LC_Protocol_eLC_PacketEnd LC_Protocol = 11000
 )
 
 var LC_Protocol_name = map[int32]string{
@@ -114,11 +118,13 @@ func (x *LC_Protocol) UnmarshalJSON(data []byte) error {
 type CS_Protocol int32
 
 const (
-	CS_Protocol_eCS_PacketBegin  CS_Protocol = 20000
+	CS_Protocol_eCS_PacketBegin CS_Protocol = 20000
+	// ----------------------------
 	CS_Protocol_eCS_Connected    CS_Protocol = 20000
 	CS_Protocol_eCS_Disconnected CS_Protocol = 20001
 	CS_Protocol_eCS_CheckSession CS_Protocol = 20002
-	CS_Protocol_eCS_PacketEnd    CS_Protocol = 30000
+	// ----------------------------
+	CS_Protocol_eCS_PacketEnd CS_Protocol = 30000
 )
 
 var CS_Protocol_name = map[int32]string{
@@ -159,11 +165,13 @@ func (x *CS_Protocol) UnmarshalJSON(data []byte) error {
 type SC_Protocol int32
 
 const (
-	SC_Protocol_eSC_PacketBegin        SC_Protocol = 30000
+	SC_Protocol_eSC_PacketBegin SC_Protocol = 30000
+	// ----------------------------
 	SC_Protocol_eSC_Connected          SC_Protocol = 30000
 	SC_Protocol_eSC_Disconnected       SC_Protocol = 30001
 	SC_Protocol_eSC_CheckSessionResult SC_Protocol = 30002
-	SC_Protocol_eSC_PacketEnd          SC_Protocol = 40000
+	// ----------------------------
+	SC_Protocol_eSC_PacketEnd SC_Protocol = 40000
 )
 
 var SC_Protocol_name = map[int32]string{

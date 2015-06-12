@@ -17,7 +17,7 @@ import proto "code.google.com/p/goprotobuf/proto"
 import json "encoding/json"
 import math "math"
 
-// discarding unused import protobuf2 "PB_PacketServerDefine.pb"
+// discarding unused import protobuf1 "PB_PacketServerDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

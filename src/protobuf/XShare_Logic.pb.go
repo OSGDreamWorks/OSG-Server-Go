@@ -119,6 +119,7 @@ func (m *PlayerInfo) SetAgainst(value []byte) {
 	}
 }
 
+// 地图自定义属性结构
 type MapPropertie struct {
 	Name             *string `protobuf:"bytes,1,req,name=name" json:"name,omitempty"`
 	Value            *string `protobuf:"bytes,2,req,name=value" json:"value,omitempty"`
@@ -155,6 +156,7 @@ func (m *MapPropertie) SetValue(value string) {
 	}
 }
 
+// 地图地形图片结构
 type Tileset struct {
 	Tilewidth        *uint32 `protobuf:"varint,1,req,name=tilewidth" json:"tilewidth,omitempty"`
 	Tileheight       *uint32 `protobuf:"varint,2,req,name=tileheight" json:"tileheight,omitempty"`
@@ -219,6 +221,7 @@ func (m *Tileset) SetImage(value string) {
 	}
 }
 
+// 地图对象结构
 type MapObject struct {
 	Gid              *uint32  `protobuf:"varint,1,req,name=gid" json:"gid,omitempty"`
 	X                *uint32  `protobuf:"varint,2,req,name=x" json:"x,omitempty"`
@@ -339,6 +342,7 @@ func (m *MapObject) SetType(value string) {
 	}
 }
 
+// 地图地形层结构
 type TileLayer struct {
 	Type             *string  `protobuf:"bytes,1,req,name=type" json:"type,omitempty"`
 	Datas            []uint32 `protobuf:"varint,2,rep,packed,name=datas" json:"datas,omitempty"`
@@ -431,6 +435,7 @@ func (m *TileLayer) SetName(value string) {
 	}
 }
 
+// 地图数据结构
 type TileMap struct {
 	Width            *uint32  `protobuf:"varint,1,req,name=width" json:"width,omitempty"`
 	Height           *uint32  `protobuf:"varint,2,req,name=height" json:"height,omitempty"`

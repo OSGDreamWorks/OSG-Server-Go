@@ -22,6 +22,7 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
+// 地图自定义属性结构
 type AccountInfo struct {
 	Uid              *string `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
 	Account          *string `protobuf:"bytes,2,req,name=account" json:"account,omitempty"`

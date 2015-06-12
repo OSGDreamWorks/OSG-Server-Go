@@ -16,8 +16,6 @@ import proto "code.google.com/p/goprotobuf/proto"
 import json "encoding/json"
 import math "math"
 
-// discarding unused import protobuf1 "PB_PacketDefine.pb"
-
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = &json.SyntaxError{}
@@ -26,11 +24,13 @@ var _ = math.Inf
 type SL_Protocol int32
 
 const (
-	SL_Protocol_eSL_PacketBegin       SL_Protocol = 12000
+	SL_Protocol_eSL_PacketBegin SL_Protocol = 12000
+	// ----------------------------
 	SL_Protocol_eSL_Connected         SL_Protocol = 12000
 	SL_Protocol_eSL_Disconnected      SL_Protocol = 12001
 	SL_Protocol_eSL_UpdatePlayerCount SL_Protocol = 12002
-	SL_Protocol_eSL_PacketEnd         SL_Protocol = 20000
+	// ----------------------------
+	SL_Protocol_eSL_PacketEnd SL_Protocol = 20000
 )
 
 var SL_Protocol_name = map[int32]string{
@@ -71,11 +71,13 @@ func (x *SL_Protocol) UnmarshalJSON(data []byte) error {
 type LA_Protocol int32
 
 const (
-	LA_Protocol_eLA_PacketBegin  LA_Protocol = 11000
+	LA_Protocol_eLA_PacketBegin LA_Protocol = 11000
+	// ----------------------------
 	LA_Protocol_eLA_Connected    LA_Protocol = 11000
 	LA_Protocol_eLA_Disconnected LA_Protocol = 11001
 	LA_Protocol_eLA_CheckAccount LA_Protocol = 11002
-	LA_Protocol_eLA_PacketEnd    LA_Protocol = 12000
+	// ----------------------------
+	LA_Protocol_eLA_PacketEnd LA_Protocol = 12000
 )
 
 var LA_Protocol_name = map[int32]string{
