@@ -123,6 +123,7 @@ const (
 	CS_Protocol_eCS_Connected    CS_Protocol = 20000
 	CS_Protocol_eCS_Disconnected CS_Protocol = 20001
 	CS_Protocol_eCS_CheckSession CS_Protocol = 20002
+	CS_Protocol_eCS_Ping         CS_Protocol = 20003
 	// ----------------------------
 	CS_Protocol_eCS_PacketEnd CS_Protocol = 30000
 )
@@ -132,6 +133,7 @@ var CS_Protocol_name = map[int32]string{
 	// Duplicate value: 20000: "eCS_Connected",
 	20001: "eCS_Disconnected",
 	20002: "eCS_CheckSession",
+	20003: "eCS_Ping",
 	30000: "eCS_PacketEnd",
 }
 var CS_Protocol_value = map[string]int32{
@@ -139,6 +141,7 @@ var CS_Protocol_value = map[string]int32{
 	"eCS_Connected":    20000,
 	"eCS_Disconnected": 20001,
 	"eCS_CheckSession": 20002,
+	"eCS_Ping":         20003,
 	"eCS_PacketEnd":    30000,
 }
 
@@ -170,6 +173,7 @@ const (
 	SC_Protocol_eSC_Connected          SC_Protocol = 30000
 	SC_Protocol_eSC_Disconnected       SC_Protocol = 30001
 	SC_Protocol_eSC_CheckSessionResult SC_Protocol = 30002
+	SC_Protocol_eCS_PingResult         SC_Protocol = 30003
 	// ----------------------------
 	SC_Protocol_eSC_PacketEnd SC_Protocol = 40000
 )
@@ -179,6 +183,7 @@ var SC_Protocol_name = map[int32]string{
 	// Duplicate value: 30000: "eSC_Connected",
 	30001: "eSC_Disconnected",
 	30002: "eSC_CheckSessionResult",
+	30003: "eCS_PingResult",
 	40000: "eSC_PacketEnd",
 }
 var SC_Protocol_value = map[string]int32{
@@ -186,6 +191,7 @@ var SC_Protocol_value = map[string]int32{
 	"eSC_Connected":          30000,
 	"eSC_Disconnected":       30001,
 	"eSC_CheckSessionResult": 30002,
+	"eCS_PingResult":         30003,
 	"eSC_PacketEnd":          40000,
 }
 

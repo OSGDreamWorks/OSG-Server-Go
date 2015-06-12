@@ -10,6 +10,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	CS_CheckSession
+	CS_Ping
 */
 package protobuf
 
@@ -73,6 +74,14 @@ func (m *CS_CheckSession) SetCreateTime(value uint32) {
 		m.CreateTime = &value
 	}
 }
+
+type CS_Ping struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *CS_Ping) Reset()         { *m = CS_Ping{} }
+func (m *CS_Ping) String() string { return proto.CompactTextString(m) }
+func (*CS_Ping) ProtoMessage()    {}
 
 func init() {
 }
