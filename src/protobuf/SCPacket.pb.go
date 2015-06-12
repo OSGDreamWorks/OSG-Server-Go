@@ -10,6 +10,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	SC_CheckSessionResult
+	CS_PingResult
 */
 package protobuf
 
@@ -118,6 +119,28 @@ func (m *SC_CheckSessionResult) SetServerTime(value uint32) {
 func (m *SC_CheckSessionResult) SetErrmsg(value string) {
 	if m != nil {
 		m.Errmsg = &value
+	}
+}
+
+type CS_PingResult struct {
+	ServerTime       *uint32 `protobuf:"varint,1,req,name=server_time" json:"server_time,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *CS_PingResult) Reset()         { *m = CS_PingResult{} }
+func (m *CS_PingResult) String() string { return proto.CompactTextString(m) }
+func (*CS_PingResult) ProtoMessage()    {}
+
+func (m *CS_PingResult) GetServerTime() uint32 {
+	if m != nil && m.ServerTime != nil {
+		return *m.ServerTime
+	}
+	return 0
+}
+
+func (m *CS_PingResult) SetServerTime(value uint32) {
+	if m != nil {
+		m.ServerTime = &value
 	}
 }
 

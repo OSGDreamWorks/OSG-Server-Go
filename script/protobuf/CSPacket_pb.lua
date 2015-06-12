@@ -8,6 +8,7 @@ local CS_CHECKSESSION = protobuf.Descriptor();
 local CS_CHECKSESSION_UID_FIELD = protobuf.FieldDescriptor();
 local CS_CHECKSESSION_SESSIONKEY_FIELD = protobuf.FieldDescriptor();
 local CS_CHECKSESSION_CREATE_TIME_FIELD = protobuf.FieldDescriptor();
+local CS_PING = protobuf.Descriptor();
 
 CS_CHECKSESSION_UID_FIELD.name = "uid"
 CS_CHECKSESSION_UID_FIELD.full_name = ".protobuf.CS_CheckSession.uid"
@@ -46,6 +47,14 @@ CS_CHECKSESSION.enum_types = {}
 CS_CHECKSESSION.fields = {CS_CHECKSESSION_UID_FIELD, CS_CHECKSESSION_SESSIONKEY_FIELD, CS_CHECKSESSION_CREATE_TIME_FIELD}
 CS_CHECKSESSION.is_extendable = false
 CS_CHECKSESSION.extensions = {}
+CS_PING.name = "CS_Ping"
+CS_PING.full_name = ".protobuf.CS_Ping"
+CS_PING.nested_types = {}
+CS_PING.enum_types = {}
+CS_PING.fields = {}
+CS_PING.is_extendable = false
+CS_PING.extensions = {}
 
 CS_CheckSession = protobuf.Message(CS_CHECKSESSION)
+CS_Ping = protobuf.Message(CS_PING)
 
