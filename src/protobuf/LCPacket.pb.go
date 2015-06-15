@@ -27,26 +27,26 @@ var _ = math.Inf
 type LC_CheckAccountResult_Result int32
 
 const (
-	LC_CheckAccountResult_OK           LC_CheckAccountResult_Result = 0
-	LC_CheckAccountResult_SERVERERROR  LC_CheckAccountResult_Result = 1
-	LC_CheckAccountResult_USERNOTFOUND LC_CheckAccountResult_Result = 2
-	LC_CheckAccountResult_AUTH_FAILED  LC_CheckAccountResult_Result = 3
-	LC_CheckAccountResult_ISONFIRE     LC_CheckAccountResult_Result = 4
+	LC_CheckAccountResult_OK           LC_CheckAccountResult_Result = 1
+	LC_CheckAccountResult_SERVERERROR  LC_CheckAccountResult_Result = 2
+	LC_CheckAccountResult_USERNOTFOUND LC_CheckAccountResult_Result = 3
+	LC_CheckAccountResult_AUTH_FAILED  LC_CheckAccountResult_Result = 4
+	LC_CheckAccountResult_ISONFIRE     LC_CheckAccountResult_Result = 5
 )
 
 var LC_CheckAccountResult_Result_name = map[int32]string{
-	0: "OK",
-	1: "SERVERERROR",
-	2: "USERNOTFOUND",
-	3: "AUTH_FAILED",
-	4: "ISONFIRE",
+	1: "OK",
+	2: "SERVERERROR",
+	3: "USERNOTFOUND",
+	4: "AUTH_FAILED",
+	5: "ISONFIRE",
 }
 var LC_CheckAccountResult_Result_value = map[string]int32{
-	"OK":           0,
-	"SERVERERROR":  1,
-	"USERNOTFOUND": 2,
-	"AUTH_FAILED":  3,
-	"ISONFIRE":     4,
+	"OK":           1,
+	"SERVERERROR":  2,
+	"USERNOTFOUND": 3,
+	"AUTH_FAILED":  4,
+	"ISONFIRE":     5,
 }
 
 func (x LC_CheckAccountResult_Result) Enum() *LC_CheckAccountResult_Result {
@@ -70,7 +70,7 @@ func (x *LC_CheckAccountResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type LC_CheckAccountResult struct {
-	Result           *LC_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LC_CheckAccountResult_Result,def=0" json:"result,omitempty"`
+	Result           *LC_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LC_CheckAccountResult_Result,def=1" json:"result,omitempty"`
 	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
 	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`

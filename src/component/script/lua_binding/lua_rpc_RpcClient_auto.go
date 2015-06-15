@@ -44,8 +44,9 @@ func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {
     ud := L.CheckUserData(1)
     method:= L.CheckString(2)
     args:= L.CheckString(3)
-    argstyp:= L.CheckString(4)
-    reptyp:= L.CheckString(5)
+    argstyp:= L.CheckString(5)
+    reptyp:= L.CheckString(6)
+    //logger.Debug("Register_lua_rpc_RpcClient_Call(%v,%v,%v,%v,%v,%v)", ud, method, args, "", argstyp, reptyp)
     if v, ok := ud.Value.(*rpc.Client); ok {
         typArgs := DefaultScript.GetPbType(argstyp)
         typRep := DefaultScript.GetPbType(reptyp)
@@ -54,7 +55,17 @@ func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {
         if valueRep.Interface() != nil && valueArgs.Interface() != nil {
             if value, ok := (valueArgs.Interface()).(proto.Message); ok {
                 proto.Unmarshal([]byte(args), value)
-                v.Call(method, &value, valueRep)
+                repMsg := valueRep.Interface()
+                v.Call(method, value, repMsg)
+                rep, err := proto.Marshal(repMsg.(proto.Message))
+                if err != nil {
+                    logger.Debug("Register_lua_rpc_RpcClient_Call : Marshal Error %v ", valueRep.Interface())
+                    return 0
+                }
+                L.Replace(4, lua.LString(string(rep)))
+                L.Push(lua.LString(string(rep)))
+                logger.Debug("Register_lua_rpc_RpcClient_Call : rep %v ", string(rep))
+                return 1
             }else {
                 logger.Error("Register_lua_rpc_RpcClient_Call Error type : %v", valueArgs.Interface())
             }

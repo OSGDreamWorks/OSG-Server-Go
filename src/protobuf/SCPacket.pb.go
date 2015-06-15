@@ -28,26 +28,26 @@ var _ = math.Inf
 type SC_CheckSessionResult_Result int32
 
 const (
-	SC_CheckSessionResult_OK           SC_CheckSessionResult_Result = 0
-	SC_CheckSessionResult_SERVERERROR  SC_CheckSessionResult_Result = 1
-	SC_CheckSessionResult_USERNOTFOUND SC_CheckSessionResult_Result = 2
-	SC_CheckSessionResult_AUTH_FAILED  SC_CheckSessionResult_Result = 3
-	SC_CheckSessionResult_ISONFIRE     SC_CheckSessionResult_Result = 4
+	SC_CheckSessionResult_OK           SC_CheckSessionResult_Result = 1
+	SC_CheckSessionResult_SERVERERROR  SC_CheckSessionResult_Result = 2
+	SC_CheckSessionResult_USERNOTFOUND SC_CheckSessionResult_Result = 3
+	SC_CheckSessionResult_AUTH_FAILED  SC_CheckSessionResult_Result = 4
+	SC_CheckSessionResult_ISONFIRE     SC_CheckSessionResult_Result = 5
 )
 
 var SC_CheckSessionResult_Result_name = map[int32]string{
-	0: "OK",
-	1: "SERVERERROR",
-	2: "USERNOTFOUND",
-	3: "AUTH_FAILED",
-	4: "ISONFIRE",
+	1: "OK",
+	2: "SERVERERROR",
+	3: "USERNOTFOUND",
+	4: "AUTH_FAILED",
+	5: "ISONFIRE",
 }
 var SC_CheckSessionResult_Result_value = map[string]int32{
-	"OK":           0,
-	"SERVERERROR":  1,
-	"USERNOTFOUND": 2,
-	"AUTH_FAILED":  3,
-	"ISONFIRE":     4,
+	"OK":           1,
+	"SERVERERROR":  2,
+	"USERNOTFOUND": 3,
+	"AUTH_FAILED":  4,
+	"ISONFIRE":     5,
 }
 
 func (x SC_CheckSessionResult_Result) Enum() *SC_CheckSessionResult_Result {
@@ -71,7 +71,7 @@ func (x *SC_CheckSessionResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type SC_CheckSessionResult struct {
-	Result           *SC_CheckSessionResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.SC_CheckSessionResult_Result,def=0" json:"result,omitempty"`
+	Result           *SC_CheckSessionResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.SC_CheckSessionResult_Result,def=1" json:"result,omitempty"`
 	ServerTime       *uint32                       `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
 	Errmsg           *string                       `protobuf:"bytes,3,opt,name=errmsg" json:"errmsg,omitempty"`
 	XXX_unrecognized []byte                        `json:"-"`

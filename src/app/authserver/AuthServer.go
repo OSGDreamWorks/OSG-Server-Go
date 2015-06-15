@@ -86,8 +86,8 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 		}
 	}
 
-	info := &protobuf.AccountInfo{}
-	result, err :=db.Query("AccountInfo", uid, info)
+	account := &protobuf.AccountInfo{}
+	result, err :=db.Query("AccountInfo", uid, account)
 
 	if err != nil {
 		ret.SetResult(protobuf.AL_CheckAccountResult_SERVERERROR)
@@ -97,7 +97,7 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 
 	if result == false {//用户注册
 
-		account := &protobuf.AccountInfo{}
+		account.SetUid(uid)
 		account.SetAccount(req.GetAccount())
 		account.SetPassword(common.GenPassword(req.GetAccount(), req.GetPassword()))
 		account.SetLanguage(req.GetLanguage())
@@ -108,21 +108,22 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 
 		db.Write("AccountInfo", uid, account)
 		logger.Info("Auth AccountInfo create")
+
 	}else {//用户登陆
-		if !common.CheckPassword(info.GetPassword(), req.GetAccount(), req.GetPassword()) {
+		if !common.CheckPassword(account.GetPassword(), req.GetAccount(), req.GetPassword()) {
 			ret.SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
 			ret.SetServerTime(uint32(time.Now().Unix()))
 			return nil
 		}
-		info.SetSessionKey(common.GenSessionKey())//保存进缓存
-		db.Write("AccountInfo", uid, info)
+		account.SetSessionKey(common.GenSessionKey())//保存进缓存
+		db.Write("AccountInfo", uid, account)
 		logger.Info("Auth Account find")
 	}
 
 	ret.SetResult(protobuf.AL_CheckAccountResult_OK)
 	ret.SetServerTime(uint32(time.Now().Unix()))
-	ret.SetSessionKey(info.GetSessionKey())
-	ret.SetUid(info.GetUid())
+	ret.SetSessionKey(account.GetSessionKey())
+	ret.SetUid(account.GetUid())
 
 	logger.Info("ComeInto AuthServer.Login %v, %v", req, ret)
 

@@ -27,17 +27,17 @@ var _ = math.Inf
 type LS_UpdatePlayerCountResult_Result int32
 
 const (
-	LS_UpdatePlayerCountResult_OK          LS_UpdatePlayerCountResult_Result = 0
-	LS_UpdatePlayerCountResult_SERVERERROR LS_UpdatePlayerCountResult_Result = 1
+	LS_UpdatePlayerCountResult_OK          LS_UpdatePlayerCountResult_Result = 1
+	LS_UpdatePlayerCountResult_SERVERERROR LS_UpdatePlayerCountResult_Result = 2
 )
 
 var LS_UpdatePlayerCountResult_Result_name = map[int32]string{
-	0: "OK",
-	1: "SERVERERROR",
+	1: "OK",
+	2: "SERVERERROR",
 }
 var LS_UpdatePlayerCountResult_Result_value = map[string]int32{
-	"OK":          0,
-	"SERVERERROR": 1,
+	"OK":          1,
+	"SERVERERROR": 2,
 }
 
 func (x LS_UpdatePlayerCountResult_Result) Enum() *LS_UpdatePlayerCountResult_Result {
@@ -61,7 +61,7 @@ func (x *LS_UpdatePlayerCountResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type LS_UpdatePlayerCountResult struct {
-	Result           *LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result,def=0" json:"result,omitempty"`
+	Result           *LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result,def=1" json:"result,omitempty"`
 	ServerTime       *uint32                            `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	XXX_unrecognized []byte                             `json:"-"`
 }

@@ -34,16 +34,19 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
     rpcCall.account = checkAccount.account
     rpcCall.password = checkAccount.password
 
-    local rep = ""
+    local rep = self.authServer:Call("AuthServer.LA_CheckAccount", rpcCall:SerializeToString(), "", "LA_CheckAccount", "AL_CheckAccountResult")
 
-    self.authServer:Call("AuthServer.LA_CheckAccount", rpcCall:SerializeToString(), rep, "LA_CheckAccount", "AL_CheckAccountResult")
+    logger.DumpString(rep)
 
     local rpcResult = ALPacket_pb.AL_CheckAccountResult()
 
     local checkAccountResult = LCPacket_pb.LC_CheckAccountResult()
     checkAccountResult.result = LCPacket_pb.LC_CheckAccountResult.SERVERERROR
+    checkAccountResult.server_time = os.time()
+    checkAccountResult.sessionKey = ""
+    checkAccountResult.uid = ""
 
-    if rep ~= "" then
+    if rep ~= nil then
 
         rpcResult:ParseFromString(rep)
 
