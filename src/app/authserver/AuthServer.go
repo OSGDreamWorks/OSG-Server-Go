@@ -12,6 +12,7 @@ import (
 )
 
 type AuthServer struct {
+	maincache    *db.CachePool
 	exit        chan bool
 }
 
@@ -63,9 +64,15 @@ func WaitForExit(self *AuthServer) {
 
 func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 
+	//初始化db
+	logger.Info("Init DB")
 	db.Init()
 
+	//初始化cache
+	logger.Info("Init Cache %v", cfg.MainCacheProfile)
+
 	server = &AuthServer{
+		maincache : db.NewCachePool(cfg.MainCacheProfile),
 		exit:        make(chan bool),
 	}
 
@@ -119,6 +126,8 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 		db.Write("AccountInfo", uid, account)
 		logger.Info("Auth Account find")
 	}
+
+	self.maincache.Do("SET", uid, account.GetSessionKey())
 
 	ret.SetResult(protobuf.AL_CheckAccountResult_OK)
 	ret.SetServerTime(uint32(time.Now().Unix()))

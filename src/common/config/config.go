@@ -53,6 +53,7 @@ type AuthConfig struct {
 	AuthHost        string
 	DebugHost     string
 	GcTime        uint8
+	MainCacheProfile CacheConfig `json:"maincache"`
 }
 
 type SvrConfig struct {

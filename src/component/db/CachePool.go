@@ -51,6 +51,12 @@ func (self *CachePool) Get() *cacheInstance {
 	return r.(*cacheInstance)
 }
 
+func (self *CachePool) Do(commandName string, args ...interface{}) (reply interface{}, err error)  {
+	cache := self.Get()
+	defer cache.Recycle()
+	return cache.Conn.Do(commandName, args ...)
+}
+
 type cacheInstance struct {
 	redis.Conn
 	pool     *CachePool

@@ -1,5 +1,11 @@
 {
   "AuthHost" : "127.0.0.1:8861",
   "DebugHost" : "127.0.0.1:5861",
-  "GcTime" : 15
+  "GcTime" : 15,
+  "MainCache": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "index": 15,
+    "pool": 100
+  }
 }
