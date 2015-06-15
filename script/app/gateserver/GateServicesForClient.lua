@@ -20,7 +20,12 @@ function GateServicesForClient:CreateServices(cfg)
     local authCfg = config.ReadConfig("etc/authserver.json")
     self.authServer = RpcClient:new(authCfg.AuthHost)
 
+    local gameCfg = config.ReadConfig("etc/gameserver.json")
+    self.stableTcpServer = gameCfg.TcpHost
+    self.stableHttpServer = gameCfg.HttpHost
+
     self.loginServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
+
 end
 
 function GateServicesForClient:CL_CheckAccount(conn, buf)
@@ -54,6 +59,12 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
         checkAccountResult.server_time = rpcResult.server_time
         checkAccountResult.sessionKey = rpcResult.sessionKey
         checkAccountResult.uid = rpcResult.uid
+
+        if conn:IsWebConn() then
+            checkAccountResult.gameServerIp = self.stableHttpServer
+        else
+            checkAccountResult.gameServerIp = self.stableTcpServer
+        end
 
     end
 

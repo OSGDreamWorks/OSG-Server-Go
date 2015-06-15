@@ -10,6 +10,7 @@ const luaRpcConnTypeName = "RpcConn"
 
 var indexRpcConnMethods = map[string]lua.LGFunction{
     "SetResultServer": Register_lua_server_RpcConn_SetResultServer,
+    "IsWebConn": Register_lua_server_RpcConn_IsWebConn,
     "WriteObj": Register_lua_server_RpcConn_Call,
     "Call": Register_lua_server_RpcConn_Call,
 }
@@ -35,24 +36,25 @@ func Register_lua_server_RpcConn_newClass(L *lua.LState) int {
 func Register_lua_server_RpcConn_SetResultServer(L *lua.LState) int {
     ud := L.CheckUserData(1)
     resultServer:= L.CheckString(2)
-    if v, ok := ud.Value.(*server.ProtoBufConn); ok {
-        v.SetResultServer(resultServer)
-    }else if  v, ok := ud.Value.(*server.RpcConn); ok {
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
        (*v).SetResultServer(resultServer)
     }
     return 0
+}
+
+func Register_lua_server_RpcConn_IsWebConn(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
+        L.Push(lua.LBool((*v).IsWebConn()))
+    }
+    return 1
 }
 
 func Register_lua_server_RpcConn_Call(L *lua.LState) int {
     ud := L.CheckUserData(1)
     method := L.CheckString(2)
     buffer := L.CheckString(3)
-    if  v, ok := ud.Value.(*server.ProtoBufConn); ok {
-        err := v.Call(method, []byte(buffer))
-        if err != nil {
-            logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())
-        }
-    }else if  v, ok := ud.Value.(*server.RpcConn); ok {
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
         err := (*v).Call(method,[]byte(buffer))
         if err != nil {
             logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())

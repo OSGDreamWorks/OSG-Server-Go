@@ -6,17 +6,17 @@ option optimize_for = SPEED;
 
 message SC_CheckSessionResult{
 	enum Result {
-		OK = 0;
-		SERVERERROR = 1;
-		USERNOTFOUND = 2;
-		AUTH_FAILED = 3;
-		ISONFIRE = 4;
+		OK = 1;
+		SERVERERROR = 2;
+		USERNOTFOUND = 3;
+		AUTH_FAILED = 4;
+		ISONFIRE = 5;
 	}
 	required Result result = 1 [default = OK];
 	optional uint32 server_time = 2;
 	optional string errmsg = 3;
 }
 
-message CS_PingResult{
+message SC_PingResult{
 	required uint32 server_time = 1;
 }

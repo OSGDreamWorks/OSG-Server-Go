@@ -6,11 +6,11 @@ option optimize_for = SPEED;
 
 message AL_CheckAccountResult{
 	enum Result {
-		OK = 0;
-		SERVERERROR = 1;
-		USERNOTFOUND = 2;
-		AUTH_FAILED = 3;
-		ISONFIRE = 4;
+		OK = 1;
+		SERVERERROR = 2;
+		USERNOTFOUND = 3;
+		AUTH_FAILED = 4;
+		ISONFIRE = 5;
 	}
 	required Result result = 1 [default = OK];
 	required uint32 server_time = 2;

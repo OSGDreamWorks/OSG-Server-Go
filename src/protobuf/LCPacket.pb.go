@@ -74,7 +74,7 @@ type LC_CheckAccountResult struct {
 	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
 	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`
-	Errmsg           *string                       `protobuf:"bytes,5,opt,name=errmsg" json:"errmsg,omitempty"`
+	GameServerIp     *string                       `protobuf:"bytes,5,opt,name=gameServerIp" json:"gameServerIp,omitempty"`
 	XXX_unrecognized []byte                        `json:"-"`
 }
 
@@ -112,9 +112,9 @@ func (m *LC_CheckAccountResult) GetUid() string {
 	return ""
 }
 
-func (m *LC_CheckAccountResult) GetErrmsg() string {
-	if m != nil && m.Errmsg != nil {
-		return *m.Errmsg
+func (m *LC_CheckAccountResult) GetGameServerIp() string {
+	if m != nil && m.GameServerIp != nil {
+		return *m.GameServerIp
 	}
 	return ""
 }
@@ -143,9 +143,9 @@ func (m *LC_CheckAccountResult) SetUid(value string) {
 	}
 }
 
-func (m *LC_CheckAccountResult) SetErrmsg(value string) {
+func (m *LC_CheckAccountResult) SetGameServerIp(value string) {
 	if m != nil {
-		m.Errmsg = &value
+		m.GameServerIp = &value
 	}
 }
 

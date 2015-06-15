@@ -6,8 +6,8 @@ option optimize_for = SPEED;
 
 message LS_UpdatePlayerCountResult{
 	enum Result {
-		OK = 0;
-		SERVERERROR = 1;
+		OK = 1;
+		SERVERERROR = 2;
 	}
 	required Result result = 1 [default = OK];
 	required uint32 server_time = 2;

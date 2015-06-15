@@ -28,7 +28,7 @@ var _ = math.Inf
 type CS_CheckSession struct {
 	Uid              *string `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
 	SessionKey       *string `protobuf:"bytes,2,req,name=sessionKey" json:"sessionKey,omitempty"`
-	CreateTime       *uint32 `protobuf:"varint,3,opt,name=create_time" json:"create_time,omitempty"`
+	Timestamp        *uint32 `protobuf:"varint,3,opt,name=timestamp" json:"timestamp,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -50,9 +50,9 @@ func (m *CS_CheckSession) GetSessionKey() string {
 	return ""
 }
 
-func (m *CS_CheckSession) GetCreateTime() uint32 {
-	if m != nil && m.CreateTime != nil {
-		return *m.CreateTime
+func (m *CS_CheckSession) GetTimestamp() uint32 {
+	if m != nil && m.Timestamp != nil {
+		return *m.Timestamp
 	}
 	return 0
 }
@@ -69,9 +69,9 @@ func (m *CS_CheckSession) SetSessionKey(value string) {
 	}
 }
 
-func (m *CS_CheckSession) SetCreateTime(value uint32) {
+func (m *CS_CheckSession) SetTimestamp(value uint32) {
 	if m != nil {
-		m.CreateTime = &value
+		m.Timestamp = &value
 	}
 }
 

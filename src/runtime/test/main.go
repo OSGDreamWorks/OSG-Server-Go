@@ -9,6 +9,7 @@ import (
     "component/server"
     "reflect"
     "protobuf"
+    "time"
 )
 var (
     gateConfigFile = flag.String("c", "etc/gateserver.json", "config file name for the game server")
@@ -55,46 +56,47 @@ func testLogin() {
     logger.Info("                 %v", info.GetSessionKey())
 
     rpcConn.Close()
-//
-//    time.Sleep(time.Millisecond * 1000)
-//
-//    conn, err = net.Dial("tcp", *info.ServerIp)
-//    if err != nil {
-//        logger.Fatal("%s", err.Error())
-//    }
-//
-//    rpcConn = server.NewTCPSocketConn(nil, conn, 4, 0, 1)
-//
-//    login := &protobuf.Login{}
-//    login.SetPassword("password")
-//    login.SetAccount("account")
-//    rpcConn.Call("Connector.Login", login)
-//
-//    rst = new(server.RequestWrap)
-//    err = rpcConn.ReadRequest(&rst.Request)
-//
-//    // argv guaranteed to be a pointer now.
-//    argv = reflect.New(reflect.TypeOf(protobuf.LoginResult{}))
-//    rpcConn.GetRequestBody(&rst.Request, argv.Interface())
-//    logger.Info("Connector.Login : %v", argv.Interface())
-//    logger.Info("                 %v", &rst.Request)
-//
-//    for i := 0; i < 100; i++ {
-//        time.Sleep(time.Millisecond * 1000)
-//        req := &protobuf.Ping{}
-//        rpcConn.Call("Connector.Ping", req)
-//
-//        rst = new(server.RequestWrap)
-//        err = rpcConn.ReadRequest(&rst.Request)
-//
-//        // argv guaranteed to be a pointer now.
-//        argv = reflect.New(reflect.TypeOf(protobuf.Ping{}))
-//        rpcConn.GetRequestBody(&rst.Request, argv.Interface())
-//        logger.Info("Connector.Ping : %v", argv.Interface())
-//        logger.Info("                 %v", &rst.Request)
-//    }
-//
-//    rpcConn.Close()
+
+    time.Sleep(time.Millisecond * 1000)
+
+    conn, err = net.Dial("tcp", info.GetGameServerIp())
+    if err != nil {
+        logger.Fatal("%s", err.Error())
+    }
+
+    rpcConn = server.NewTCPSocketConn(nil, conn, 4, 0, 1)
+
+    check := &protobuf.CS_CheckSession{}
+    check.SetUid(info.GetUid())
+    check.SetSessionKey(info.GetSessionKey())
+    check.SetTimestamp(uint32(time.Now().Unix()))
+    rpcConn.Call("GameServer.Login", check)
+
+    rst = new(server.RequestWrap)
+    err = rpcConn.ReadRequest(&rst.Request)
+
+    // argv guaranteed to be a pointer now.
+    argv = reflect.New(reflect.TypeOf(protobuf.SC_CheckSessionResult{}))
+    rpcConn.GetRequestBody(&rst.Request, argv.Interface())
+    logger.Info("Connector.Login : %v", argv.Interface())
+    logger.Info("                 %v", &rst.Request)
+
+    for i := 0; i < 100; i++ {
+        time.Sleep(time.Millisecond * 1000)
+        req := &protobuf.CS_Ping{}
+        rpcConn.Call("GameServer.Ping", req)
+
+        rst = new(server.RequestWrap)
+        err = rpcConn.ReadRequest(&rst.Request)
+
+        // argv guaranteed to be a pointer now.
+        argv = reflect.New(reflect.TypeOf(protobuf.SC_PingResult{}))
+        rpcConn.GetRequestBody(&rst.Request, argv.Interface())
+        logger.Info("Connector.Ping : %v", argv.Interface())
+        logger.Info("                 %v", &rst.Request)
+    }
+
+    rpcConn.Close()
 }
 
 func testCommon() {
