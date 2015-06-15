@@ -70,7 +70,7 @@ func testLogin() {
     check.SetUid(info.GetUid())
     check.SetSessionKey(info.GetSessionKey())
     check.SetTimestamp(uint32(time.Now().Unix()))
-    rpcConn.Call("GameServer.Login", check)
+    rpcConn.Call("GameServer.CS_CheckSession", check)
 
     rst = new(server.RequestWrap)
     err = rpcConn.ReadRequest(&rst.Request)
@@ -78,13 +78,13 @@ func testLogin() {
     // argv guaranteed to be a pointer now.
     argv = reflect.New(reflect.TypeOf(protobuf.SC_CheckSessionResult{}))
     rpcConn.GetRequestBody(&rst.Request, argv.Interface())
-    logger.Info("Connector.Login : %v", argv.Interface())
+    logger.Info("GameServer.CS_CheckSession : %v", argv.Interface())
     logger.Info("                 %v", &rst.Request)
 
     for i := 0; i < 100; i++ {
         time.Sleep(time.Millisecond * 1000)
         req := &protobuf.CS_Ping{}
-        rpcConn.Call("GameServer.Ping", req)
+        rpcConn.Call("GameServer.CS_Ping", req)
 
         rst = new(server.RequestWrap)
         err = rpcConn.ReadRequest(&rst.Request)
@@ -92,7 +92,7 @@ func testLogin() {
         // argv guaranteed to be a pointer now.
         argv = reflect.New(reflect.TypeOf(protobuf.SC_PingResult{}))
         rpcConn.GetRequestBody(&rst.Request, argv.Interface())
-        logger.Info("Connector.Ping : %v", argv.Interface())
+        logger.Info("GameServer.CS_Ping : %v", argv.Interface())
         logger.Info("                 %v", &rst.Request)
     }
 

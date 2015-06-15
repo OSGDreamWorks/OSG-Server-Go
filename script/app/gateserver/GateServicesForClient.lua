@@ -6,7 +6,6 @@ local ALPacket_pb = require("ALPacket_pb")
 
 local config = require("script.common.config")
 local logger = require("script.common.logger")
-local common = require("script.common.define")
 
 local GateServicesForClient = {}
 
@@ -32,8 +31,6 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
 
     local checkAccount = CLPacket_pb.CL_CheckAccount()
     checkAccount:ParseFromString(buf)
-    logger.Debug(checkAccount.account)
-    logger.Debug(checkAccount.password)
 
     local rpcCall = LAPacket_pb.LA_CheckAccount()
     rpcCall.account = checkAccount.account
