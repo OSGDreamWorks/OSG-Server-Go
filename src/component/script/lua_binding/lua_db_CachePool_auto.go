@@ -19,6 +19,9 @@ func Register_lua_db_CachePool(L *lua.LState) {
     cache := db.CachePool{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaCachePoolTypeName, cache)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_db_CachePool_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__create", L.NewFunction(Register_lua_db_CachePool_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__cname", lua.LString(luaCachePoolTypeName))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexCachePoolMethods))
     DefaultScript.RegisterGlobalClassEnd(luaCachePoolTypeName)
 }
@@ -46,18 +49,12 @@ func Register_lua_db_CachePool_Do(L *lua.LState) int {
     var err error
     if  v, ok := ud.Value.(*db.CachePool); ok {
         if L.GetTop() == 4 {
-            logger.Debug("Register_lua_db_CachePool_Do 1: %v,%v,%v", ud, cmd, arg1)
             arg2 := L.CheckString(4)
-            logger.Debug("Register_lua_db_CachePool_Do 2: %v,%v,%v,%v", ud, cmd, arg1, arg2)
             value, err = redis.Bytes(v.Do(cmd, arg1, arg2))
         }else {
-            logger.Debug("Register_lua_db_CachePool_Do 3: %v,%v,%v", ud, cmd, arg1)
             value, err = redis.Bytes(v.Do(cmd, arg1))
         }
     }
-
-    logger.Debug("Register_lua_db_CachePool_Do result: %v,%v", value, err)
-
     if err == nil {
         L.Push(lua.LString(string(value)))
         L.Push(lua.LString(""))

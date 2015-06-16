@@ -20,6 +20,9 @@ func Register_lua_server_RpcConn(L *lua.LState) {
     conn := &server.ProtoBufConn{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaRpcConnTypeName, conn)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_server_RpcConn_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__create", L.NewFunction(Register_lua_server_RpcConn_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__cname", lua.LString(luaRpcConnTypeName))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexRpcConnMethods))
     DefaultScript.RegisterGlobalClassEnd(luaRpcConnTypeName)
 }

@@ -71,7 +71,7 @@ func (x *SC_CheckSessionResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type SC_CheckSessionResult struct {
-	Result           *SC_CheckSessionResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.SC_CheckSessionResult_Result,def=1" json:"result,omitempty"`
+	Result           *SC_CheckSessionResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.SC_CheckSessionResult_Result" json:"result,omitempty"`
 	ServerTime       *uint32                       `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
 	Errmsg           *string                       `protobuf:"bytes,3,opt,name=errmsg" json:"errmsg,omitempty"`
 	XXX_unrecognized []byte                        `json:"-"`
@@ -81,13 +81,11 @@ func (m *SC_CheckSessionResult) Reset()         { *m = SC_CheckSessionResult{} }
 func (m *SC_CheckSessionResult) String() string { return proto.CompactTextString(m) }
 func (*SC_CheckSessionResult) ProtoMessage()    {}
 
-const Default_SC_CheckSessionResult_Result SC_CheckSessionResult_Result = SC_CheckSessionResult_OK
-
 func (m *SC_CheckSessionResult) GetResult() SC_CheckSessionResult_Result {
 	if m != nil && m.Result != nil {
 		return *m.Result
 	}
-	return Default_SC_CheckSessionResult_Result
+	return SC_CheckSessionResult_OK
 }
 
 func (m *SC_CheckSessionResult) GetServerTime() uint32 {

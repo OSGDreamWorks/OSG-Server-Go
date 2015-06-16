@@ -8,7 +8,7 @@ import (
 func main() {
 	logger.Info("start login server")
 
-	script.DefaultLuaScript().ExecuteScriptFile("script/runtime/gateserver/main.lua")
+	script.DefaultLuaScript().ExecuteScriptFile("script/runtime/loginserver/main.lua")
 
 	logger.Info("stop login server")
 }

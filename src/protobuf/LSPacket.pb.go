@@ -61,7 +61,7 @@ func (x *LS_UpdatePlayerCountResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type LS_UpdatePlayerCountResult struct {
-	Result           *LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result,def=1" json:"result,omitempty"`
+	Result           *LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result" json:"result,omitempty"`
 	ServerTime       *uint32                            `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	XXX_unrecognized []byte                             `json:"-"`
 }
@@ -70,13 +70,11 @@ func (m *LS_UpdatePlayerCountResult) Reset()         { *m = LS_UpdatePlayerCount
 func (m *LS_UpdatePlayerCountResult) String() string { return proto.CompactTextString(m) }
 func (*LS_UpdatePlayerCountResult) ProtoMessage()    {}
 
-const Default_LS_UpdatePlayerCountResult_Result LS_UpdatePlayerCountResult_Result = LS_UpdatePlayerCountResult_OK
-
 func (m *LS_UpdatePlayerCountResult) GetResult() LS_UpdatePlayerCountResult_Result {
 	if m != nil && m.Result != nil {
 		return *m.Result
 	}
-	return Default_LS_UpdatePlayerCountResult_Result
+	return LS_UpdatePlayerCountResult_OK
 }
 
 func (m *LS_UpdatePlayerCountResult) GetServerTime() uint32 {

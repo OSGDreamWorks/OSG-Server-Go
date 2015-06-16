@@ -21,12 +21,15 @@ func Register_lua_rpc_RpcClient(L *lua.LState) {
     cli := rpc.Client{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaRpcClientTypeName, cli)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_rpc_RpcClient_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__create", L.NewFunction(Register_lua_rpc_RpcClient_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__cname", lua.LString(luaRpcClientTypeName))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexRpcClientMethods))
     DefaultScript.RegisterGlobalClassEnd(luaRpcClientTypeName)
 }
 
 func Register_lua_rpc_RpcClient_newClass(L *lua.LState) int {
-    addr:= L.CheckString(2)
+    addr:= L.CheckString(1)
     rpcConn, err := net.Dial("tcp", addr)
     if err != nil {
         logger.Fatal("connect rpc server failed %s", err.Error())

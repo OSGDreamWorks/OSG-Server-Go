@@ -12,7 +12,7 @@ message SC_CheckSessionResult{
 		AUTH_FAILED = 4;
 		ISONFIRE = 5;
 	}
-	required Result result = 1 [default = OK];
+	required Result result = 1;
 	optional uint32 server_time = 2;
 	optional string errmsg = 3;
 }

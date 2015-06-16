@@ -71,6 +71,10 @@ func (self *LuaScript) RegisterGlobalClassFunction(mt *lua.LTable, fun string, v
     self.state.SetField(mt, fun, v)
 }
 
+func (self *LuaScript) RegisterGlobalClassField(mt *lua.LTable, fun string, v lua.LValue) {
+    self.state.SetField(mt, fun, v)
+}
+
 func (self *LuaScript) RegisterGlobalClassEnd(name string) {
 }
 

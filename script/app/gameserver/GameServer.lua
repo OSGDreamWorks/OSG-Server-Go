@@ -5,22 +5,22 @@ local SCPacket_pb = require("SCPacket_pb")
 local config = require("script.common.config")
 local logger = require("script.common.logger")
 
-local GameServices = {}
+local GameServer = class("GameServer")
 
-GameServices.name = "GameServer"
+function GameServer:CreateServices(cfg)
 
-function GameServices:CreateServices(cfg)
+    local class = self.class
 
-    self.mainCache = CachePool:new("etc/maincache.json")
+    class.mainCache = CachePool:new("etc/maincache.json")
 
-    self.loginServer = Server:new()
-    self.loginServer:Register(self)
+    class.loginServer = Server:new()
+    class.loginServer:Register(class)
 
-    self.loginServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
+    class.loginServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
 
 end
 
-function GameServices:CS_CheckSession(conn, buf)
+function GameServer:CS_CheckSession(conn, buf)
 
     local checkSession = CSPacket_pb.CS_CheckSession()
     checkSession:ParseFromString(buf)
@@ -42,7 +42,7 @@ function GameServices:CS_CheckSession(conn, buf)
 
 end
 
-function GameServices:CS_Ping(conn, buf)
+function GameServer:CS_Ping(conn, buf)
 
     local pingResult = SCPacket_pb.SC_PingResult()
     pingResult.server_time = os.time()
@@ -50,4 +50,4 @@ function GameServices:CS_Ping(conn, buf)
 
 end
 
-return GameServices
+return GameServer

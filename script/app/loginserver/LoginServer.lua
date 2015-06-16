@@ -7,27 +7,27 @@ local ALPacket_pb = require("ALPacket_pb")
 local config = require("script.common.config")
 local logger = require("script.common.logger")
 
-local GateServicesForClient = {}
+local LoginServer = class("LoginServer")
 
-GateServicesForClient.name = "LoginServer"
+function LoginServer:CreateServices(cfg)
 
-function GateServicesForClient:CreateServices(cfg)
+    local class = self.class
 
-    self.loginServer = Server:new()
-    self.loginServer:Register(self)
+    class.loginServer = Server:new()
+    class.loginServer:Register(class)
 
     local authCfg = config.ReadConfig("etc/authserver.json")
-    self.authServer = RpcClient:new(authCfg.AuthHost)
+    class.authServer = RpcClient.new(authCfg.AuthHost)
 
     local gameCfg = config.ReadConfig("etc/gameserver.json")
-    self.stableTcpServer = gameCfg.TcpHost
-    self.stableHttpServer = gameCfg.HttpHost
+    class.stableTcpServer = gameCfg.TcpHost
+    class.stableHttpServer = gameCfg.HttpHost
 
-    self.loginServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
+    class.loginServer:ListenAndServe(cfg.TcpHostForClient, cfg.HttpHostForClient)
 
 end
 
-function GateServicesForClient:CL_CheckAccount(conn, buf)
+function LoginServer:CL_CheckAccount(conn, buf)
 
     local checkAccount = CLPacket_pb.CL_CheckAccount()
     checkAccount:ParseFromString(buf)
@@ -69,4 +69,4 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
 
 end
 
-return GateServicesForClient
+return LoginServer

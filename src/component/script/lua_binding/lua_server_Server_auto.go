@@ -13,6 +13,9 @@ func Register_lua_server_Server(L *lua.LState) {
     svc := &server.Server{}
     mt := DefaultScript.RegisterGlobalClassBegin(luaServerTypeName, svc)
     DefaultScript.RegisterGlobalClassFunction(mt, "new", L.NewFunction(Register_lua_server_Server_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__create", L.NewFunction(Register_lua_server_Server_newClass))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__cname", lua.LString(luaServerTypeName))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexServerMethods))
     DefaultScript.RegisterGlobalClassEnd(luaServerTypeName)
 }

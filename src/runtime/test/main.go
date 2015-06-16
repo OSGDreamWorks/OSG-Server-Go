@@ -12,7 +12,7 @@ import (
     "time"
 )
 var (
-    gateConfigFile = flag.String("c", "etc/gateserver.json", "config file name for the game server")
+    gateConfigFile = flag.String("c", "etc/loginserver.json", "config file name for the game server")
     svrConfigFile = flag.String("g", "etc/gameserver.json", "config file name for the fight server")
 )
 
@@ -51,7 +51,7 @@ func testLogin() {
 
     info := argv.Interface().(*protobuf.LC_CheckAccountResult)
 
-    logger.Info("Connector Info : %v", argv.Interface())
+    logger.Info("LoginServer Info : %v", argv.Interface())
     logger.Info("                 %v", &rst.Request)
     logger.Info("                 %v", info.GetSessionKey())
 

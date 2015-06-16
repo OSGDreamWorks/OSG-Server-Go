@@ -70,7 +70,7 @@ func (x *AL_CheckAccountResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type AL_CheckAccountResult struct {
-	Result           *AL_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.AL_CheckAccountResult_Result,def=1" json:"result,omitempty"`
+	Result           *AL_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.AL_CheckAccountResult_Result" json:"result,omitempty"`
 	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
 	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`
@@ -82,13 +82,11 @@ func (m *AL_CheckAccountResult) Reset()         { *m = AL_CheckAccountResult{} }
 func (m *AL_CheckAccountResult) String() string { return proto.CompactTextString(m) }
 func (*AL_CheckAccountResult) ProtoMessage()    {}
 
-const Default_AL_CheckAccountResult_Result AL_CheckAccountResult_Result = AL_CheckAccountResult_OK
-
 func (m *AL_CheckAccountResult) GetResult() AL_CheckAccountResult_Result {
 	if m != nil && m.Result != nil {
 		return *m.Result
 	}
-	return Default_AL_CheckAccountResult_Result
+	return AL_CheckAccountResult_OK
 }
 
 func (m *AL_CheckAccountResult) GetServerTime() uint32 {

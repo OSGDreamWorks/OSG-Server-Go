@@ -13,4 +13,6 @@ local LAPacket_pb = require("script.protobuf.ALPacket_pb")
 local SLPacket_pb = require("script.protobuf.SLPacket_pb")
 local SLPacket_pb = require("script.protobuf.LSPacket_pb")
 --加载osg模块
-local osg = require("osg")
+require("osg")
+--加载lua扩展函数
+require("script.runtime.extern")

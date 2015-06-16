@@ -139,7 +139,7 @@ func (server *Server) RegisterFromLua(rcvr *lua.LTable) error {
 	rcvr.ForEach(func(key, value lua.LValue) {
 		switch k := key.(type) {
 			case lua.LString:
-				if string(k) == "name" {
+				if string(k) == "__cname" {
 					sname = value.String()
 				}
 		}
@@ -221,6 +221,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 	if typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
 
 		rcvr.(*lua.LTable).ForEach(func(key, value lua.LValue) {
+			//logger.Debug("ForEach LTable :%v, %v", key, value)
 			if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
 				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
 

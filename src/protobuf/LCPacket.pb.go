@@ -70,7 +70,7 @@ func (x *LC_CheckAccountResult_Result) UnmarshalJSON(data []byte) error {
 }
 
 type LC_CheckAccountResult struct {
-	Result           *LC_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LC_CheckAccountResult_Result,def=1" json:"result,omitempty"`
+	Result           *LC_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LC_CheckAccountResult_Result" json:"result,omitempty"`
 	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
 	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
 	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`
@@ -82,13 +82,11 @@ func (m *LC_CheckAccountResult) Reset()         { *m = LC_CheckAccountResult{} }
 func (m *LC_CheckAccountResult) String() string { return proto.CompactTextString(m) }
 func (*LC_CheckAccountResult) ProtoMessage()    {}
 
-const Default_LC_CheckAccountResult_Result LC_CheckAccountResult_Result = LC_CheckAccountResult_OK
-
 func (m *LC_CheckAccountResult) GetResult() LC_CheckAccountResult_Result {
 	if m != nil && m.Result != nil {
 		return *m.Result
 	}
-	return Default_LC_CheckAccountResult_Result
+	return LC_CheckAccountResult_OK
 }
 
 func (m *LC_CheckAccountResult) GetServerTime() uint32 {

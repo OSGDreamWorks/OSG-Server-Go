@@ -15,6 +15,9 @@ func RegisterPbModule(L *lua.LState) int {
     logger.Debug("pb module Loader")
 
     mt := DefaultScript.RegisterGlobalClassBegin(luaIOStringTypeName, &IOString{})
+    DefaultScript.RegisterGlobalClassFunction(mt, "__create", L.NewFunction(new_iostring))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__cname", lua.LString(luaIOStringTypeName))
+    DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexIOStringMethods))
     DefaultScript.RegisterGlobalClassEnd(luaIOStringTypeName)
 
