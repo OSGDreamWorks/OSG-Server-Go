@@ -5,7 +5,13 @@ local SCPacket_pb = require("SCPacket_pb")
 local config = require("script.common.config")
 local logger = require("script.common.logger")
 
-local GameServer = class("GameServer")
+local Player = import(".Player")
+
+local GameServer = class("GameServer", osg.mvc.AppBase)
+
+function GameServer:ctor(appName)
+    GameServer.super.ctor(self, appName)
+end
 
 function GameServer:CreateServices(cfg)
 
@@ -17,6 +23,9 @@ function GameServer:CreateServices(cfg)
     class.loginServer:Register(class)
 
     class.loginServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
+
+    local p = Player.new()
+    --logger.Dump(p.info_.uid)
 
 end
 

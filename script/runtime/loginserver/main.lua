@@ -7,7 +7,7 @@ local LoginServer = require("script.app.loginserver.LoginServer")
 
 local cfg = config.ReadConfig("etc/loginserver.json")
 
-local loginServices = LoginServer.new()
+local loginServices = LoginServer.new("LoginServer")
 loginServices:CreateServices(cfg)
 
 common.WatchSystemSignal()

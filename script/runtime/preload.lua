@@ -16,3 +16,7 @@ local SLPacket_pb = require("script.protobuf.LSPacket_pb")
 require("osg")
 --º”‘ÿlua¿©’π∫Ø ˝
 require("script.runtime.extern")
+
+-- load MVC
+osg = osg or {}
+osg.mvc = import("script.component.mvc.init")

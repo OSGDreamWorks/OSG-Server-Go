@@ -7,7 +7,11 @@ local ALPacket_pb = require("ALPacket_pb")
 local config = require("script.common.config")
 local logger = require("script.common.logger")
 
-local LoginServer = class("LoginServer")
+local LoginServer = class("LoginServer", osg.mvc.AppBase)
+
+function LoginServer:ctor(appName)
+    LoginServer.super.ctor(self, appName)
+end
 
 function LoginServer:CreateServices(cfg)
 
