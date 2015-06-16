@@ -5,13 +5,13 @@ import (
     "common/logger"
     "component/db"
     "common/config"
+    "github.com/garyburd/redigo/redis"
 )
 
 const luaCachePoolTypeName = "CachePool"
 
 var indexCachePoolMethods = map[string]lua.LGFunction{
-    "Call": Register_lua_rpc_RpcClient_Call,
-    "Close": Register_lua_rpc_RpcClient_Close,
+    "Do": Register_lua_db_CachePool_Do,
 }
 
 func Register_lua_db_CachePool(L *lua.LState) {
@@ -29,10 +29,48 @@ func Register_lua_db_CachePool_newClass(L *lua.LState) int {
     if err := config.ReadConfig(cfg, &cacheCfg); err != nil {
         logger.Fatal("load config failed, error is: %v", err)
     }
+    logger.Info("Init Cache %v", cacheCfg)
     cache := db.NewCachePool(cacheCfg)
     ud := L.NewUserData()
     ud.Value = cache
     L.SetMetatable(ud, L.GetTypeMetatable(luaCachePoolTypeName))
     L.Push(ud)
     return 1
+}
+
+func Register_lua_db_CachePool_Do(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    cmd:= L.CheckString(2)
+    arg1:= L.CheckString(3)
+    var value []byte
+    var err error
+    if  v, ok := ud.Value.(*db.CachePool); ok {
+        if L.GetTop() == 4 {
+            logger.Debug("Register_lua_db_CachePool_Do 1: %v,%v,%v", ud, cmd, arg1)
+            arg2 := L.CheckString(4)
+            logger.Debug("Register_lua_db_CachePool_Do 2: %v,%v,%v,%v", ud, cmd, arg1, arg2)
+            value, err = redis.Bytes(v.Do(cmd, arg1, arg2))
+        }else {
+            logger.Debug("Register_lua_db_CachePool_Do 3: %v,%v,%v", ud, cmd, arg1)
+            value, err = redis.Bytes(v.Do(cmd, arg1))
+        }
+    }
+
+    logger.Debug("Register_lua_db_CachePool_Do result: %v,%v", value, err)
+
+    if err == nil {
+        L.Push(lua.LString(string(value)))
+        L.Push(lua.LString(""))
+    }else{
+        if err != nil {
+            L.Push(lua.LString(""))
+            L.Push(lua.LString(err.Error()))
+        }else {
+            L.Push(lua.LString(""))
+            L.Push(lua.LString("not string type value"))
+        }
+        logger.Error("Register_lua_db_CachePool_Do Error : %v, %v", value, err)
+    }
+
+    return 2
 }

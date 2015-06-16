@@ -11,6 +11,8 @@ GameServices.name = "GameServer"
 
 function GameServices:CreateServices(cfg)
 
+    self.mainCache = CachePool:new("etc/maincache.json")
+
     self.loginServer = Server:new()
     self.loginServer:Register(self)
 
@@ -23,12 +25,18 @@ function GameServices:CS_CheckSession(conn, buf)
     local checkSession = CSPacket_pb.CS_CheckSession()
     checkSession:ParseFromString(buf)
 
-    logger.Debug(checkSession.uid)
-    logger.Debug(checkSession.sessionKey)
-
     local checkSessionResult = SCPacket_pb.SC_CheckSessionResult()
-    checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
+    checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.SERVERERROR
     checkSessionResult.server_time = os.time()
+
+    if string.len(checkSession.uid) > 0 then
+        local sid, err = self.mainCache:Do("GET", checkSession.uid)
+        if string.len(err) == 0  and sid == checkSession.sessionKey then
+            checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
+        else
+            checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.AUTH_FAILED
+        end
+    end
 
     conn:WriteObj("protobuf.SC_CheckSessionResult", checkSessionResult:SerializeToString())
 

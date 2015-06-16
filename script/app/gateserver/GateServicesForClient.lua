@@ -38,8 +38,6 @@ function GateServicesForClient:CL_CheckAccount(conn, buf)
 
     local rep = self.authServer:Call("AuthServer.LA_CheckAccount", rpcCall:SerializeToString(), "", "LA_CheckAccount", "AL_CheckAccountResult")
 
-    logger.DumpString(rep)
-
     local rpcResult = ALPacket_pb.AL_CheckAccountResult()
 
     local checkAccountResult = LCPacket_pb.LC_CheckAccountResult()

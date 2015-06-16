@@ -69,10 +69,14 @@ func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 	db.Init()
 
 	//初始化cache
-	logger.Info("Init Cache %v", cfg.MainCacheProfile)
+	var cacheCfg config.CacheConfig
+	if err := config.ReadConfig("etc/maincache.json", &cacheCfg); err != nil {
+		logger.Fatal("load config failed, error is: %v", err)
+	}
+	logger.Info("Init Cache %v", cacheCfg)
 
 	server = &AuthServer{
-		maincache : db.NewCachePool(cfg.MainCacheProfile),
+		maincache : db.NewCachePool(cacheCfg),
 		exit:        make(chan bool),
 	}
 
@@ -127,7 +131,7 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 		logger.Info("Auth Account find")
 	}
 
-	self.maincache.Do("SET", uid, account.GetSessionKey())
+	self.maincache.Do("SET", uid, []byte(account.GetSessionKey()))
 
 	ret.SetResult(protobuf.AL_CheckAccountResult_OK)
 	ret.SetServerTime(uint32(time.Now().Unix()))
