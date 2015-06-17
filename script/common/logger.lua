@@ -1,7 +1,21 @@
 -- logger
-local logger = {}
 
-logger.Dump = function(...)
+local ipairs = ipairs
+local type = type
+local table = table
+local pairs = pairs
+local pairs = pairs
+local tostring = tostring
+local next = next
+
+local print = print
+local os = os
+local string = string
+local debug = debug
+
+module('logger')
+
+Dump = function(...)
 	local arg = {...}
 	local root = {}
 	for k,v in ipairs(arg) do
@@ -34,7 +48,7 @@ logger.Dump = function(...)
 	print(_dump(root, "",""))
 end
 
-logger.DumpString = function(v)
+DumpString = function(v)
 
 	if type(v) == "string" then
 		local info = ""
@@ -47,22 +61,20 @@ logger.DumpString = function(v)
 
 end
 
-logger.Debug = function(...)
+Debug = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Debug: [Lua] "..string.format(...))
 end
-logger.Info = function(...)
+Info = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Info: [Lua] "..string.format(...))
 end
-logger.Warning = function(...)
+Warning = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Warning: [Lua] "..string.format(...))
 end
-logger.Error = function(...)
+Error = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Error: [Lua] "..string.format(...))
 end
-logger.Fatal = function(...)
+Fatal = function(...)
     print(os.date("%Y/%m/%d %H:%M:%S").." Fatal: [Lua] "..string.format(...))
 	debug.traceback()
 	os.exit(1)
 end
-
-return logger

@@ -14,6 +14,7 @@ func RegisterOsgModule(L *lua.LState) int {
     logger.Debug("osg module Loader")
     Register_lua_json(L)
     Register_lua_common(L)
+    Register_lua_db(L)
     Register_lua_db_CachePool(L)
     Register_lua_rpc_RpcClient(L)
     Register_lua_rpc_RpcServer(L)

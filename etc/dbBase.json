@@ -31,7 +31,7 @@
     ]
   },
   "tables" : {
-    "PlayerInfo" : {
+    "PlayerBaseInfo" : {
       "cache-profile" : "main",
       "db-profile" : "main",
       "expiry" : 0

@@ -76,6 +76,7 @@ type RequestWrap struct {
 // Server represents an RPC Server.
 type Server struct {
 	mu           sync.RWMutex // protects the serviceMap
+	l            sync.RWMutex // protects the script Map foe example lua script
 	serviceMap   map[string]*service
 	id           uint64
 	connMap      map[uint64]RpcConn
@@ -576,6 +577,14 @@ func (server *Server) getRequest() *RequestWrap {
 
 func (server *Server) freeRequest(req *RequestWrap) {
 	req = nil
+}
+
+func (server *Server) Lock() {
+	server.l.Lock()
+}
+
+func (server *Server) Unlock() {
+	server.l.Unlock()
 }
 
 type RpcConn interface {

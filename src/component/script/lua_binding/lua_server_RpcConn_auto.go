@@ -13,6 +13,7 @@ var indexRpcConnMethods = map[string]lua.LGFunction{
     "IsWebConn": Register_lua_server_RpcConn_IsWebConn,
     "WriteObj": Register_lua_server_RpcConn_Call,
     "Call": Register_lua_server_RpcConn_Call,
+    "GetId": Register_lua_server_RpcConn_GetId,
 }
 
 func Register_lua_server_RpcConn(L *lua.LState) {
@@ -64,5 +65,14 @@ func Register_lua_server_RpcConn_Call(L *lua.LState) int {
         }
     }
     return 0
+}
+
+func Register_lua_server_RpcConn_GetId(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
+        cid := (*v).GetId()
+        L.Push(lua.LNumber(cid))
+    }
+    return 1
 }
 

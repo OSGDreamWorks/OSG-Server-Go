@@ -1,13 +1,14 @@
 --¼ÓÔØprotobufÄ£¿é
-local CLPacket_pb = require("CLPacket_pb")
-local LCPacket_pb = require("LCPacket_pb")
-local LAPacket_pb = require("LAPacket_pb")
-local ALPacket_pb = require("ALPacket_pb")
+local CLPacket_pb = import("CLPacket_pb")
+local LCPacket_pb = import("LCPacket_pb")
+local LAPacket_pb = import("LAPacket_pb")
+local ALPacket_pb = import("ALPacket_pb")
 
-local config = require("script.common.config")
-local logger = require("script.common.logger")
+local common = import("common")
+local logger = import("logger")
+local mvc = import("mvc")
 
-local LoginServer = class("LoginServer", osg.mvc.AppBase)
+local LoginServer = class("LoginServer", mvc.AppBase)
 
 function LoginServer:ctor(appName)
     LoginServer.super.ctor(self, appName)
@@ -20,10 +21,10 @@ function LoginServer:CreateServices(cfg)
     class.loginServer = Server:new()
     class.loginServer:Register(class)
 
-    local authCfg = config.ReadConfig("etc/authserver.json")
+    local authCfg = common.config.ReadConfig("etc/authserver.json")
     class.authServer = RpcClient.new(authCfg.AuthHost)
 
-    local gameCfg = config.ReadConfig("etc/gameserver.json")
+    local gameCfg = common.config.ReadConfig("etc/gameserver.json")
     class.stableTcpServer = gameCfg.TcpHost
     class.stableHttpServer = gameCfg.HttpHost
 

@@ -1,13 +1,15 @@
 --加载protobuf模块
-local CSPacket_pb = require("CSPacket_pb")
-local SCPacket_pb = require("SCPacket_pb")
+local CSPacket_pb = import("CSPacket_pb")
+local SCPacket_pb = import("SCPacket_pb")
+local XShare_Logic_pb = import("XShare_Logic_pb")
 
-local config = require("script.common.config")
-local logger = require("script.common.logger")
+local db = import("db")
+local logger = import("logger")
+local mvc = import("mvc")
 
 local Player = import(".Player")
 
-local GameServer = class("GameServer", osg.mvc.AppBase)
+local GameServer = class("GameServer", mvc.AppBase)
 
 function GameServer:ctor(appName)
     GameServer.super.ctor(self, appName)
@@ -17,15 +19,16 @@ function GameServer:CreateServices(cfg)
 
     local class = self.class
 
+    --初始化DB
+    db.Init()
+
+    --初始化Cache
     class.mainCache = CachePool:new("etc/maincache.json")
 
     class.loginServer = Server:new()
     class.loginServer:Register(class)
 
     class.loginServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
-
-    local p = Player.new()
-    --logger.Dump(p.info_.uid)
 
 end
 
@@ -42,6 +45,29 @@ function GameServer:CS_CheckSession(conn, buf)
         local sid, err = self.mainCache:Do("GET", checkSession.uid)
         if string.len(err) == 0  and sid == checkSession.sessionKey then
             checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
+            --登陆成功
+            local info_buf, result, err = db.Query("PlayerBaseInfo", checkSession.uid, "")
+            if result == false then
+                local playerBaseInfo = XShare_Logic_pb.PlayerBaseInfo()
+                playerBaseInfo.uid = checkSession.uid
+                playerBaseInfo.stat.name = "name"
+                playerBaseInfo.stat.level = 1
+                info_buf = playerBaseInfo:SerializeToString()
+                result, err = db.Write("PlayerBaseInfo",checkSession.uid,info_buf)
+            end
+
+            if string.len(err) == 0 and string.len(info_buf) > 0 then
+
+                local playerBaseInfo = XShare_Logic_pb.PlayerBaseInfo()
+                playerBaseInfo:ParseFromString(info_buf)
+                local player = Player.new({info = playerBaseInfo})
+                --self:addPlayer(conn:GetId(), player)
+
+            else
+                --查询或创建角色失败
+                checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.SERVERERROR
+            end
+
         else
             checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.AUTH_FAILED
         end

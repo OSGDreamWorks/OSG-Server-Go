@@ -1,8 +1,7 @@
+local appBase = import(".AppBase")
+local modelBase = import(".ModelBase")
 
--- init MVC
-local mvc = {}
+module('mvc')
 
-mvc.AppBase = import(".AppBase")
-mvc.ModelBase = import(".ModelBase")
-
-return mvc
+AppBase = appBase
+ModelBase = modelBase

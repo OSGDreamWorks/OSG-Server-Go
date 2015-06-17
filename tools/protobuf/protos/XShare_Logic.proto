@@ -8,11 +8,15 @@ option optimize_for = SPEED;
 //============================================
 
 
-message PlayerInfo{
+message StatusInfo{
+    optional string name = 1;			//名字
+    optional uint32 level = 2;			//等级
+    optional uint32 experience = 3;		//经验
+    optional uint32 gender = 4;			//性别
+    optional uint32 headIcon = 5;		//头像id
+}
+
+message PlayerBaseInfo{
     required string uid = 1;
-    required bytes stat = 2;				//状态
-    optional bytes bp = 3;					//基础属性
-    optional bytes property = 4;			//属性
-	optional bytes revise = 5;				//修正值
-	optional bytes against = 6;				//抗性
+    required StatusInfo stat = 2;				//状态
 }

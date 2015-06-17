@@ -8,6 +8,14 @@ import (
 
 const luaServerTypeName = "Server"
 
+var indexServerMethods = map[string]lua.LGFunction{
+    "Register": Register_lua_server_Server_Register,
+    "ListenAndServe": Register_lua_server_Server_ListenAndServe,
+    "ServeConn": Register_lua_server_Server_ServeConn,
+    "Lock": Register_lua_server_Server_Lock,
+    "Unlock": Register_lua_server_Server_Unlock,
+}
+
 func Register_lua_server_Server(L *lua.LState) {
     logger.Debug("Register_server_%s", luaServerTypeName)
     svc := &server.Server{}
@@ -18,12 +26,6 @@ func Register_lua_server_Server(L *lua.LState) {
     DefaultScript.RegisterGlobalClassFunction(mt, "__ctype", lua.LNumber(1))
     DefaultScript.RegisterGlobalClassFunction(mt, "__index", L.SetFuncs(L.NewTable(), indexServerMethods))
     DefaultScript.RegisterGlobalClassEnd(luaServerTypeName)
-}
-
-var indexServerMethods = map[string]lua.LGFunction{
-    "Register": Register_lua_server_Server_Register,
-    "ListenAndServe": Register_lua_server_Server_ListenAndServe,
-    "ServeConn": Register_lua_server_Server_ServeConn,
 }
 
 func Register_lua_server_Server_newClass(L *lua.LState) int {
@@ -62,6 +64,23 @@ func Register_lua_server_Server_ServeConn(L *lua.LState) int {
         if c, ok := arg.Value.(*server.RpcConn); ok{
             v.ServeConn(*c)
         }
+    }
+    return 0
+}
+
+func Register_lua_server_Server_Lock(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if v, ok := ud.Value.(*server.Server); ok {
+        v.Lock()
+    }
+    return 0
+}
+
+
+func Register_lua_server_Server_Unlock(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if v, ok := ud.Value.(*server.Server); ok {
+        v.Unlock()
     }
     return 0
 }
