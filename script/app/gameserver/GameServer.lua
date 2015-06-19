@@ -1,6 +1,9 @@
 --加载protobuf模块
 local CSPacket_pb = import("CSPacket_pb")
 local SCPacket_pb = import("SCPacket_pb")
+local SLPacket_pb = import("SLPacket_pb")
+local LSPacket_pb = import("LSPacket_pb")
+
 local XShare_Logic_pb = import("XShare_Logic_pb")
 
 local db = import("db")
@@ -25,10 +28,31 @@ function GameServer:CreateServices(cfg)
     --初始化Cache
     class.mainCache = CachePool:new("etc/maincache.json")
 
-    class.loginServer = Server:new()
-    class.loginServer:Register(class)
+    --
+    local loginCfg = common.config.ReadConfig("etc/loginserver.json")
+    class.loginServer = RpcClient.new(loginCfg.LoginHost)
 
-    class.loginServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
+    class.gameServer = Server:new()
+    class.gameServer:Register(class)
+
+    class.gameServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
+
+    local updatePlayerCount = function()
+        local rpcCall = SLPacket_pb.SL_UpdatePlayerCount()
+        rpcCall.ServerId = 1
+        rpcCall.PlayerCount = 0
+        rpcCall.TcpServerIp = cfg.TcpHost
+        rpcCall.HttpServerIp = cfg.HttpHost
+        logger.Debug("updatePlayerCount : %d, %d, %s, %s", rpcCall.ServerId, rpcCall.PlayerCount, rpcCall.TcpServerIp, rpcCall.HttpServerIp)
+        if class.loginServer ~= nil then
+            local rep = class.loginServer:Call("LoginServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
+            local rpcResult = LSPacket_pb.LS_UpdatePlayerCountResult()
+            rpcResult:ParseFromString(rep)
+            logger.Debug("server_time %d", rpcResult.server_time)
+        end
+    end
+
+    common.SetInterval("updatePlayerCount", 5, updatePlayerCount)
 
 end
 

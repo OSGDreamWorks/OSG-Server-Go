@@ -13,6 +13,8 @@ import (
 	"sync"
 	"unicode"
 	"unicode/utf8"
+	"github.com/yuin/gopher-lua"
+	"common/logger"
 )
 
 const (
@@ -32,6 +34,7 @@ type methodType struct {
 	ReplyType   reflect.Type
 	ContextType reflect.Type
 	stream      bool
+	luaFn	   *lua.LFunction
 	numCalls    uint
 }
 
@@ -70,11 +73,13 @@ const lastStreamResponseError = "EOS"
 // Server represents an RPC Server.
 type Server struct {
 	mu         sync.Mutex // protects the serviceMap
+	l          sync.RWMutex // protects the script Map foe example lua script
 	serviceMap map[string]*service
 	reqLock    sync.Mutex // protects freeReq
 	freeReq    *Request
 	respLock   sync.Mutex // protects freeResp
 	freeResp   *Response
+	state      *lua.LState
 }
 
 // NewServer returns a new Server.
@@ -101,6 +106,10 @@ func isExportedOrBuiltinType(t reflect.Type) bool {
 	return isExported(t.Name()) || t.PkgPath() == ""
 }
 
+func (server *Server) SetLuaState(s *lua.LState) {
+	server.state = s
+}
+
 // Register publishes in the server the set of methods of the
 // receiver value that satisfy the following conditions:
 //	- exported method
@@ -118,6 +127,19 @@ func (server *Server) Register(rcvr interface{}) error {
 // instead of the receiver's concrete type.
 func (server *Server) RegisterName(name string, rcvr interface{}) error {
 	return server.register(rcvr, name, true)
+}
+
+func (server *Server) RegisterFromLua(rcvr *lua.LTable) error {
+	sname := ""
+	rcvr.ForEach(func(key, value lua.LValue) {
+		switch k := key.(type) {
+			case lua.LString:
+			if string(k) == "__cname" {
+				sname = value.String()
+			}
+		}
+	})
+	return server.register(rcvr, sname, sname!="")
 }
 
 // prepareMethod returns a methodType for the provided method or nil
@@ -145,6 +167,86 @@ func prepareMethod(method reflect.Method) *methodType {
 		replyType = mtype.In(3)
 		contextType = mtype.In(1)
 	default:
+		log.Println("method", mname, "has wrong number of ins:", mtype.NumIn())
+		return nil
+	}
+
+	// First arg need not be a pointer.
+	if !isExportedOrBuiltinType(argType) {
+		log.Println(mname, "argument type not exported:", argType)
+		return nil
+	}
+
+	// the second argument will tell us if it's a streaming call
+	// or a regular call
+	if replyType.Kind() == reflect.Func {
+		// this is a streaming call
+		stream = true
+		if replyType.NumIn() != 1 {
+			log.Println("method", mname, "sendReply has wrong number of ins:", replyType.NumIn())
+			return nil
+		}
+		if replyType.In(0).Kind() != reflect.Interface {
+			log.Println("method", mname, "sendReply parameter type not an interface:", replyType.In(0))
+			return nil
+		}
+		if replyType.NumOut() != 1 {
+			log.Println("method", mname, "sendReply has wrong number of outs:", replyType.NumOut())
+			return nil
+		}
+		if returnType := replyType.Out(0); returnType != typeOfError {
+			log.Println("method", mname, "sendReply returns", returnType.String(), "not error")
+			return nil
+		}
+
+	} else if replyType.Kind() != reflect.Ptr {
+		log.Println("method", mname, "reply type not a pointer:", replyType)
+		return nil
+	}
+
+	// Reply type must be exported.
+	if !isExportedOrBuiltinType(replyType) {
+		log.Println("method", mname, "reply type not exported:", replyType)
+		return nil
+	}
+	// Method needs one out.
+	if mtype.NumOut() != 1 {
+		log.Println("method", mname, "has wrong number of outs:", mtype.NumOut())
+		return nil
+	}
+	// The return type of the method must be error.
+	if returnType := mtype.Out(0); returnType != typeOfError {
+		log.Println("method", mname, "returns", returnType.String(), "not error")
+		return nil
+	}
+	return &methodType{method: method, ArgType: argType, ReplyType: replyType, ContextType: contextType, stream: stream}
+}
+
+// prepareMethod returns a methodType for the provided method or nil
+// in case if the method was unsuitable.
+func prepareLuaMethod(method reflect.Method) *methodType {
+	mtype := method.Type
+	mname := method.Name
+	var replyType, argType, contextType reflect.Type
+
+	stream := false
+	// Method must be exported.
+	if method.PkgPath != "" {
+		return nil
+	}
+
+	switch mtype.NumIn() {
+		case 4:
+		// normal method
+		argType = mtype.In(1)
+		replyType = mtype.In(2)
+		contextType = nil
+		case 5:
+		// method that takes a context
+		argType = mtype.In(2)
+		replyType = mtype.In(3)
+		contextType = mtype.In(1)
+		default:
 		log.Println("method", mname, "has wrong number of ins:", mtype.NumIn())
 		return nil
 	}
@@ -228,10 +330,31 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	s.method = make(map[string]*methodType)
 
 	// Install the methods
-	for m := 0; m < s.typ.NumMethod(); m++ {
-		method := s.typ.Method(m)
-		if mt := prepareMethod(method); mt != nil {
-			s.method[method.Name] = mt
+
+	if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+		rcvr.(*lua.LTable).ForEach(func(key, value lua.LValue) {
+			//logger.Debug("ForEach LTable :%v, %v", key, value)
+			if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
+				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
+
+				if !ok {
+					logger.Debug("regist MethodByName error :%v", key.String())
+				}
+
+				if mt := prepareLuaMethod(method); mt != nil {
+					mt.luaFn = value.(*lua.LFunction)
+					s.method[key.String()] = mt
+				}
+
+				logger.Debug("regist %v", key.String())
+			}
+		})
+	}else {
+		for m := 0; m < s.typ.NumMethod(); m++ {
+			method := s.typ.Method(m)
+			if mt := prepareMethod(method); mt != nil {
+				s.method[method.Name] = mt
+			}
 		}
 	}
 
@@ -242,6 +365,48 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	}
 	server.serviceMap[s.name] = s
 	return nil
+}
+
+func (server *Server) CallLua(req *[]byte, ret *[]byte, method string) (err error) {
+	logger.Debug("CallLua %v", method)
+
+	serviceMethod := strings.Split(method, ".")
+	if len(serviceMethod) != 2 {
+		err = errors.New("CallLua: service/method request ill-formed: " + method)
+		return
+	}
+
+	// Look up the request.
+	server.mu.Lock()
+	service := server.serviceMap[serviceMethod[0]]
+	server.mu.Unlock()
+	if service == nil {
+		err = errors.New("CallLua: can't find service " + method)
+		return
+	}
+
+	mtype := service.method[serviceMethod[1]]
+	if mtype == nil {
+		err = errors.New("CallLua: can't find method " + method)
+		return
+	}
+
+	err2 := server.state.CallByParam(lua.P{
+		Fn: mtype.luaFn,
+		NRet: 1,
+		Protect: true,
+	}, service.rcvr.Interface().(*lua.LTable), lua.LString(string(*req)), lua.LString(string(*ret)))
+
+	if err2 !=nil {
+		logger.Error("CallLua Error : %s", err2.Error())
+	}
+
+	returnRsult := server.state.CheckString(-1)
+	server.state.Pop(1)
+
+	*ret = []byte(returnRsult)
+
+	return
 }
 
 // A value sent as a placeholder for the server's response value when the server
@@ -286,9 +451,17 @@ func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, r
 
 		// Invoke the method, providing a new value for the reply.
 		if mtype.TakesContext() {
-			returnValues = function.Call([]reflect.Value{s.rcvr, mtype.prepareContext(context), argv, replyv})
+			if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+				returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), mtype.prepareContext(context), argv, replyv, reflect.ValueOf(req.ServiceMethod)})
+			}else {
+				returnValues = function.Call([]reflect.Value{s.rcvr, mtype.prepareContext(context), argv, replyv})
+			}
 		} else {
-			returnValues = function.Call([]reflect.Value{s.rcvr, argv, replyv})
+			if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+				returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), argv, replyv, reflect.ValueOf(req.ServiceMethod)})
+			}else {
+				returnValues = function.Call([]reflect.Value{s.rcvr, argv, replyv})
+			}
 		}
 
 		// The return value for the method is an error.
@@ -339,9 +512,17 @@ func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, r
 
 	// Invoke the method, providing a new value for the reply.
 	if mtype.TakesContext() {
-		returnValues = function.Call([]reflect.Value{s.rcvr, mtype.prepareContext(context), argv, reflect.ValueOf(sendReply)})
+		if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+			returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), mtype.prepareContext(context), argv, reflect.ValueOf(sendReply), reflect.ValueOf(req.ServiceMethod)})
+		}else {
+			returnValues = function.Call([]reflect.Value{s.rcvr, mtype.prepareContext(context), argv, reflect.ValueOf(sendReply)})
+		}
 	} else {
-		returnValues = function.Call([]reflect.Value{s.rcvr, argv, reflect.ValueOf(sendReply)})
+		if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
+			returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), argv, reflect.ValueOf(sendReply), reflect.ValueOf(req.ServiceMethod)})
+		}else {
+			returnValues = function.Call([]reflect.Value{s.rcvr, argv, reflect.ValueOf(sendReply)})
+		}
 	}
 	errInter := returnValues[0].Interface()
 	errmsg := ""
@@ -375,7 +556,8 @@ func (c *gobServerCodec) ReadRequestHeader(r *Request) error {
 }
 
 func (c *gobServerCodec) ReadRequestBody(body interface{}) error {
-	return c.dec.Decode(body)
+	err := c.dec.Decode(body)
+	return err
 }
 
 func (c *gobServerCodec) WriteResponse(r *Response, body interface{}, last bool) (err error) {
@@ -390,6 +572,31 @@ func (c *gobServerCodec) WriteResponse(r *Response, body interface{}, last bool)
 
 func (c *gobServerCodec) Close() error {
 	return c.rwc.Close()
+}
+
+func (server *Server) ListenAndServe(tcpAddr string) {
+	//logger.Debug("ListenAndServe :[%s]", tcpAddr)
+	listener, err := net.Listen("tcp", tcpAddr)
+	if err != nil {
+		logger.Fatal("net.Listen: %s", err.Error())
+	}
+
+	go func() {
+		for {
+			//For Client/////////////////////////////
+			//time.Sleep(time.Millisecond * 5)
+			conn, err := listener.Accept()
+			if err != nil {
+				logger.Error("gateserver StartServices %s", err.Error())
+				break
+			}
+			go func() {
+				server.ServeConn(conn)
+				conn.Close()
+			}()
+		}
+		listener.Close()
+	}()
 }
 
 // ServeConn runs the server on a single connection.
@@ -528,7 +735,7 @@ func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *m
 	argIsValue := false // if true, need to indirect before calling.
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
-	} else {
+	}else {
 		argv = reflect.New(mtype.ArgType)
 		argIsValue = true
 	}
@@ -594,6 +801,14 @@ func (server *Server) Accept(lis net.Listener) {
 		}
 		go server.ServeConn(conn)
 	}
+}
+
+func (server *Server) Lock() {
+	server.l.Lock()
+}
+
+func (server *Server) Unlock() {
+	server.l.Unlock()
 }
 
 // Register publishes the receiver's methods in the DefaultServer.

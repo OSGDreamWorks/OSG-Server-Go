@@ -227,7 +227,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
 
 				if !ok {
-
+					logger.Debug("regist MethodByName error :%v", key.String())
 				}
 
 				mtype := method.Type
