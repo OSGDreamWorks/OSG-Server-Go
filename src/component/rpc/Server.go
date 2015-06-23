@@ -386,7 +386,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 }
 
 func (server *Server) CallLua(req *[]byte, ret *[]byte, method string) (err error) {
-	logger.Debug("CallLua %v", method)
+	//logger.Debug("CallLua %v", method)
 
 	serviceMethod := strings.Split(method, ".")
 	if len(serviceMethod) != 2 {

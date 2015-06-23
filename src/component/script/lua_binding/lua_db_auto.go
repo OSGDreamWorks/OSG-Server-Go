@@ -28,10 +28,8 @@ func Register_lua_db_DBQuery(L *lua.LState) int {
     tablename := L.CheckString(1)
     key := L.CheckString(2)
     buf := []byte("")
-    logger.Debug("DBQuery %v, %v, %v", tablename, key, buf)
     exist, err := db.QueryBinary(tablename, key, &buf)
     if err == nil {
-        logger.Debug("DBQuery %v, %v, %v", buf, exist, err)
         L.Push(lua.LString(string(buf)))
         L.Push(lua.LBool(exist))
         L.Push(lua.LString(""))

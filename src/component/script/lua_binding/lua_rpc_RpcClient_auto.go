@@ -7,6 +7,7 @@ import (
     "net"
     "reflect"
     "code.google.com/p/goprotobuf/proto"
+    "time"
 )
 
 const luaRpcClientTypeName = "RpcClient"
@@ -31,10 +32,13 @@ func Register_lua_rpc_RpcClient(L *lua.LState) {
 func Register_lua_rpc_RpcClient_newClass(L *lua.LState) int {
     addr:= L.CheckString(1)
     rpcConn, err := net.Dial("tcp", addr)
-    if err != nil {
-        logger.Fatal("connect rpc server failed %s", err.Error())
-        L.Push(lua.LNil)
-        return 1
+    for {
+        if err == nil {
+            break
+        }
+        logger.Error("rpcConn Connect Error : %v", err.Error())
+        time.Sleep(time.Second * 3)
+        rpcConn, err = net.Dial("tcp", addr)
     }
     ud := L.NewUserData()
     ud.Value = rpc.NewClient(rpcConn)

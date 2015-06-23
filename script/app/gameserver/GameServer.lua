@@ -14,6 +14,11 @@ local Player = import(".Player")
 
 local GameServer = class("GameServer", mvc.AppBase)
 
+-- 定义属性
+GameServer.schema = clone(mvc.ModelBase.schema)
+GameServer["players"]       = {}          -- 玩家conn索引
+GameServer["playersbyid"]  = {}      -- 玩家uid索引
+
 function GameServer:ctor(appName)
     GameServer.super.ctor(self, appName)
 end
@@ -35,25 +40,75 @@ function GameServer:CreateServices(cfg)
     class.gameServer = Server:new()
     class.gameServer:Register(class)
 
+    class.gameServer:RegCallBackOnConn(
+        function(conn)
+            class:onConn(conn)
+        end
+    )
+
+    class.gameServer:RegCallBackOnDisConn(
+        function(conn)
+            class:onDisConn(conn)
+        end
+    )
+
+    class.gameServer:RegCallBackOnCallBefore(
+        function(conn)
+            conn:Lock()
+        end
+    )
+
+    class.gameServer:RegCallBackOnCallAfter(
+        function(conn)
+            conn:Unlock()
+        end
+    )
+
     class.gameServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
 
     local updatePlayerCount = function()
         local rpcCall = SLPacket_pb.SL_UpdatePlayerCount()
         rpcCall.ServerId = 1
-        rpcCall.PlayerCount = 0
+        rpcCall.PlayerCount = #class.players
         rpcCall.TcpServerIp = cfg.TcpHost
         rpcCall.HttpServerIp = cfg.HttpHost
-        logger.Debug("updatePlayerCount : %d, %d, %s, %s", rpcCall.ServerId, rpcCall.PlayerCount, rpcCall.TcpServerIp, rpcCall.HttpServerIp)
+        --logger.Debug("updatePlayerCount : %d, %d, %s, %s", rpcCall.ServerId, rpcCall.PlayerCount, rpcCall.TcpServerIp, rpcCall.HttpServerIp)
         if class.loginServer ~= nil then
             local rep = class.loginServer:Call("LoginRpcServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
             local rpcResult = LSPacket_pb.LS_UpdatePlayerCountResult()
             rpcResult:ParseFromString(rep)
-            logger.Debug("server_time %d", rpcResult.server_time)
         end
     end
 
     common.SetInterval("updatePlayerCount", 5, updatePlayerCount)
 
+end
+
+function GameServer:onConn(conn)
+    logger.Info("GameServer:onConn  %v", conn:GetId())
+end
+
+function GameServer:onDisConn(conn)
+    logger.Info("GameServer:onDisConn  %v", conn:GetId())
+    self:delPlayer(conn:GetId())
+end
+
+function GameServer:addPlayer(cId, player, _)
+    self.gameServer:Lock()
+    self.players[cId] = player
+    self.playersbyid[player.info_["uid"]] = player
+    self.gameServer:Unlock()
+end
+
+function GameServer:delPlayer(cId)
+    local player = self.players[cId]
+    if player ~= nil then
+        player:OnQuit()
+        self.gameServer:Lock()
+        self.players[cId] = nil
+        self.playersbyid[player.info_["uid"]] = nil
+        self.gameServer:Unlock()
+    end
 end
 
 function GameServer:CS_CheckSession(conn, buf)
@@ -85,8 +140,7 @@ function GameServer:CS_CheckSession(conn, buf)
                 local playerBaseInfo = XShare_Logic_pb.PlayerBaseInfo()
                 playerBaseInfo:ParseFromString(info_buf)
                 local player = Player.new({info = playerBaseInfo})
-                --self:addPlayer(conn:GetId(), player)
-
+                self:addPlayer(conn:GetId(), player)
             else
                 --查询或创建角色失败
                 checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.SERVERERROR

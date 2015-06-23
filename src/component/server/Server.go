@@ -311,7 +311,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 const luaRpcConnTypeName = "RpcConn"
 
 func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err error) {
-	logger.Debug("CallLua %v", method)
+	//logger.Debug("CallLua %v", method)
 
 	serviceMethod := strings.Split(method, ".")
 	if len(serviceMethod) != 2 {

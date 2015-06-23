@@ -2,47 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d9e5531-3e17-495b-8597-cc9043050131" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\workspace\OSGDreamWorks\OSG-Server-Go\script\app\loginserver\LoginServer.lua" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\OSGDreamWorks\OSG-Server-Go\script\runtime\loginserver\main.lua" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\OSGDreamWorks\OSG-Server-Go\src\app\gateserver\GateServer.go" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\OSGDreamWorks\OSG-Server-Go\src\runtime\gateserver\main.go" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/ALPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/ALPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/ALPacket.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/ALPacket.proto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/ALPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/ALPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/authserver/AuthServer.go" afterPath="$PROJECT_DIR$/src/app/authserver/AuthServer.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/CLPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/CLPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/CLPacket.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/CLPacket.proto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/CLPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/CLPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/CSPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/CSPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/CSPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/CSPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/rpc/ClientPool.go" afterPath="$PROJECT_DIR$/src/component/rpc/ClientPool.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" afterPath="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/LAPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/LAPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/LAPacket.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/LAPacket.proto" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/LAPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/LAPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/LCPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/LCPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/LCPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/LCPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/LSPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/LSPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/LSPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/LSPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/PB_PacketCommon.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/PB_PacketCommon.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/PB_PacketCommon_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/PB_PacketCommon_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/PB_PacketDefine.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/PB_PacketDefine.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/PB_PacketDefine_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/PB_PacketDefine_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/PB_PacketServerDefine.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/PB_PacketServerDefine.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/PB_PacketServerDefine_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/PB_PacketServerDefine_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/SCPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/SCPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/SCPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/SCPacket_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/SLPacket.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/SLPacket.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/SLPacket_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/SLPacket_pb.lua" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/app/gameserver/Player.lua" afterPath="$PROJECT_DIR$/script/app/gameserver/Player.lua" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/rpc/Server.go" afterPath="$PROJECT_DIR$/src/component/rpc/Server.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/XShare_Logic.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/XShare_Logic.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/XShare_Logic_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/XShare_Logic_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/protobuf/XShare_Server.pb.go" afterPath="$PROJECT_DIR$/src/protobuf/XShare_Server.pb.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/protobuf/XShare_Server_pb.lua" afterPath="$PROJECT_DIR$/script/protobuf/XShare_Server_pb.lua" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/config/config.go" afterPath="$PROJECT_DIR$/src/common/config/config.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcServer_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcServer_auto.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/runtime/test/main.go" afterPath="$PROJECT_DIR$/src/runtime/test/main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/server/Server.go" afterPath="$PROJECT_DIR$/src/component/server/Server.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" afterPath="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
     </list>
     <ignored path="OSG-Server-Go.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,83 +32,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GameServer.lua" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameServer.lua" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script/app/gameserver/GameServer.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.5214408">
+              <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/rpc/Server.go">
+      <file leaf-file-name="ModelBase.lua" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/component/mvc/ModelBase.lua">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="139" column="22" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginServer.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AppBase.lua" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/component/mvc/AppBase.lua">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Script.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lua_server_Server_auto.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-95.433334">
+              <caret line="182" column="73" selection-start-line="182" selection-start-column="73" selection-end-line="182" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lua_server_RpcConn_auto.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Connector.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="227" column="42" selection-start-line="227" selection-start-column="31" selection-end-line="227" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginServer.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/loginserver/LoginServer.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62805873">
-              <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
-              <folding>
-                <element signature="e#20#201#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ALPacket.pb.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/protobuf/ALPacket.pb.go">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="71" column="5" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
+              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="kv2db.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/db/kv2db.go">
+      <file leaf-file-name="Player.lua" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/app/gameserver/Player.lua">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="113" column="1" selection-start-line="113" selection-start-column="1" selection-end-line="113" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/runtime/test/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="36" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="encode.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rdpkg/src/code.google.com/p/goprotobuf/proto/encode.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="212" column="17" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lib.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rdpkg/src/code.google.com/p/goprotobuf/proto/lib.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="210" column="5" selection-start-line="210" selection-start-column="5" selection-end-line="210" selection-end-column="5" />
+              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -151,20 +126,8 @@
         <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="602" column="4" selection-start-line="602" selection-start-column="4" selection-end-line="602" selection-end-column="4" />
+              <caret line="436" column="9" selection-start-line="436" selection-start-column="9" selection-end-line="436" selection-end-column="9" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AuthServer.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/authserver/AuthServer.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="90" column="45" selection-start-line="90" selection-start-column="45" selection-end-line="90" selection-end-column="45" />
-              <folding>
-                <element signature="e#14#121#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -209,8 +172,6 @@
         <option value="$PROJECT_DIR$/script/component/mvc/ModelBase.lua" />
         <option value="$PROJECT_DIR$/script/component/mvc/AppBase.lua" />
         <option value="$PROJECT_DIR$/etc/dbBase.json" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_osg_auto.go" />
         <option value="$PROJECT_DIR$/script/common/logger.lua" />
         <option value="$PROJECT_DIR$/script/runtime/preload.lua" />
@@ -218,28 +179,30 @@
         <option value="$PROJECT_DIR$/script/common/config.lua" />
         <option value="$PROJECT_DIR$/script/runtime/loginserver/main.lua" />
         <option value="$PROJECT_DIR$/script/runtime/gameserver/main.lua" />
-        <option value="$PROJECT_DIR$/script/app/gameserver/Player.lua" />
         <option value="$PROJECT_DIR$/script/component/db/init.lua" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go" />
         <option value="$PROJECT_DIR$/src/component/db/kv2db.go" />
         <option value="$PROJECT_DIR$/src/component/db/dbclient.go" />
-        <option value="$PROJECT_DIR$/src/component/server/Server.go" />
         <option value="$PROJECT_DIR$/etc/loginserver.json" />
         <option value="$PROJECT_DIR$/script/common/init.lua" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_common_auto.go" />
         <option value="$PROJECT_DIR$/src/component/rpc/Client.go" />
-        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go" />
         <option value="$PROJECT_DIR$/script/app/loginserver/LoginServer.lua" />
         <option value="$PROJECT_DIR$/src/app/dbserver/DBServer.go" />
         <option value="$PROJECT_DIR$/src/common/config/config.go" />
         <option value="$PROJECT_DIR$/src/component/rpc/ClientPool.go" />
         <option value="$PROJECT_DIR$/src/runtime/loginserver/main.go" />
-        <option value="$PROJECT_DIR$/src/component/rpc/Server.go" />
         <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcServer_auto.go" />
         <option value="$PROJECT_DIR$/src/runtime/test/main.go" />
-        <option value="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" />
         <option value="$PROJECT_DIR$/src/app/authserver/AuthServer.go" />
         <option value="$PROJECT_DIR$/src/app/loginserver/LoginServer.go" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go" />
+        <option value="$PROJECT_DIR$/src/component/server/Server.go" />
+        <option value="$PROJECT_DIR$/src/component/rpc/Server.go" />
+        <option value="$PROJECT_DIR$/script/app/gameserver/Player.lua" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go" />
+        <option value="$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go" />
+        <option value="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" />
       </list>
     </option>
   </component>
@@ -638,46 +601,6 @@
               <option name="myItemId" value="script" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="runtime" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="script" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="runtime" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gameserver" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="script" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -716,28 +639,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="component" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OSG-Server-Go" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="script" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1211,16 +1112,16 @@
       <workItem from="1434505678761" duration="16164000" />
       <workItem from="1434590041545" duration="23204000" />
       <workItem from="1434681896898" duration="13079000" />
-      <workItem from="1435023918026" duration="16696000" />
+      <workItem from="1435023918026" duration="24612000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="412610000" />
+    <option name="totallyTimeSpent" value="420526000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1229,7 +1130,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30594593" sideWeight="0.48933902" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30594593" sideWeight="0.48933902" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2510661" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1271,30 +1172,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Go/src/time/time.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="429" column="19" selection-start-line="429" selection-start-column="14" selection-end-line="429" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/auxlib.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="18" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rdpkg/src/github.com/yuin/gopher-lua/state.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="77" column="17" selection-start-line="77" selection-start-column="17" selection-end-line="77" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script/component/mvc/init.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1319,14 +1196,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_pb_auto.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1343,14 +1212,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="32" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script/runtime/extern.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1363,22 +1224,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.428571">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1444,14 +1289,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/app/gameserver/Player.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="70" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/db/CachePool.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1468,14 +1305,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dbserver/DBServer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/common/config/config.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1488,22 +1317,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="22" selection-start-line="71" selection-start-column="22" selection-end-line="71" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/db/dbclient.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1528,26 +1341,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/rpc/ClientPool.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="82" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/protobuf/LAPacket.pb.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/rpc/Client.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="367" column="22" selection-start-line="367" selection-start-column="22" selection-end-line="367" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -1576,22 +1373,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcServer_auto.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="44" selection-start-line="51" selection-start-column="44" selection-end-line="51" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="146" column="49" selection-start-line="146" selection-start-column="49" selection-end-line="149" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/protobuf/LSPacket.pb.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1616,30 +1397,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/rpc/Server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="139" column="22" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/app/gameserver/GameServer.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="7" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/db/kv2db.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="1" selection-start-line="113" selection-start-column="1" selection-end-line="113" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/authserver/AuthServer.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1658,14 +1415,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="602" column="4" selection-start-line="602" selection-start-column="4" selection-end-line="602" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/runtime/test/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1674,13 +1423,163 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcServer_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="12" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/rpc/Client.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="373" column="22" selection-start-line="373" selection-start-column="22" selection-end-line="373" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_rpc_RpcClient_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dbserver/DBServer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="52" selection-start-line="75" selection-start-column="52" selection-end-line="75" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/rpc/ClientPool.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="82" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/db/dbclient.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/db/kv2db.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_db_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/rpc/Server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="390" column="47" selection-start-line="390" selection-start-column="47" selection-end-line="390" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/connector/Player.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="23" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/Script.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/loginserver/LoginServer.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62805873">
-          <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
-          <folding>
-            <element signature="e#20#201#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/connector/Connector.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="227" column="42" selection-start-line="227" selection-start-column="31" selection-end-line="227" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/server/Server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="436" column="9" selection-start-line="436" selection-start-column="9" selection-end-line="436" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/component/mvc/AppBase.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/component/mvc/ModelBase.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_Server_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-95.433334">
+          <caret line="182" column="73" selection-start-line="182" selection-start-column="73" selection-end-line="182" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/script/lua_binding/lua_server_RpcConn_auto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/app/gameserver/Player.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/app/gameserver/GameServer.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5214408">
+          <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -14,6 +14,8 @@ var indexRpcConnMethods = map[string]lua.LGFunction{
     "WriteObj": Register_lua_server_RpcConn_Call,
     "Call": Register_lua_server_RpcConn_Call,
     "GetId": Register_lua_server_RpcConn_GetId,
+    "Lock": Register_lua_server_RpcConn_Lock,
+    "Unlock": Register_lua_server_RpcConn_Unlock,
 }
 
 func Register_lua_server_RpcConn(L *lua.LState) {
@@ -74,5 +76,21 @@ func Register_lua_server_RpcConn_GetId(L *lua.LState) int {
         L.Push(lua.LNumber(cid))
     }
     return 1
+}
+
+func Register_lua_server_RpcConn_Lock(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
+        (*v).Lock()
+    }
+    return 0
+}
+
+func Register_lua_server_RpcConn_Unlock(L *lua.LState) int {
+    ud := L.CheckUserData(1)
+    if  v, ok := ud.Value.(*server.RpcConn); ok {
+        (*v).Unlock()
+    }
+    return 0
 }
 

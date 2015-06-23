@@ -17,4 +17,7 @@ end
 function Player:Save()
 end
 
+function Player:OnQuit()
+end
+
 return Player
