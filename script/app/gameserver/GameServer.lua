@@ -1,4 +1,4 @@
---¼ÓÔØprotobufÄ£¿é
+--ï¿½ï¿½ï¿½ï¿½protobufÄ£ï¿½ï¿½
 local CSPacket_pb = import("CSPacket_pb")
 local SCPacket_pb = import("SCPacket_pb")
 local SLPacket_pb = import("SLPacket_pb")
@@ -14,10 +14,10 @@ local Player = import(".Player")
 
 local GameServer = class("GameServer", mvc.AppBase)
 
--- ¶¨ÒåÊôÐÔ
+-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 GameServer.schema = clone(mvc.ModelBase.schema)
-GameServer["players"]       = {}          -- Íæ¼ÒconnË÷Òý
-GameServer["playersbyid"]  = {}      -- Íæ¼ÒuidË÷Òý
+GameServer["players"]       = {}          -- ï¿½ï¿½ï¿½connï¿½ï¿½ï¿½ï¿½
+GameServer["playersbyid"]  = {}      -- ï¿½ï¿½ï¿½uidï¿½ï¿½ï¿½ï¿½
 
 function GameServer:ctor(appName)
     GameServer.super.ctor(self, appName)
@@ -25,11 +25,10 @@ end
 
 function GameServer:CreateServices(cfg)
 
-    logger.Dump(self)
-    --³õÊ¼»¯DB
+    --ï¿½ï¿½Ê¼ï¿½ï¿½DB
     db.Init()
 
-    --³õÊ¼»¯Cache
+    --ï¿½ï¿½Ê¼ï¿½ï¿½Cache
     self.mainCache = CachePool:new("etc/maincache.json")
 
     --
@@ -123,7 +122,7 @@ function GameServer:CS_CheckSession(conn, buf)
         local sid, err = self.mainCache:Do("GET", "SessionKey_" .. checkSession.uid)
         if string.len(err) == 0  and sid == checkSession.sessionKey then
             checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
-            --µÇÂ½³É¹¦
+            --ï¿½ï¿½Â½ï¿½É¹ï¿½
             local info_buf, result, err = db.Query("PlayerBaseInfo", checkSession.uid, "")
             if result == false then
                 local playerBaseInfo = XShare_Logic_pb.PlayerBaseInfo()
@@ -141,7 +140,7 @@ function GameServer:CS_CheckSession(conn, buf)
                 local player = Player.new({info = playerBaseInfo})
                 self:addPlayer(conn:GetId(), player)
             else
-                --²éÑ¯»ò´´½¨½ÇÉ«Ê§°Ü
+                --ï¿½ï¿½Ñ¯ï¿½ò´´½ï¿½ï¿½ï¿½É«Ê§ï¿½ï¿½
                 checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.SERVERERROR
             end
 
