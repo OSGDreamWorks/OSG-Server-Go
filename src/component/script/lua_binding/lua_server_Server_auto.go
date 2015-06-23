@@ -45,8 +45,9 @@ func Register_lua_server_Server_newClass(L *lua.LState) int {
 func Register_lua_server_Server_Register(L *lua.LState) int {
     ud := L.CheckUserData(1)
     arg := L.CheckTable(2)
+    fns := L.CheckTable(3)
     if v, ok := ud.Value.(*server.Server); ok {
-        v.RegisterFromLua(arg)
+        v.RegisterFromLua(arg, fns)
     }
     return 0
 }

@@ -40,8 +40,9 @@ func Register_lua_rpc_RpcServer_newClass(L *lua.LState) int {
 func Register_lua_rpc_RpcServer_Register(L *lua.LState) int {
     ud := L.CheckUserData(1)
     arg := L.CheckTable(2)
+    fns := L.CheckTable(3)
     if v, ok := ud.Value.(*rpc.Server); ok {
-        v.RegisterFromLua(arg)
+        v.RegisterFromLua(arg, fns)
     }
     return 0
 }

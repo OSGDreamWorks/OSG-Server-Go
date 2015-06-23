@@ -135,20 +135,22 @@ func (server *Server) Register(rcvr interface{}) error {
 	return server.register(rcvr, "", false)
 }
 
-func (server *Server) RegisterFromLua(rcvr *lua.LTable) error {
+func (server *Server) RegisterFromLua(rcvr *lua.LTable, rcvrFns *lua.LTable) error {
+	logger.Debug("RegisterFromLua")
 	sname := ""
 	rcvr.ForEach(func(key, value lua.LValue) {
 		switch k := key.(type) {
 			case lua.LString:
-				if string(k) == "__cname" {
+				if string(k) == "name" {
 					sname = value.String()
 				}
 		}
 	})
-	return server.register(rcvr, sname, sname!="")
+
+	return server.register(rcvr, sname, sname!="", rcvrFns)
 }
 
-func (server *Server) register(rcvr interface{}, name string, useName bool) error {
+func (server *Server) register(rcvr interface{}, name string, useName bool, rcvrFns ...interface{}) error {
 	server.mu.Lock()
 	if server.serviceMap == nil {
 		server.serviceMap = make(map[string]*service)
@@ -178,7 +180,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 
 	// Install the methods
 	//logger.Debug("Install the methods begine!")
-	s.method = server.suitableMethods(rcvr, s.typ, true)
+	s.method = server.suitableMethods(rcvr, s.typ, true, rcvrFns ...)
 
 	if len(s.method) == 0 {
 		str := ""
@@ -216,37 +218,41 @@ func isExportedOrBuiltinType(t reflect.Type) bool {
 
 // suitableMethods returns suitable Rpc methods of typ, it will report
 // error using logger if reportErr is true.
-func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, reportErr bool) map[string]*methodType {
+func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, reportErr bool, rcvrFns ...interface{}) map[string]*methodType {
 	methods := make(map[string]*methodType)
 
 	if typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
 
-		rcvr.(*lua.LTable).ForEach(func(key, value lua.LValue) {
-			//logger.Debug("ForEach LTable :%v, %v", key, value)
-			if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
-				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
+		if len(rcvrFns) > 0 {
 
-				if !ok {
-					logger.Debug("regist MethodByName error :%v", key.String())
-				}
+			rcvrFns[0].(*lua.LTable).ForEach(func(key, value lua.LValue) {
+				//logger.Debug("ForEach LTable :%v, %v", key, value)
+				if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
+					method, ok := reflect.TypeOf(server).MethodByName("CallLua")
 
-				mtype := method.Type
-				mname := method.Name
-
-				// Second arg need not be a pointer.
-				argType := mtype.In(2)
-				if !isExportedOrBuiltinType(argType) {
-					if reportErr {
-						logger.Info("%s argument type not exported: %s", mname, argType)
+					if !ok {
+						logger.Debug("regist MethodByName error :%v", key.String())
 					}
-					//continue
+
+					mtype := method.Type
+					mname := method.Name
+
+					// Second arg need not be a pointer.
+					argType := mtype.In(2)
+					if !isExportedOrBuiltinType(argType) {
+						if reportErr {
+							logger.Info("%s argument type not exported: %s", mname, argType)
+						}
+						//continue
+					}
+
+					methods[key.String()] = &methodType{method: method, ArgType: argType, luaFn: value.(*lua.LFunction)}
+
+					logger.Debug("regist %v", key.String())
 				}
+			})
 
-				methods[key.String()] = &methodType{method: method, ArgType: argType, luaFn: value.(*lua.LFunction)}
-
-				logger.Debug("regist %v", key.String())
-			}
-		})
+		}
 
 	} else {
 

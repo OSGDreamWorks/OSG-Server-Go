@@ -147,17 +147,17 @@ func (server *Server) RegisterName(name string, rcvr interface{}) error {
 	return server.register(rcvr, name, true)
 }
 
-func (server *Server) RegisterFromLua(rcvr *lua.LTable) error {
+func (server *Server) RegisterFromLua(rcvr *lua.LTable, rcvrFns *lua.LTable) error {
 	sname := ""
 	rcvr.ForEach(func(key, value lua.LValue) {
 		switch k := key.(type) {
 			case lua.LString:
-			if string(k) == "__cname" {
+			if string(k) == "name" {
 				sname = value.String()
 			}
 		}
 	})
-	return server.register(rcvr, sname, sname!="")
+	return server.register(rcvr, sname, sname!="", rcvrFns)
 }
 
 // prepareMethod returns a methodType for the provided method or nil
@@ -320,7 +320,7 @@ func prepareLuaMethod(method reflect.Method) *methodType {
 	return &methodType{method: method, ArgType: argType, ReplyType: replyType, ContextType: contextType, stream: stream}
 }
 
-func (server *Server) register(rcvr interface{}, name string, useName bool) error {
+func (server *Server) register(rcvr interface{}, name string, useName bool, rcvrFns ...interface{}) error {
 	server.mu.Lock()
 	defer server.mu.Unlock()
 	if server.serviceMap == nil {
@@ -350,23 +350,26 @@ func (server *Server) register(rcvr interface{}, name string, useName bool) erro
 	// Install the methods
 
 	if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
-		rcvr.(*lua.LTable).ForEach(func(key, value lua.LValue) {
-			//logger.Debug("ForEach LTable :%v, %v", key, value)
-			if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
-				method, ok := reflect.TypeOf(server).MethodByName("CallLua")
 
-				if !ok {
-					logger.Debug("regist MethodByName error :%v", key.String())
+		if len(rcvrFns) > 0 {
+			rcvrFns[0].(*lua.LTable).ForEach(func(key, value lua.LValue) {
+				//logger.Debug("ForEach LTable :%v, %v", key, value)
+				if key.Type() == lua.LTString && value.Type() == lua.LTFunction && value.(*lua.LFunction).Proto.NumParameters == 3 {
+					method, ok := reflect.TypeOf(server).MethodByName("CallLua")
+
+					if !ok {
+						logger.Debug("regist MethodByName error :%v", key.String())
+					}
+
+					if mt := prepareLuaMethod(method); mt != nil {
+						mt.luaFn = value.(*lua.LFunction)
+						s.method[key.String()] = mt
+					}
+
+					logger.Debug("regist %v", key.String())
 				}
-
-				if mt := prepareLuaMethod(method); mt != nil {
-					mt.luaFn = value.(*lua.LFunction)
-					s.method[key.String()] = mt
-				}
-
-				logger.Debug("regist %v", key.String())
-			}
-		})
+			})
+		}
 	}else {
 		for m := 0; m < s.typ.NumMethod(); m++ {
 			method := s.typ.Method(m)

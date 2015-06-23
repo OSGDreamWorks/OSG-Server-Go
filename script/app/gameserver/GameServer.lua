@@ -25,56 +25,55 @@ end
 
 function GameServer:CreateServices(cfg)
 
-    local class = self.class
-
+    logger.Dump(self)
     --初始化DB
     db.Init()
 
     --初始化Cache
-    class.mainCache = CachePool:new("etc/maincache.json")
+    self.mainCache = CachePool:new("etc/maincache.json")
 
     --
     local loginCfg = common.config.ReadConfig("etc/loginserver.json")
-    class.loginServer = RpcClient.new(loginCfg.LoginHost)
+    self.loginServer = RpcClient.new(loginCfg.LoginHost)
 
-    class.gameServer = Server:new()
-    class.gameServer:Register(class)
+    self.gameServer = Server:new()
+    self.gameServer:Register(self, self.class)
 
-    class.gameServer:RegCallBackOnConn(
+    self.gameServer:RegCallBackOnConn(
         function(conn)
-            class:onConn(conn)
+            self:onConn(conn)
         end
     )
 
-    class.gameServer:RegCallBackOnDisConn(
+    self.gameServer:RegCallBackOnDisConn(
         function(conn)
-            class:onDisConn(conn)
+            self:onDisConn(conn)
         end
     )
 
-    class.gameServer:RegCallBackOnCallBefore(
+    self.gameServer:RegCallBackOnCallBefore(
         function(conn)
             conn:Lock()
         end
     )
 
-    class.gameServer:RegCallBackOnCallAfter(
+    self.gameServer:RegCallBackOnCallAfter(
         function(conn)
             conn:Unlock()
         end
     )
 
-    class.gameServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
+    self.gameServer:ListenAndServe(cfg.TcpHost, cfg.HttpHost)
 
     local updatePlayerCount = function()
         local rpcCall = SLPacket_pb.SL_UpdatePlayerCount()
         rpcCall.ServerId = 1
-        rpcCall.PlayerCount = #class.players
+        rpcCall.PlayerCount = #self.players
         rpcCall.TcpServerIp = cfg.TcpHost
         rpcCall.HttpServerIp = cfg.HttpHost
         --logger.Debug("updatePlayerCount : %d, %d, %s, %s", rpcCall.ServerId, rpcCall.PlayerCount, rpcCall.TcpServerIp, rpcCall.HttpServerIp)
-        if class.loginServer ~= nil then
-            local rep = class.loginServer:Call("LoginRpcServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
+        if self.loginServer ~= nil then
+            local rep = self.loginServer:Call("LoginRpcServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
             local rpcResult = LSPacket_pb.LS_UpdatePlayerCountResult()
             rpcResult:ParseFromString(rep)
         end
