@@ -50,7 +50,7 @@ func Register_lua_rpc_RpcServer_ListenAndServe(L *lua.LState) int {
     ud := L.CheckUserData(1)
     tcpAddr := L.CheckString(2)
     if v, ok := ud.Value.(*rpc.Server); ok {
-        v.ListenAndServe(tcpAddr)
+        v.ListenAndServe(tcpAddr, nil)
     }
     return 0
 }

@@ -28,11 +28,9 @@ type CL_CheckAccount struct {
 	Uid              *string `protobuf:"bytes,1,opt,name=uid" json:"uid,omitempty"`
 	Account          *string `protobuf:"bytes,2,req,name=account" json:"account,omitempty"`
 	Password         *string `protobuf:"bytes,3,req,name=password" json:"password,omitempty"`
-	CreateTime       *uint32 `protobuf:"varint,4,opt,name=create_time" json:"create_time,omitempty"`
-	Option           *string `protobuf:"bytes,5,opt,name=option" json:"option,omitempty"`
-	Language         *uint32 `protobuf:"varint,6,opt,name=language" json:"language,omitempty"`
-	Udid             *string `protobuf:"bytes,7,opt,name=udid" json:"udid,omitempty"`
-	SessionKey       *string `protobuf:"bytes,8,opt,name=sessionKey" json:"sessionKey,omitempty"`
+	Option           *string `protobuf:"bytes,4,opt,name=option" json:"option,omitempty"`
+	Language         *uint32 `protobuf:"varint,5,opt,name=language" json:"language,omitempty"`
+	Udid             *string `protobuf:"bytes,6,opt,name=udid" json:"udid,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -61,13 +59,6 @@ func (m *CL_CheckAccount) GetPassword() string {
 	return ""
 }
 
-func (m *CL_CheckAccount) GetCreateTime() uint32 {
-	if m != nil && m.CreateTime != nil {
-		return *m.CreateTime
-	}
-	return 0
-}
-
 func (m *CL_CheckAccount) GetOption() string {
 	if m != nil && m.Option != nil {
 		return *m.Option
@@ -85,13 +76,6 @@ func (m *CL_CheckAccount) GetLanguage() uint32 {
 func (m *CL_CheckAccount) GetUdid() string {
 	if m != nil && m.Udid != nil {
 		return *m.Udid
-	}
-	return ""
-}
-
-func (m *CL_CheckAccount) GetSessionKey() string {
-	if m != nil && m.SessionKey != nil {
-		return *m.SessionKey
 	}
 	return ""
 }
@@ -114,12 +98,6 @@ func (m *CL_CheckAccount) SetPassword(value string) {
 	}
 }
 
-func (m *CL_CheckAccount) SetCreateTime(value uint32) {
-	if m != nil {
-		m.CreateTime = &value
-	}
-}
-
 func (m *CL_CheckAccount) SetOption(value string) {
 	if m != nil {
 		m.Option = &value
@@ -135,12 +113,6 @@ func (m *CL_CheckAccount) SetLanguage(value uint32) {
 func (m *CL_CheckAccount) SetUdid(value string) {
 	if m != nil {
 		m.Udid = &value
-	}
-}
-
-func (m *CL_CheckAccount) SetSessionKey(value string) {
-	if m != nil {
-		m.SessionKey = &value
 	}
 }
 

@@ -5,64 +5,20 @@ import (
 	"common/logger"
 	"component/db"
 	"component/rpc"
-	"net"
 	"protobuf"
-	"time"
 	"common"
+	"time"
 )
 
 type AuthServer struct {
 	maincache    *db.CachePool
+	rpcServer	 *rpc.Server
 	exit        chan bool
 }
 
 var pAuthServices *AuthServer
 
 func CreateServices(authcfg config.AuthConfig)  *AuthServer {
-
-	pAuthServices := NewAuthServer(authcfg)
-
-	go func () {
-		tsock, err := net.Listen("tcp", authcfg.AuthHost)
-		if err != nil {
-			logger.Fatal("net.Listen: %s", err.Error())
-		}
-
-		StartServices(pAuthServices, tsock)
-
-		WaitForExit(pAuthServices)
-
-		tsock.Close()
-	}()
-
-	return pAuthServices
-}
-
-func StartServices(self *AuthServer, listener net.Listener) {
-
-	rpcServer := rpc.NewServer()
-	rpcServer.Register(self)
-
-	for {
-		logger.Info("listener Connect")
-		conn, err := listener.Accept()
-		if err != nil {
-			logger.Error("StartServices %s", err.Error())
-			break
-		}
-		go func() {
-			rpcServer.ServeConn(conn)
-			conn.Close()
-		}()
-	}
-}
-
-func WaitForExit(self *AuthServer) {
-	<-self.exit
-	close(self.exit)
-}
-
-func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 
 	//初始化db
 	logger.Info("Init DB")
@@ -75,14 +31,22 @@ func NewAuthServer(cfg config.AuthConfig) (server *AuthServer) {
 	}
 	logger.Info("Init Cache %v", cacheCfg)
 
-	server = &AuthServer{
+	pAuthServices = &AuthServer{
 		maincache : db.NewCachePool(cacheCfg),
+		rpcServer : rpc.NewServer(),
 		exit:        make(chan bool),
 	}
 
-	// http.Handle("/debug/state", debugHTTP{server})
+	pAuthServices.rpcServer.Register(pAuthServices)
 
-	return server
+	pAuthServices.rpcServer.ListenAndServe(authcfg.AuthHost, nil)
+
+	return pAuthServices
+}
+
+func WaitForExit(self *AuthServer) {
+	<-self.exit
+	close(self.exit)
 }
 
 func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *protobuf.AL_CheckAccountResult) error {
@@ -91,8 +55,7 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 
 	if len(req.GetUid()) > 0{
 		if req.GetUid() != uid {//客户端伪造uid
-			ret.SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
-			ret.SetServerTime(uint32(time.Now().Unix()))
+			(*ret).SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
 			return nil
 		}
 	}
@@ -101,8 +64,7 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 	result, err :=db.Query("AccountInfo", uid, account)
 
 	if err != nil {
-		ret.SetResult(protobuf.AL_CheckAccountResult_SERVERERROR)
-		ret.SetServerTime(uint32(time.Now().Unix()))
+		(*ret).SetResult(protobuf.AL_CheckAccountResult_SERVERERROR)
 		return nil
 	}
 
@@ -122,8 +84,7 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 
 	}else {//用户登陆
 		if !common.CheckPassword(account.GetPassword(), req.GetAccount(), req.GetPassword()) {
-			ret.SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
-			ret.SetServerTime(uint32(time.Now().Unix()))
+			(*ret).SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
 			return nil
 		}
 		account.SetSessionKey(common.GenSessionKey())//保存进缓存
@@ -131,12 +92,11 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 		logger.Info("Auth Account find")
 	}
 
-	self.maincache.Do("SET", uid, []byte(account.GetSessionKey()))
+	self.maincache.Do("SET", "SessionKey_" + uid, []byte(account.GetSessionKey()))
 
-	ret.SetResult(protobuf.AL_CheckAccountResult_OK)
-	ret.SetServerTime(uint32(time.Now().Unix()))
-	ret.SetSessionKey(account.GetSessionKey())
-	ret.SetUid(account.GetUid())
+	(*ret).SetResult(protobuf.AL_CheckAccountResult_OK)
+	(*ret).SetSessionKey(account.GetSessionKey())
+	(*ret).SetUid(account.GetUid())
 
 	logger.Info("ComeInto AuthServer.Login %v, %v", req, ret)
 

@@ -45,7 +45,7 @@ function GameServer:CreateServices(cfg)
         rpcCall.HttpServerIp = cfg.HttpHost
         logger.Debug("updatePlayerCount : %d, %d, %s, %s", rpcCall.ServerId, rpcCall.PlayerCount, rpcCall.TcpServerIp, rpcCall.HttpServerIp)
         if class.loginServer ~= nil then
-            local rep = class.loginServer:Call("LoginServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
+            local rep = class.loginServer:Call("LoginRpcServer.SL_UpdatePlayerCount", rpcCall:SerializeToString(), "")
             local rpcResult = LSPacket_pb.LS_UpdatePlayerCountResult()
             rpcResult:ParseFromString(rep)
             logger.Debug("server_time %d", rpcResult.server_time)
@@ -66,7 +66,7 @@ function GameServer:CS_CheckSession(conn, buf)
     checkSessionResult.server_time = os.time()
 
     if string.len(checkSession.uid) > 0 then
-        local sid, err = self.mainCache:Do("GET", checkSession.uid)
+        local sid, err = self.mainCache:Do("GET", "SessionKey_" .. checkSession.uid)
         if string.len(err) == 0  and sid == checkSession.sessionKey then
             checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
             --µÇÂ½³É¹¦

@@ -24,7 +24,7 @@ func main() {
 
 func testLogin() {
 
-    var cfg config.GateConfig
+    var cfg config.LoginConfig
     if err := config.ReadConfig(*gateConfigFile, &cfg); err != nil {
         logger.Fatal("load config failed, error is: %v", err)
         return

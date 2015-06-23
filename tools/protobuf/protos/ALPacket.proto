@@ -13,8 +13,7 @@ message AL_CheckAccountResult{
 		ISONFIRE = 5;
 	}
 	required Result result = 1;
-	required uint32 server_time = 2;
-	required string sessionKey = 3;
-	required string uid = 4;
-	optional string errmsg = 5;
+	required string sessionKey = 2;
+	required string uid = 3;
+	optional string errmsg = 4;
 }

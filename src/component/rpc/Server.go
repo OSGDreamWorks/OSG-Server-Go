@@ -80,11 +80,29 @@ type Server struct {
 	respLock   sync.Mutex // protects freeResp
 	freeResp   *Response
 	state      *lua.LState
+	onConn       []func(context interface{})
+	onDisConn    []func(context interface{})
 }
 
 // NewServer returns a new Server.
 func NewServer() *Server {
-	return &Server{serviceMap: make(map[string]*service)}
+	return &Server{
+		serviceMap: make(map[string]*service),
+		onConn:       make([]func(context interface{}), 0),
+		onDisConn:    make([]func(context interface{}), 0),
+	}
+}
+
+func (server *Server) RegCallBackOnConn(cb func(context interface{})) {
+	server.mu.Lock()
+	server.onConn = append(server.onConn, cb)
+	server.mu.Unlock()
+}
+
+func (server *Server) RegCallBackOnDisConn(cb func(context interface{})) {
+	server.mu.Lock()
+	server.onDisConn = append(server.onDisConn, cb)
+	server.mu.Unlock()
 }
 
 // DefaultServer is the default instance of *Server.
@@ -574,7 +592,7 @@ func (c *gobServerCodec) Close() error {
 	return c.rwc.Close()
 }
 
-func (server *Server) ListenAndServe(tcpAddr string) {
+func (server *Server) ListenAndServe(tcpAddr string, context interface{}) {
 	//logger.Debug("ListenAndServe :[%s]", tcpAddr)
 	listener, err := net.Listen("tcp", tcpAddr)
 	if err != nil {
@@ -590,10 +608,38 @@ func (server *Server) ListenAndServe(tcpAddr string) {
 				logger.Error("gateserver StartServices %s", err.Error())
 				break
 			}
-			go func() {
-				server.ServeConn(conn)
-				conn.Close()
-			}()
+			if context != nil {
+				go func(context interface{}) {
+
+					for _, v := range server.onConn {
+						v(context)
+					}
+
+					server.ServeConnWithContext(conn, context)
+					conn.Close()
+
+
+					for _, v := range server.onConn {
+						v(context)
+					}
+
+				}(context)
+			}else {
+				go func() {
+
+					for _, v := range server.onConn {
+						v(nil)
+					}
+
+					server.ServeConn(conn)
+					conn.Close()
+
+					for _, v := range server.onConn {
+						v(nil)
+					}
+
+				}()
+			}
 		}
 		listener.Close()
 	}()

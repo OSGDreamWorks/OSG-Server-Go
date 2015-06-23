@@ -71,10 +71,9 @@ func (x *AL_CheckAccountResult_Result) UnmarshalJSON(data []byte) error {
 
 type AL_CheckAccountResult struct {
 	Result           *AL_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.AL_CheckAccountResult_Result" json:"result,omitempty"`
-	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
-	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
-	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`
-	Errmsg           *string                       `protobuf:"bytes,5,opt,name=errmsg" json:"errmsg,omitempty"`
+	SessionKey       *string                       `protobuf:"bytes,2,req,name=sessionKey" json:"sessionKey,omitempty"`
+	Uid              *string                       `protobuf:"bytes,3,req,name=uid" json:"uid,omitempty"`
+	Errmsg           *string                       `protobuf:"bytes,4,opt,name=errmsg" json:"errmsg,omitempty"`
 	XXX_unrecognized []byte                        `json:"-"`
 }
 
@@ -87,13 +86,6 @@ func (m *AL_CheckAccountResult) GetResult() AL_CheckAccountResult_Result {
 		return *m.Result
 	}
 	return AL_CheckAccountResult_OK
-}
-
-func (m *AL_CheckAccountResult) GetServerTime() uint32 {
-	if m != nil && m.ServerTime != nil {
-		return *m.ServerTime
-	}
-	return 0
 }
 
 func (m *AL_CheckAccountResult) GetSessionKey() string {
@@ -120,12 +112,6 @@ func (m *AL_CheckAccountResult) GetErrmsg() string {
 func (m *AL_CheckAccountResult) SetResult(value AL_CheckAccountResult_Result) {
 	if m != nil {
 		m.Result = &value
-	}
-}
-
-func (m *AL_CheckAccountResult) SetServerTime(value uint32) {
-	if m != nil {
-		m.ServerTime = &value
 	}
 }
 

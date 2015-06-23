@@ -65,8 +65,8 @@ type SvrConfig struct {
 	FsHost        []string
 }
 
-type GateConfig struct {
-	GateHost        string
+type LoginConfig struct {
+	LoginHost        string
 	TcpHostForClient     string
 	HttpHostForClient    string
 	DebugHost     string

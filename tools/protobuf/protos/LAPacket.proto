@@ -8,9 +8,7 @@ message LA_CheckAccount{
 	optional string uid = 1;
 	required string account = 2;
 	required string password = 3;
-	optional uint32 create_time = 4;
-	optional string option = 5;
-	optional uint32 language = 6;
-	optional string udid = 7;
-	optional string sessionKey = 8;
+	optional string option = 4;
+	optional uint32 language = 5;
+	optional string udid = 6;
 }
