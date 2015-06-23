@@ -1,0 +1,19 @@
+package protobuf;
+
+import "PB_PacketServerDefine.proto";
+
+option optimize_for = SPEED;
+
+message AL_CheckAccountResult{
+	enum Result {
+		OK = 1;
+		SERVERERROR = 2;
+		USERNOTFOUND = 3;
+		AUTH_FAILED = 4;
+		ISONFIRE = 5;
+	}
+	required Result result = 1;
+	required string sessionKey = 2;
+	required string uid = 3;
+	optional string errmsg = 4;
+}

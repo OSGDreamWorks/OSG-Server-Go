@@ -23,7 +23,7 @@ func checkEnemyIn(from *protobuf.Transform, to *protobuf.Transform) bool {
     return false
 }
 
-func (self *Connector) UpdatePlayerInfo(conn server.RpcConn, info protobuf.PlayerBaseInfo) error {
+func (self *Connector) UpdatePlayerStatusInfo(conn server.RpcConn, info protobuf.PlayerBaseInfo) error {
 
     self.l.RLock()
     p, exist := self.players[conn.GetId()]
@@ -32,11 +32,11 @@ func (self *Connector) UpdatePlayerInfo(conn server.RpcConn, info protobuf.Playe
         return nil
     }
 
-    if info.GetTransform() != nil  {
-        if checkEnemyIn(info.GetTransform(), p.GetTransform()) {
+    if info.GetStat().GetTransform() != nil  {
+        if checkEnemyIn(info.GetStat().GetTransform(), p.GetStat().GetTransform()) {
             //self.FsMgr.Call("FightServer.StartBattle", p.PlayerBaseInfo)
         }
-        p.SetTransform(info.GetTransform())
+        p.SetStat(info.GetStat())
     }
 
     WriteResult(conn, p.PlayerBaseInfo)
@@ -55,7 +55,7 @@ func (self *Connector) BattleTest(conn server.RpcConn, test protobuf.BattleTest)
 
     test.SetPlayer(p.PlayerBaseInfo)
 
-    self.FsMgr.Call("FightServer.StartBattleWithMoster", &test)
+    self.FsMgr.Call("FightServer.StartBattleTest", &test)
     //self.FsMgr.Call("FightServer.StartBattle", p.PlayerBaseInfo)
 
     return nil

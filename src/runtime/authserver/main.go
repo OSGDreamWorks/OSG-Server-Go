@@ -5,7 +5,7 @@ import (
 	"common/config"
 	"common/logger"
 	"flag"
-	"net"
+	"common"
 )
 
 var (
@@ -21,18 +21,9 @@ func main() {
 		return
 	}
 
-	authServer := server.NewAuthServer(authcfg)
+	server.CreateServices(authcfg)
 
-	tsock, err := net.Listen("tcp", authcfg.AuthHost)
-	if err != nil {
-		logger.Fatal("net.Listen: %s", err.Error())
-	}
-
-	server.StartServices(authServer, tsock)
-
-	server.WaitForExit(authServer)
-
-	tsock.Close()
+	common.WatchSystemSignal()
 
 	logger.Info("stop auth server")
 }

@@ -26,51 +26,43 @@ var fightServer *FightServer
 func ConvertPlayerToCreature(p *protobuf.PlayerBaseInfo) *protobuf.CreatureBaseInfo {
     creature  := &protobuf.CreatureBaseInfo{}
     creature.SetUid(p.GetUid())
-    creature.SetName(p.GetName())
-    creature.SetLevel(p.GetLevel())
-    creature.SetExperience(p.GetExperience())
-    creature.SetHP(p.GetHP())
-    creature.SetMP(p.GetMP())
-    creature.SetMaxHP(p.GetMaxHP())
-    creature.SetMaxMP(p.GetMaxMP())
-    creature.SetGender(p.GetGender())
-    creature.SetModelid(p.GetModelid())
-    creature.SetTransform(p.GetTransform())
-    creature.SetStrenght(p.GetStrenght())
-    creature.SetVelocity(p.GetVelocity())
-    creature.SetMana(p.GetMana())
-    creature.SetDefence(p.GetDefence())
-    creature.SetStamina(p.GetStamina())
-    creature.SetATK(p.GetATK())
-    creature.SetArmor(p.GetArmor())
-    creature.SetAgility(p.GetAgility())
-    creature.SetSpirit(p.GetSpirit())
-    creature.SetRecovery(p.GetRecovery())
+    creature.SetStat(p.GetStat())
+    creature.SetBp(p.GetBp())
+    creature.SetProperty(p.GetProperty())
+    creature.SetRevise(p.GetRevise())
+    creature.SetAgainst(p.GetAgainst())
     return  creature
 }
 
 func RandomCreature(uid string) *protobuf.CreatureBaseInfo {
     creature  := &protobuf.CreatureBaseInfo{}
     creature.SetUid(uid)
-    creature.SetName("daocaoren")
-    creature.SetLevel(1)
-    creature.SetExperience(0)
-    creature.SetHP(106)
-    creature.SetMP(109)
-    creature.SetMaxHP(106)
-    creature.SetMaxMP(109)
-    creature.SetGender(0)
-    creature.SetModelid(0)
-    creature.SetStrenght(3)
-    creature.SetVelocity(3)
-    creature.SetMana(20)
-    creature.SetDefence(2)
-    creature.SetStamina(18)
-    creature.SetATK(42)
-    creature.SetArmor(38)
-    creature.SetAgility(40)
-    creature.SetSpirit(102)
-    creature.SetRecovery(100)
+    stat := &protobuf.StatusInfo{}
+    stat.SetName("daocaoren")
+    stat.SetLevel(1)
+    stat.SetExperience(0)
+    stat.SetHP(106)
+    stat.SetMP(109)
+    stat.SetRage(0)
+    stat.SetGender(0)
+    stat.SetModelid(0)
+    creature.SetStat(stat)
+    bp := &protobuf.PropertyBaseInfo{}
+    bp.SetStrenght(3)
+    bp.SetVelocity(3)
+    bp.SetMana(20)
+    bp.SetDefence(2)
+    bp.SetStamina(18)
+    creature.SetBp(bp)
+    prop :=&protobuf.PropertyInfo{}
+    prop.SetMaxHP(106)
+    prop.SetMaxMP(109)
+    prop.SetATK(42)
+    prop.SetArmor(38)
+    prop.SetAgility(40)
+    prop.SetSpirit(102)
+    prop.SetRecovery(100)
+    creature.SetProperty(prop)
     return  creature
 }
 
@@ -170,9 +162,9 @@ func (self *FightServer) delBattle(bid string) {
     }
 }
 
-func (self *FightServer) StartBattleWithMoster(conn server.RpcConn, test protobuf.BattleTest) error {
+func (self *FightServer) StartBattleTest(conn server.RpcConn, test protobuf.BattleTest) error {
 
-    logger.Debug("StartBattleWithMoster")
+    logger.Debug("StartBattleTest")
 
     id := common.GenUUID(fmt.Sprintf("%d", atomic.AddUint64(&self.id, 1)))
     base := &protobuf.BattleInfo{}
@@ -181,7 +173,7 @@ func (self *FightServer) StartBattleWithMoster(conn server.RpcConn, test protobu
     mosters := make([]*protobuf.CreatureBaseInfo,0,10)
     partners = append(partners, ConvertPlayerToCreature(test.GetPlayer()))
 
-    for _, enemy := range test.GetMoster() {
+    for _, enemy := range test.GetEnemy() {
         mosters = append(mosters, enemy)
     }
 
@@ -190,7 +182,7 @@ func (self *FightServer) StartBattleWithMoster(conn server.RpcConn, test protobu
     }
 
     base.SetPartner(partners)
-    base.SetMoster(mosters)
+    base.SetEnemy(mosters)
     base.SetAttackunits(make([]*protobuf.AttackInfo,0,10))
     base.SetSpells(make([]*protobuf.SpellInfo,0,10))
     b := &Battle{BattleInfo: base}
@@ -199,7 +191,7 @@ func (self *FightServer) StartBattleWithMoster(conn server.RpcConn, test protobu
     notify := &protobuf.NotifyBattleStart{}
     notify.SetBid(base.GetBid())
     notify.SetPartner(partners)
-    notify.SetMoster(mosters)
+    notify.SetEnemy(mosters)
     WriteResult(conn, notify)
 
     self.addBattle(b)
@@ -219,7 +211,7 @@ func (self *FightServer) StartBattle(conn server.RpcConn, player protobuf.Player
     partners = append(partners, ConvertPlayerToCreature(&player))
     mosters = append(mosters, RandomCreature("1"),RandomCreature("2"),RandomCreature("3"),RandomCreature("4"),RandomCreature("5"))
     base.SetPartner(partners)
-    base.SetMoster(mosters)
+    base.SetEnemy(mosters)
     base.SetAttackunits(make([]*protobuf.AttackInfo,0,10))
     base.SetSpells(make([]*protobuf.SpellInfo,0,10))
     b := &Battle{BattleInfo: base}
@@ -228,7 +220,7 @@ func (self *FightServer) StartBattle(conn server.RpcConn, player protobuf.Player
     notify := &protobuf.NotifyBattleStart{}
     notify.SetBid(base.GetBid())
     notify.SetPartner(partners)
-    notify.SetMoster(mosters)
+    notify.SetEnemy(mosters)
     WriteResult(conn, notify)
 
     self.addBattle(b)
@@ -260,11 +252,12 @@ func (self *FightServer) CalculateBattleResult(conn server.RpcConn, queue protob
 
     self.battles[queue.GetBid()].SetAttackunits(attackunits)
     self.battles[queue.GetBid()].SetSpells(spells)
-    WriteResult(conn, self.battles[queue.GetBid()])
+    WriteResult(conn, self.battles[queue.GetBid()].BattleInfo)
 
     end := true
     for _, p := range self.battles[queue.GetBid()].GetPartner() {
-        if p.GetHP() > 0 {
+        stat := p.GetStat()
+        if stat.GetHP() > 0 {
             end = false
         }
     }
@@ -273,8 +266,9 @@ func (self *FightServer) CalculateBattleResult(conn server.RpcConn, queue protob
     exp = 0
     if !end {
         exp = 100
-        for _, m := range self.battles[queue.GetBid()].GetMoster() {
-            if m.GetHP() > 0 {
+        for _, e := range self.battles[queue.GetBid()].GetEnemy() {
+            stat := e.GetStat()
+            if stat.GetHP() > 0 {
                 end = false
             }
         }

@@ -1,0 +1,14 @@
+package protobuf;
+
+import "PB_PacketServerDefine.proto";
+
+option optimize_for = SPEED;
+
+message LS_UpdatePlayerCountResult{
+	enum Result {
+		OK = 1;
+		SERVERERROR = 2;
+	}
+	required Result result = 1;
+	required uint32 server_time = 2;
+}

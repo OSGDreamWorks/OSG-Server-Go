@@ -5,7 +5,7 @@ import (
 	"common/config"
 	"common/logger"
 	"flag"
-	"net"
+	"common"
 )
 
 var (
@@ -21,18 +21,9 @@ func main() {
 		return
 	}
 
-	dbServer := server.NewDBServer(dbcfg)
+	server.CreateServices(dbcfg)
 
-	tsock, err := net.Listen("tcp", dbcfg.DBHost)
-	if err != nil {
-		logger.Fatal("net.Listen: %s", err.Error())
-	}
-
-	server.StartServices(dbServer, tsock)
-
-	server.WaitForExit(dbServer)
-
-	tsock.Close()
+	common.WatchSystemSignal()
 
 	logger.Info("stop db server")
 }

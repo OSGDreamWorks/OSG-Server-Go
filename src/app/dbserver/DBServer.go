@@ -25,6 +25,26 @@ type DBServer struct {
 	exit          chan bool
 }
 
+var pDbServices *DBServer
+
+func CreateServices(cfg config.DBConfig) *DBServer {
+
+	pDbServices = NewDBServer(cfg)
+	go func () {
+		tsock, err := net.Listen("tcp", cfg.DBHost)
+		if err != nil {
+			logger.Fatal("net.Listen: %s", err.Error())
+		}
+		StartServices(pDbServices, tsock)
+
+		WaitForExit(pDbServices)
+
+		tsock.Close()
+	}()
+
+	return pDbServices
+}
+
 func StartServices(self *DBServer, listener net.Listener) {
 	rpcServer := rpc.NewServer()
 	rpcServer.Register(self)

@@ -53,6 +53,7 @@ type AuthConfig struct {
 	AuthHost        string
 	DebugHost     string
 	GcTime        uint8
+	MainCacheProfile CacheConfig `json:"maincache"`
 }
 
 type SvrConfig struct {
@@ -64,8 +65,8 @@ type SvrConfig struct {
 	FsHost        []string
 }
 
-type GateConfig struct {
-	GateHost        string
+type LoginConfig struct {
+	LoginHost        string
 	TcpHostForClient     string
 	HttpHostForClient    string
 	DebugHost     string

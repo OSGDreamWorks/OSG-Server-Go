@@ -1,6 +1,6 @@
 {
   "comment1": "请配置gate的外网ip地址:7900",
-  "GateHost" : "127.0.0.1:8850",
+  "LoginHost" : "127.0.0.1:8850",
   "TcpHostForClient" : "127.0.0.1:7850",
   "HttpHostForClient" : "127.0.0.1:7880",
   "DebugHost" : "127.0.0.1:5850",

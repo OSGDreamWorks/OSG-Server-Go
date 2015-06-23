@@ -1,0 +1,46 @@
+package protobuf;
+
+option optimize_for = SPEED;
+
+enum LA_Protocol {
+	option allow_alias = true;
+	eLA_PacketBegin			= 11000;
+	//----------------------------
+	eLA_Connected			= 11000;
+	eLA_Disconnected 		= 11001;
+	eLA_CheckAccount 		= 11002;
+	//----------------------------
+	eLA_PacketEnd			= 12000;
+}
+
+enum AL_Protocol {
+	option allow_alias = true;
+	eAL_PacketBegin			= 12000;
+	//----------------------------
+	eAL_Connected			= 12000;
+	eAL_Disconnected 		= 12001;
+	eAL_CheckAccountResult  = 12002;
+	//----------------------------
+	eAL_PacketEnd			= 13000;
+}
+
+enum LS_Protocol {
+	option allow_alias = true;
+	eLS_PacketBegin			= 13000;
+	//----------------------------
+	eLS_Connected			= 13000;
+	eLS_Disconnected 		= 13001;
+	eLS_UpdatePlayerCountResult	= 13002;
+	//----------------------------
+	eSLS_PacketEnd			= 14000;
+}
+enum SL_Protocol {
+	option allow_alias = true;
+	eSL_PacketBegin			= 14000;
+	//----------------------------
+	eSL_Connected			= 14000;
+	eSL_Disconnected 		= 14001;
+	eSL_UpdatePlayerCount	= 14002;
+	//----------------------------
+	eSL_PacketEnd			= 20000;
+}

@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-func KVQuery(db *rpcplus.Client, table, uid string, value gp.Message) (exist bool, err error) {
+func KVQuery(db *rpcplus.Client, table, uid string, value interface{}) (exist bool, err error) {
 	//ts("KVQuery", table, uid)
 	//defer te("KVQuery", table, uid)
 
@@ -34,11 +34,23 @@ func KVQuery(db *rpcplus.Client, table, uid string, value gp.Message) (exist boo
 			return
 		}
 
-		err = gp.Unmarshal(dst, value)
 
-		if err != nil {
-			logger.Error("KVQuery Unmarshal Error On Query %s : %s (%s)", table, uid, err.Error())
-			return
+		switch value.(type) {
+			case gp.Message:
+
+				err = gp.Unmarshal(dst, value.(gp.Message))
+
+				if err != nil {
+					logger.Error("KVQuery Unmarshal Error On Query %s : %s (%s)", table, uid, err.Error())
+					return
+				}
+			case *[]byte:
+
+				*(value.(*[]byte)) = dst
+
+			default:
+				logger.Error("KVQuery args type error %v", value)
+				return
 		}
 
 		exist = true
@@ -53,14 +65,27 @@ func KVQuery(db *rpcplus.Client, table, uid string, value gp.Message) (exist boo
 	return false, fmt.Errorf("KVQuery Unknow DBReturn %d", reply.Code)
 }
 
-func KVWrite(db *rpcplus.Client, table, uid string, value gp.Message) (result bool, err error) {
+func KVWrite(db *rpcplus.Client, table, uid string, value interface{}) (result bool, err error) {
 	//ts("KVWrite", table, uid)
 	//defer te("KVWrite", table, uid)
 
-	buf, err := gp.Marshal(value)
+	var buf []byte
 
-	if err != nil {
-		logger.Error("KVWrite Error On Marshal %s : %s (%s)", table, uid, err.Error())
+	switch value.(type) {
+		case gp.Message:
+
+			buf, err = gp.Marshal(value.(gp.Message))
+			if err != nil {
+				logger.Error("KVWrite Error On Marshal %s : %s (%s)", table, uid, err.Error())
+				return
+			}
+
+		case []byte:
+
+			buf = value.([]byte)
+
+		default:
+			logger.Error("KVWrite args type error %v", value)
 		return
 	}
 

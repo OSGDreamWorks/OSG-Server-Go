@@ -58,8 +58,13 @@ func (self *ClientPool) addConnect(sHost string, iIndex int) error {
 	}
 
 	conn, err := net.Dial("tcp", sHost)
-	if err != nil {
-		return err
+	for {
+		if err == nil {
+			break
+		}
+		logger.Error("ClientPool Connect Error : %v", err.Error())
+		time.Sleep(time.Second * 3)
+		conn, err = net.Dial("tcp", sHost)
 	}
 
 	self.l.Lock()
