@@ -151,7 +151,7 @@ func struct_pack(L *lua.LState) int {
                 b.EncodeFixed64(uint64(l_value))
                 L.Push(lua.LString(string(b.Bytes())))
             default:
-                L.Error(lua.LString("Unknown, format"), 0)
+                L.RaiseError("Unknown, format")
         }
     L.Call(1, 0)
 
@@ -188,7 +188,7 @@ func struct_unpack(L *lua.LState) int {
             value,_ := b.DecodeFixed64()
             L.Push(lua.LNumber(uint64(value)))
         default:
-            L.Error(lua.LString("Unknown, format"), 0)
+            L.RaiseError("Unknown, format")
     }
 
     return 1
@@ -321,7 +321,7 @@ func iostring_sub(L *lua.LState) int {
     end := int(L.CheckNumber(3))
     if v, ok := ud.Value.(*IOString); ok {
         if begin > end || end > v.size {
-            L.Error(lua.LString("Out of range"), 0)
+            L.RaiseError("Out of range")
         }else {
             L.Push(lua.LString(string(v.buf[begin-1:end-begin])))
         }
