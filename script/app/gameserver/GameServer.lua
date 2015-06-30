@@ -1,4 +1,4 @@
---����protobufģ��
+--加载protobuf模块
 local CSPacket_pb = import("CSPacket_pb")
 local SCPacket_pb = import("SCPacket_pb")
 local SLPacket_pb = import("SLPacket_pb")
@@ -14,10 +14,10 @@ local Player = import(".Player")
 
 local GameServer = class("GameServer", mvc.AppBase)
 
--- ��������
+-- 定义属性
 GameServer.schema = clone(mvc.ModelBase.schema)
-GameServer["players"]       = {}          -- ���conn����
-GameServer["playersbyid"]  = {}      -- ���uid����
+GameServer["players"]       = {}          -- 玩家conn索引
+GameServer["playersbyid"]  = {}          -- 玩家uid索引
 
 function GameServer:ctor(appName)
     GameServer.super.ctor(self, appName)
@@ -25,7 +25,7 @@ end
 
 function GameServer:CreateServices(cfg)
 
-    --��ʼ��DB
+    --初始化DB
     db.Init()
 
     --��ʼ��Cache
@@ -122,7 +122,7 @@ function GameServer:CS_CheckSession(conn, buf)
         local sid, err = self.mainCache:Do("GET", "SessionKey_" .. checkSession.uid)
         if string.len(err) == 0  and sid == checkSession.sessionKey then
             checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.OK
-            --��½�ɹ�
+            --查找玩家信息
             local info_buf, result, err = db.Query("PlayerBaseInfo", checkSession.uid, "")
             if result == false then
                 local playerBaseInfo = XShare_Logic_pb.PlayerBaseInfo()
@@ -140,7 +140,7 @@ function GameServer:CS_CheckSession(conn, buf)
                 local player = Player.new({info = playerBaseInfo})
                 self:addPlayer(conn:GetId(), player)
             else
-                --��ѯ�򴴽���ɫʧ��
+                --玩家信息查询错误
                 checkSessionResult.result = SCPacket_pb.SC_CheckSessionResult.SERVERERROR
             end
 
