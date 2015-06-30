@@ -31,7 +31,15 @@ echo "start build CSharp Protobuf"
 
 mkdir protos\csharp\protobuf
 
-::protogen -i:msg.proto -o:Msg.cs
+cd protos
+for %%i in (*.proto) do (  
+echo %%i
+"..\protogen.exe" -i:%%i -o:csharp\protobuf\%%i.cs
+
+)
+cd ..\
+
+::move protos\csharp\protobuf\* ..\..\client\Assets\OSGClient\Scripts\protobuf
 
 echo OK
 echo =============================================================
@@ -61,7 +69,8 @@ node  "node_modules\protobufjs\bin\pbjs" .\protos\SLPacket.proto -path=.\protos 
 node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Logic.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Logic.js
 node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Server.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Server.js
 
-::move msg.js ..\..\client\SRPG\Test\SRPG\src\msg.js
+::move protos\javascript\protobuf\* ..\..\client\SRPG\Test\SRPG\src\protobuf\
+
 echo OK
 echo =============================================================
 echo. 
@@ -79,6 +88,8 @@ echo %%i
 
 )
 cd ..\
+
+move protos\lua\protobuf\* ..\..\script\protobuf
 
 echo OK
 echo =============================================================
