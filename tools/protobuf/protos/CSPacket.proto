@@ -13,8 +13,9 @@ message CS_CheckSession{
 message CS_Ping{
 }
 
+//将客户端战斗过程的相关信比如是否中途退掉了多少血, 是否获得奖励等传递给服务
 message CS_LeaveClientScene {
-	//--4>TODO: 将客户端战斗过程的相关信比如是否中途退掉了多少血, 是否获得奖励等传递给服务
+	//--4>TODO:
 }
 
 message CS_EnterFight {

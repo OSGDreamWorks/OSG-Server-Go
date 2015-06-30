@@ -87,6 +87,7 @@ func (m *CS_Ping) Reset()         { *m = CS_Ping{} }
 func (m *CS_Ping) String() string { return proto.CompactTextString(m) }
 func (*CS_Ping) ProtoMessage()    {}
 
+// 将客户端战斗过程的相关信比如是否中途退掉了多少血, 是否获得奖励等传递给服务
 type CS_LeaveClientScene struct {
 	XXX_unrecognized []byte `json:"-"`
 }

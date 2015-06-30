@@ -11,11 +11,11 @@ local logger = import("logger")
 local mvc = import("mvc")
 
 local Player = import(".Player")
+local FsConnMgr = import(".FsConnMgr")
 
 local GameServer = class("GameServer", mvc.AppBase)
 
 -- 定义属性
-GameServer.schema = clone(mvc.ModelBase.schema)
 GameServer["players"]       = {}          -- 玩家conn索引
 GameServer["playersbyid"]  = {}          -- 玩家uid索引
 
@@ -28,12 +28,16 @@ function GameServer:CreateServices(cfg)
     --初始化DB
     db.Init()
 
-    --��ʼ��Cache
+    --初始化Cache
     self.mainCache = CachePool:new("etc/maincache.json")
 
     --
     local loginCfg = common.config.ReadConfig("etc/loginserver.json")
     self.loginServer = RpcClient.new(loginCfg.LoginHost)
+
+    --初始化战斗服组
+    self.fightServer = FsConnMgr.new("FsConnMgr")
+    self.fightServer:init(cfg)
 
     self.gameServer = Server:new()
     self.gameServer:Register(self, self.class)
@@ -158,6 +162,37 @@ function GameServer:CS_Ping(conn, buf)
     local pingResult = SCPacket_pb.SC_PingResult()
     pingResult.server_time = os.time()
     conn:WriteObj("protobuf.SC_PingResult", pingResult:SerializeToString())
+
+end
+
+function GameServer:CS_EnterFight(conn, buf)
+
+    local msg = CSPacket_pb.CS_EnterFight()
+    msg:ParseFromString(buf)
+
+    local rst = self.fightServer:Call("FightServer.SF_StartBattle", "111", "222")
+
+    logger.Debug(rst)
+
+
+    local enterClientScene = SCPacket_pb.SC_EnterClientScene()
+    enterClientScene.SceneID = 1
+
+    conn:WriteObj("protobuf.SC_EnterClientScene", enterClientScene:SerializeToString())
+
+end
+
+function GameServer:CS_LeaveFight(conn, buf)
+
+    local msg = CSPacket_pb.CS_LeaveFight()
+    msg:ParseFromString(buf)
+
+end
+
+function GameServer:CS_BattleRoundInfo(conn, buf)
+
+    local msg = CSPacket_pb.CS_BattleRoundInfo()
+    msg:ParseFromString(buf)
 
 end
 

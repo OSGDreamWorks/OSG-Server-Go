@@ -57,7 +57,7 @@ func testLogin() {
 
     rpcConn.Close()
 
-    time.Sleep(time.Millisecond * 1000)
+    time.Sleep(time.Millisecond * 100)
 
     conn, err = net.Dial("tcp", info.GetGameServerIp())
     if err != nil {
@@ -65,6 +65,7 @@ func testLogin() {
     }
 
     rpcConn = server.NewTCPSocketConn(nil, conn, 4, 0, 1)
+    defer rpcConn.Close()
 
     check := &protobuf.CS_CheckSession{}
     check.SetUid(info.GetUid())
@@ -81,22 +82,63 @@ func testLogin() {
     logger.Info("GameServer.CS_CheckSession : %v", argv.Interface())
     logger.Info("                 %v", &rst.Request)
 
+    go testPingForever(rpcConn)
+
+    time.Sleep(time.Millisecond * 100)
+
+    testEnterFight(rpcConn)
+}
+
+func testPingForever(rpcConn server.RpcConn) {
     for i := 0; i < 100; i++ {
-        time.Sleep(time.Millisecond * 1000)
+
+        rpcConn.Lock()
+
         req := &protobuf.CS_Ping{}
         rpcConn.Call("GameServer.CS_Ping", req)
 
-        rst = new(server.RequestWrap)
-        err = rpcConn.ReadRequest(&rst.Request)
+        rst := new(server.RequestWrap)
+        err := rpcConn.ReadRequest(&rst.Request)
+
+        if err != nil {
+            logger.Error("Error : %v", err)
+        }
 
         // argv guaranteed to be a pointer now.
-        argv = reflect.New(reflect.TypeOf(protobuf.SC_PingResult{}))
+        argv := reflect.New(reflect.TypeOf(protobuf.SC_PingResult{}))
         rpcConn.GetRequestBody(&rst.Request, argv.Interface())
         logger.Info("GameServer.CS_Ping : %v", argv.Interface())
         logger.Info("                 %v", &rst.Request)
+
+        rpcConn.Unlock()
+
+        time.Sleep(time.Millisecond * 1000)
+
+    }
+}
+
+func testEnterFight(rpcConn server.RpcConn) {
+
+    rpcConn.Lock()
+
+    req := &protobuf.CS_EnterFight{}
+    rpcConn.Call("GameServer.CS_EnterFight", req)
+
+    rst := new(server.RequestWrap)
+    err := rpcConn.ReadRequest(&rst.Request)
+
+    if err != nil {
+        logger.Error("Error : %v", err)
     }
 
-    rpcConn.Close()
+    // argv guaranteed to be a pointer now.
+    argv := reflect.New(reflect.TypeOf(protobuf.SC_EnterClientScene{}))
+    rpcConn.GetRequestBody(&rst.Request, argv.Interface())
+    logger.Info("GameServer.SC_EnterClientScene : %v", argv.Interface())
+    logger.Info("                 %v", &rst.Request)
+
+    rpcConn.Unlock()
+
 }
 
 func testCommon() {

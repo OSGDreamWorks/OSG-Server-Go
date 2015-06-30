@@ -1,7 +1,6 @@
 package protobuf;
 
 import "PB_PacketDefine.proto";
-import "PB_PacketCommon.proto";
 import "XShare_Logic.proto";
 
 option optimize_for = SPEED;

@@ -24,8 +24,7 @@ import json "encoding/json"
 import math "math"
 
 // discarding unused import protobuf1 "PB_PacketDefine.pb"
-// discarding unused import protobuf2 "PB_PacketCommon.pb"
-import protobuf3 "XShare_Logic.pb"
+//import protobuf2 "XShare_Logic.pb" //? a bug?
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -77,7 +76,6 @@ func (x *SC_CheckSessionResult_Result) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// --4>: 战斗阵营; 只能有左右双方, 如果增加, 逻辑部分需要修改
 type SC_BattleResult_EBattleGroupType int32
 
 const (
@@ -280,8 +278,8 @@ func (m *SC_EnterClientScene) SetSceneID(value uint32) {
 
 type SC_BattleRoundInfo struct {
 	RoundId          *uint32               `protobuf:"varint,1,req" json:"RoundId,omitempty"`
-	Partner          []*protobuf3.ArmyInfo `protobuf:"bytes,2,rep" json:"Partner,omitempty"`
-	Enemy            []*protobuf3.ArmyInfo `protobuf:"bytes,3,rep" json:"Enemy,omitempty"`
+	Partner          []*ArmyInfo `protobuf:"bytes,2,rep" json:"Partner,omitempty"`
+	Enemy            []*ArmyInfo `protobuf:"bytes,3,rep" json:"Enemy,omitempty"`
 	XXX_unrecognized []byte                `json:"-"`
 }
 
@@ -296,14 +294,14 @@ func (m *SC_BattleRoundInfo) GetRoundId() uint32 {
 	return 0
 }
 
-func (m *SC_BattleRoundInfo) GetPartner() []*protobuf3.ArmyInfo {
+func (m *SC_BattleRoundInfo) GetPartner() []*ArmyInfo {
 	if m != nil {
 		return m.Partner
 	}
 	return nil
 }
 
-func (m *SC_BattleRoundInfo) GetEnemy() []*protobuf3.ArmyInfo {
+func (m *SC_BattleRoundInfo) GetEnemy() []*ArmyInfo {
 	if m != nil {
 		return m.Enemy
 	}
@@ -316,13 +314,13 @@ func (m *SC_BattleRoundInfo) SetRoundId(value uint32) {
 	}
 }
 
-func (m *SC_BattleRoundInfo) SetPartner(value []*protobuf3.ArmyInfo) {
+func (m *SC_BattleRoundInfo) SetPartner(value []*ArmyInfo) {
 	if m != nil {
 		m.Partner = value
 	}
 }
 
-func (m *SC_BattleRoundInfo) SetEnemy(value []*protobuf3.ArmyInfo) {
+func (m *SC_BattleRoundInfo) SetEnemy(value []*ArmyInfo) {
 	if m != nil {
 		m.Enemy = value
 	}
@@ -334,7 +332,7 @@ type SC_BattleData struct {
 	RightBloodValue  *uint32                  `protobuf:"varint,2,req" json:"RightBloodValue,omitempty"`
 	LeftBattleValue  *uint32                  `protobuf:"varint,3,req" json:"LeftBattleValue,omitempty"`
 	RightBattleValue *uint32                  `protobuf:"varint,4,req" json:"RightBattleValue,omitempty"`
-	BattleRound      []*protobuf3.BattleRound `protobuf:"bytes,5,rep,name=battleRound" json:"battleRound,omitempty"`
+	BattleRound      []*BattleRound `protobuf:"bytes,5,rep,name=battleRound" json:"battleRound,omitempty"`
 	XXX_unrecognized []byte                   `json:"-"`
 }
 
@@ -370,7 +368,7 @@ func (m *SC_BattleData) GetRightBattleValue() uint32 {
 	return 0
 }
 
-func (m *SC_BattleData) GetBattleRound() []*protobuf3.BattleRound {
+func (m *SC_BattleData) GetBattleRound() []*BattleRound {
 	if m != nil {
 		return m.BattleRound
 	}
@@ -401,7 +399,7 @@ func (m *SC_BattleData) SetRightBattleValue(value uint32) {
 	}
 }
 
-func (m *SC_BattleData) SetBattleRound(value []*protobuf3.BattleRound) {
+func (m *SC_BattleData) SetBattleRound(value []*BattleRound) {
 	if m != nil {
 		m.BattleRound = value
 	}
@@ -410,7 +408,7 @@ func (m *SC_BattleData) SetBattleRound(value []*protobuf3.BattleRound) {
 type SC_BattleResult struct {
 	Winner           *SC_BattleResult_EBattleGroupType  `protobuf:"varint,1,req,enum=protobuf.SC_BattleResult_EBattleGroupType" json:"Winner,omitempty"`
 	Result           *SC_BattleResult_EBattleResultFlag `protobuf:"varint,2,req,enum=protobuf.SC_BattleResult_EBattleResultFlag" json:"Result,omitempty"`
-	Bonus            *protobuf3.BonusInfo               `protobuf:"bytes,3,opt" json:"Bonus,omitempty"`
+	Bonus            *BonusInfo               `protobuf:"bytes,3,opt" json:"Bonus,omitempty"`
 	XXX_unrecognized []byte                             `json:"-"`
 }
 
@@ -432,7 +430,7 @@ func (m *SC_BattleResult) GetResult() SC_BattleResult_EBattleResultFlag {
 	return SC_BattleResult_ebrf_Begin
 }
 
-func (m *SC_BattleResult) GetBonus() *protobuf3.BonusInfo {
+func (m *SC_BattleResult) GetBonus() *BonusInfo {
 	if m != nil {
 		return m.Bonus
 	}
@@ -451,7 +449,7 @@ func (m *SC_BattleResult) SetResult(value SC_BattleResult_EBattleResultFlag) {
 	}
 }
 
-func (m *SC_BattleResult) SetBonus(value *protobuf3.BonusInfo) {
+func (m *SC_BattleResult) SetBonus(value *BonusInfo) {
 	if m != nil {
 		m.Bonus = value
 	}
