@@ -66,3 +66,21 @@ echo OK
 echo =============================================================
 echo. 
 echo. 
+
+echo =============================================================
+echo begin build lua Protobuf
+
+mkdir protos\lua\protobuf
+
+cd protos
+for %%i in (*.proto) do (  
+echo %%i
+"..\protoc.exe" --plugin=protoc-gen-lua="..\lua_protobuf\protoc-gen-lua.bat" --lua_out=lua\protobuf %%i
+
+)
+cd ..\
+
+echo OK
+echo =============================================================
+echo. 
+echo. 
