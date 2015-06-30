@@ -11,6 +11,11 @@ It is generated from these files:
 It has these top-level messages:
 	SC_CheckSessionResult
 	SC_PingResult
+	SC_EnterClientScene
+	SC_BattleRoundInfo
+	SC_BattleData
+	SC_BattleResult
+	SC_BattleSceneResult
 */
 package protobuf
 
@@ -19,6 +24,8 @@ import json "encoding/json"
 import math "math"
 
 // discarding unused import protobuf1 "PB_PacketDefine.pb"
+// discarding unused import protobuf2 "PB_PacketCommon.pb"
+import protobuf3 "XShare_Logic.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -67,6 +74,113 @@ func (x *SC_CheckSessionResult_Result) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*x = SC_CheckSessionResult_Result(value)
+	return nil
+}
+
+// --4>: 战斗阵营; 只能有左右双方, 如果增加, 逻辑部分需要修改
+type SC_BattleResult_EBattleGroupType int32
+
+const (
+	SC_BattleResult_eBattleGroup_Invalid SC_BattleResult_EBattleGroupType = -1
+	SC_BattleResult_eBattleGroup_Begin   SC_BattleResult_EBattleGroupType = 1
+	SC_BattleResult_eBattleGroup_Left    SC_BattleResult_EBattleGroupType = 1
+	SC_BattleResult_eBattleGroup_Right   SC_BattleResult_EBattleGroupType = 2
+	SC_BattleResult_eBattleGroup_End     SC_BattleResult_EBattleGroupType = 3
+)
+
+var SC_BattleResult_EBattleGroupType_name = map[int32]string{
+	-1: "eBattleGroup_Invalid",
+	1:  "eBattleGroup_Begin",
+	// Duplicate value: 1: "eBattleGroup_Left",
+	2: "eBattleGroup_Right",
+	3: "eBattleGroup_End",
+}
+var SC_BattleResult_EBattleGroupType_value = map[string]int32{
+	"eBattleGroup_Invalid": -1,
+	"eBattleGroup_Begin":   1,
+	"eBattleGroup_Left":    1,
+	"eBattleGroup_Right":   2,
+	"eBattleGroup_End":     3,
+}
+
+func (x SC_BattleResult_EBattleGroupType) Enum() *SC_BattleResult_EBattleGroupType {
+	p := new(SC_BattleResult_EBattleGroupType)
+	*p = x
+	return p
+}
+func (x SC_BattleResult_EBattleGroupType) String() string {
+	return proto.EnumName(SC_BattleResult_EBattleGroupType_name, int32(x))
+}
+func (x SC_BattleResult_EBattleGroupType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *SC_BattleResult_EBattleGroupType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(SC_BattleResult_EBattleGroupType_value, data, "SC_BattleResult_EBattleGroupType")
+	if err != nil {
+		return err
+	}
+	*x = SC_BattleResult_EBattleGroupType(value)
+	return nil
+}
+
+// 每次回合战斗结果
+type SC_BattleResult_EBattleResultFlag int32
+
+const (
+	SC_BattleResult_ebrf_Begin SC_BattleResult_EBattleResultFlag = 1
+	SC_BattleResult_ebrf_Win1  SC_BattleResult_EBattleResultFlag = 1
+	SC_BattleResult_ebrf_Win2  SC_BattleResult_EBattleResultFlag = 2
+	SC_BattleResult_ebrf_Win3  SC_BattleResult_EBattleResultFlag = 3
+	SC_BattleResult_ebrf_Win4  SC_BattleResult_EBattleResultFlag = 4
+	SC_BattleResult_ebrf_Lose1 SC_BattleResult_EBattleResultFlag = 5
+	SC_BattleResult_ebrf_Lose2 SC_BattleResult_EBattleResultFlag = 6
+	SC_BattleResult_ebrf_Lose3 SC_BattleResult_EBattleResultFlag = 7
+	SC_BattleResult_ebrf_Lose4 SC_BattleResult_EBattleResultFlag = 8
+	SC_BattleResult_ebrf_End   SC_BattleResult_EBattleResultFlag = 9
+)
+
+var SC_BattleResult_EBattleResultFlag_name = map[int32]string{
+	1: "ebrf_Begin",
+	// Duplicate value: 1: "ebrf_Win1",
+	2: "ebrf_Win2",
+	3: "ebrf_Win3",
+	4: "ebrf_Win4",
+	5: "ebrf_Lose1",
+	6: "ebrf_Lose2",
+	7: "ebrf_Lose3",
+	8: "ebrf_Lose4",
+	9: "ebrf_End",
+}
+var SC_BattleResult_EBattleResultFlag_value = map[string]int32{
+	"ebrf_Begin": 1,
+	"ebrf_Win1":  1,
+	"ebrf_Win2":  2,
+	"ebrf_Win3":  3,
+	"ebrf_Win4":  4,
+	"ebrf_Lose1": 5,
+	"ebrf_Lose2": 6,
+	"ebrf_Lose3": 7,
+	"ebrf_Lose4": 8,
+	"ebrf_End":   9,
+}
+
+func (x SC_BattleResult_EBattleResultFlag) Enum() *SC_BattleResult_EBattleResultFlag {
+	p := new(SC_BattleResult_EBattleResultFlag)
+	*p = x
+	return p
+}
+func (x SC_BattleResult_EBattleResultFlag) String() string {
+	return proto.EnumName(SC_BattleResult_EBattleResultFlag_name, int32(x))
+}
+func (x SC_BattleResult_EBattleResultFlag) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *SC_BattleResult_EBattleResultFlag) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(SC_BattleResult_EBattleResultFlag_value, data, "SC_BattleResult_EBattleResultFlag")
+	if err != nil {
+		return err
+	}
+	*x = SC_BattleResult_EBattleResultFlag(value)
 	return nil
 }
 
@@ -142,6 +256,273 @@ func (m *SC_PingResult) SetServerTime(value uint32) {
 	}
 }
 
+type SC_EnterClientScene struct {
+	SceneID          *uint32 `protobuf:"varint,1,req" json:"SceneID,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *SC_EnterClientScene) Reset()         { *m = SC_EnterClientScene{} }
+func (m *SC_EnterClientScene) String() string { return proto.CompactTextString(m) }
+func (*SC_EnterClientScene) ProtoMessage()    {}
+
+func (m *SC_EnterClientScene) GetSceneID() uint32 {
+	if m != nil && m.SceneID != nil {
+		return *m.SceneID
+	}
+	return 0
+}
+
+func (m *SC_EnterClientScene) SetSceneID(value uint32) {
+	if m != nil {
+		m.SceneID = &value
+	}
+}
+
+type SC_BattleRoundInfo struct {
+	RoundId          *uint32               `protobuf:"varint,1,req" json:"RoundId,omitempty"`
+	Partner          []*protobuf3.ArmyInfo `protobuf:"bytes,2,rep" json:"Partner,omitempty"`
+	Enemy            []*protobuf3.ArmyInfo `protobuf:"bytes,3,rep" json:"Enemy,omitempty"`
+	XXX_unrecognized []byte                `json:"-"`
+}
+
+func (m *SC_BattleRoundInfo) Reset()         { *m = SC_BattleRoundInfo{} }
+func (m *SC_BattleRoundInfo) String() string { return proto.CompactTextString(m) }
+func (*SC_BattleRoundInfo) ProtoMessage()    {}
+
+func (m *SC_BattleRoundInfo) GetRoundId() uint32 {
+	if m != nil && m.RoundId != nil {
+		return *m.RoundId
+	}
+	return 0
+}
+
+func (m *SC_BattleRoundInfo) GetPartner() []*protobuf3.ArmyInfo {
+	if m != nil {
+		return m.Partner
+	}
+	return nil
+}
+
+func (m *SC_BattleRoundInfo) GetEnemy() []*protobuf3.ArmyInfo {
+	if m != nil {
+		return m.Enemy
+	}
+	return nil
+}
+
+func (m *SC_BattleRoundInfo) SetRoundId(value uint32) {
+	if m != nil {
+		m.RoundId = &value
+	}
+}
+
+func (m *SC_BattleRoundInfo) SetPartner(value []*protobuf3.ArmyInfo) {
+	if m != nil {
+		m.Partner = value
+	}
+}
+
+func (m *SC_BattleRoundInfo) SetEnemy(value []*protobuf3.ArmyInfo) {
+	if m != nil {
+		m.Enemy = value
+	}
+}
+
+// 总的战斗表现结构
+type SC_BattleData struct {
+	LeftBloodValue   *uint32                  `protobuf:"varint,1,req" json:"LeftBloodValue,omitempty"`
+	RightBloodValue  *uint32                  `protobuf:"varint,2,req" json:"RightBloodValue,omitempty"`
+	LeftBattleValue  *uint32                  `protobuf:"varint,3,req" json:"LeftBattleValue,omitempty"`
+	RightBattleValue *uint32                  `protobuf:"varint,4,req" json:"RightBattleValue,omitempty"`
+	BattleRound      []*protobuf3.BattleRound `protobuf:"bytes,5,rep,name=battleRound" json:"battleRound,omitempty"`
+	XXX_unrecognized []byte                   `json:"-"`
+}
+
+func (m *SC_BattleData) Reset()         { *m = SC_BattleData{} }
+func (m *SC_BattleData) String() string { return proto.CompactTextString(m) }
+func (*SC_BattleData) ProtoMessage()    {}
+
+func (m *SC_BattleData) GetLeftBloodValue() uint32 {
+	if m != nil && m.LeftBloodValue != nil {
+		return *m.LeftBloodValue
+	}
+	return 0
+}
+
+func (m *SC_BattleData) GetRightBloodValue() uint32 {
+	if m != nil && m.RightBloodValue != nil {
+		return *m.RightBloodValue
+	}
+	return 0
+}
+
+func (m *SC_BattleData) GetLeftBattleValue() uint32 {
+	if m != nil && m.LeftBattleValue != nil {
+		return *m.LeftBattleValue
+	}
+	return 0
+}
+
+func (m *SC_BattleData) GetRightBattleValue() uint32 {
+	if m != nil && m.RightBattleValue != nil {
+		return *m.RightBattleValue
+	}
+	return 0
+}
+
+func (m *SC_BattleData) GetBattleRound() []*protobuf3.BattleRound {
+	if m != nil {
+		return m.BattleRound
+	}
+	return nil
+}
+
+func (m *SC_BattleData) SetLeftBloodValue(value uint32) {
+	if m != nil {
+		m.LeftBloodValue = &value
+	}
+}
+
+func (m *SC_BattleData) SetRightBloodValue(value uint32) {
+	if m != nil {
+		m.RightBloodValue = &value
+	}
+}
+
+func (m *SC_BattleData) SetLeftBattleValue(value uint32) {
+	if m != nil {
+		m.LeftBattleValue = &value
+	}
+}
+
+func (m *SC_BattleData) SetRightBattleValue(value uint32) {
+	if m != nil {
+		m.RightBattleValue = &value
+	}
+}
+
+func (m *SC_BattleData) SetBattleRound(value []*protobuf3.BattleRound) {
+	if m != nil {
+		m.BattleRound = value
+	}
+}
+
+type SC_BattleResult struct {
+	Winner           *SC_BattleResult_EBattleGroupType  `protobuf:"varint,1,req,enum=protobuf.SC_BattleResult_EBattleGroupType" json:"Winner,omitempty"`
+	Result           *SC_BattleResult_EBattleResultFlag `protobuf:"varint,2,req,enum=protobuf.SC_BattleResult_EBattleResultFlag" json:"Result,omitempty"`
+	Bonus            *protobuf3.BonusInfo               `protobuf:"bytes,3,opt" json:"Bonus,omitempty"`
+	XXX_unrecognized []byte                             `json:"-"`
+}
+
+func (m *SC_BattleResult) Reset()         { *m = SC_BattleResult{} }
+func (m *SC_BattleResult) String() string { return proto.CompactTextString(m) }
+func (*SC_BattleResult) ProtoMessage()    {}
+
+func (m *SC_BattleResult) GetWinner() SC_BattleResult_EBattleGroupType {
+	if m != nil && m.Winner != nil {
+		return *m.Winner
+	}
+	return SC_BattleResult_eBattleGroup_Invalid
+}
+
+func (m *SC_BattleResult) GetResult() SC_BattleResult_EBattleResultFlag {
+	if m != nil && m.Result != nil {
+		return *m.Result
+	}
+	return SC_BattleResult_ebrf_Begin
+}
+
+func (m *SC_BattleResult) GetBonus() *protobuf3.BonusInfo {
+	if m != nil {
+		return m.Bonus
+	}
+	return nil
+}
+
+func (m *SC_BattleResult) SetWinner(value SC_BattleResult_EBattleGroupType) {
+	if m != nil {
+		m.Winner = &value
+	}
+}
+
+func (m *SC_BattleResult) SetResult(value SC_BattleResult_EBattleResultFlag) {
+	if m != nil {
+		m.Result = &value
+	}
+}
+
+func (m *SC_BattleResult) SetBonus(value *protobuf3.BonusInfo) {
+	if m != nil {
+		m.Bonus = value
+	}
+}
+
+type SC_BattleSceneResult struct {
+	StarPoint        *int32 `protobuf:"varint,1,req" json:"StarPoint,omitempty"`
+	SceneLevel       *int32 `protobuf:"varint,2,req,name=sceneLevel" json:"sceneLevel,omitempty"`
+	Exp              *int32 `protobuf:"varint,3,req,name=exp" json:"exp,omitempty"`
+	ExtExp           *int32 `protobuf:"varint,4,req,name=extExp" json:"extExp,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *SC_BattleSceneResult) Reset()         { *m = SC_BattleSceneResult{} }
+func (m *SC_BattleSceneResult) String() string { return proto.CompactTextString(m) }
+func (*SC_BattleSceneResult) ProtoMessage()    {}
+
+func (m *SC_BattleSceneResult) GetStarPoint() int32 {
+	if m != nil && m.StarPoint != nil {
+		return *m.StarPoint
+	}
+	return 0
+}
+
+func (m *SC_BattleSceneResult) GetSceneLevel() int32 {
+	if m != nil && m.SceneLevel != nil {
+		return *m.SceneLevel
+	}
+	return 0
+}
+
+func (m *SC_BattleSceneResult) GetExp() int32 {
+	if m != nil && m.Exp != nil {
+		return *m.Exp
+	}
+	return 0
+}
+
+func (m *SC_BattleSceneResult) GetExtExp() int32 {
+	if m != nil && m.ExtExp != nil {
+		return *m.ExtExp
+	}
+	return 0
+}
+
+func (m *SC_BattleSceneResult) SetStarPoint(value int32) {
+	if m != nil {
+		m.StarPoint = &value
+	}
+}
+
+func (m *SC_BattleSceneResult) SetSceneLevel(value int32) {
+	if m != nil {
+		m.SceneLevel = &value
+	}
+}
+
+func (m *SC_BattleSceneResult) SetExp(value int32) {
+	if m != nil {
+		m.Exp = &value
+	}
+}
+
+func (m *SC_BattleSceneResult) SetExtExp(value int32) {
+	if m != nil {
+		m.ExtExp = &value
+	}
+}
+
 func init() {
 	proto.RegisterEnum("protobuf.SC_CheckSessionResult_Result", SC_CheckSessionResult_Result_name, SC_CheckSessionResult_Result_value)
+	proto.RegisterEnum("protobuf.SC_BattleResult_EBattleGroupType", SC_BattleResult_EBattleGroupType_name, SC_BattleResult_EBattleGroupType_value)
+	proto.RegisterEnum("protobuf.SC_BattleResult_EBattleResultFlag", SC_BattleResult_EBattleResultFlag_name, SC_BattleResult_EBattleResultFlag_value)
 }

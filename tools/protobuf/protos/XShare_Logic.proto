@@ -20,3 +20,44 @@ message PlayerBaseInfo{
     required string uid = 1;
     required StatusInfo stat = 2;				//状态
 }
+
+message ItemInfo{
+
+}
+
+message ArmyInfo{
+
+}
+
+message OneBattleAction {
+	
+	enum EBattleActionType
+	{
+		eBattleAction_Move		= 1;
+		eBattleAction_Attack	= 2;
+	}
+	
+	required EBattleActionType ActionType = 1;	// 动作类型
+	required uint32 ActionTarget 		= 2;	// 实施者的位置
+	required uint32 MainTarget 			= 3;	// 目标的位置
+	optional int32 AutoHP 				= 4 [default = 0];
+}
+
+message SameTimeBuffEffect{
+}
+
+//一个回合的表现,
+message BattleRound
+{
+	repeated OneBattleAction Actions = 1;
+	repeated SameTimeBuffEffect BuffEffectArr = 2;
+}
+
+message BonusInfo
+{
+	optional uint32 BonusExp = 1;
+	optional uint32 GameMoney = 2 [default = 0];
+	optional uint32 RealMoney = 3 [default = 0];
+	optional uint32 HonourValue = 4;
+	repeated ItemInfo ItemList = 5;
+}

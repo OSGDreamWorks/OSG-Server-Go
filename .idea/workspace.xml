@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d9e5531-3e17-495b-8597-cc9043050131" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" afterPath="$PROJECT_DIR$/script/app/gameserver/GameServer.lua" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/CSPacket.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/CSPacket.proto" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/PB_PacketDefine.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/PB_PacketDefine.proto" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/SCPacket.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/SCPacket.proto" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/protobuf/protos/XShare_Logic.proto" afterPath="$PROJECT_DIR$/tools/protobuf/protos/XShare_Logic.proto" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OSG-Server-Go.iws" />
@@ -29,8 +32,8 @@
       <file leaf-file-name="GameServer.lua" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script/app/gameserver/GameServer.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72798216">
-              <caret line="155" column="38" selection-start-line="155" selection-start-column="38" selection-end-line="155" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.6008919">
+              <caret line="149" column="7" selection-start-line="149" selection-start-column="7" selection-end-line="149" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -592,12 +595,12 @@
       <workItem from="1435286705329" duration="5828000" />
       <workItem from="1435548227937" duration="4228000" />
       <workItem from="1435562762017" duration="4151000" />
-      <workItem from="1435627755173" duration="802000" />
+      <workItem from="1435627755173" duration="4841000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152096000" />
+    <option name="totallyTimeSpent" value="156135000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -977,8 +980,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script/app/gameserver/GameServer.lua">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72798216">
-          <caret line="155" column="38" selection-start-line="155" selection-start-column="38" selection-end-line="155" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.6008919">
+          <caret line="149" column="7" selection-start-line="149" selection-start-column="7" selection-end-line="149" selection-end-column="7" />
           <folding />
         </state>
       </provider>

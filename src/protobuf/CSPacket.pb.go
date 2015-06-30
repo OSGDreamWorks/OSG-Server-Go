@@ -11,6 +11,10 @@ It is generated from these files:
 It has these top-level messages:
 	CS_CheckSession
 	CS_Ping
+	CS_LeaveClientScene
+	CS_EnterFight
+	CS_LeaveFight
+	CS_BattleRoundInfo
 */
 package protobuf
 
@@ -82,6 +86,66 @@ type CS_Ping struct {
 func (m *CS_Ping) Reset()         { *m = CS_Ping{} }
 func (m *CS_Ping) String() string { return proto.CompactTextString(m) }
 func (*CS_Ping) ProtoMessage()    {}
+
+type CS_LeaveClientScene struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *CS_LeaveClientScene) Reset()         { *m = CS_LeaveClientScene{} }
+func (m *CS_LeaveClientScene) String() string { return proto.CompactTextString(m) }
+func (*CS_LeaveClientScene) ProtoMessage()    {}
+
+type CS_EnterFight struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *CS_EnterFight) Reset()         { *m = CS_EnterFight{} }
+func (m *CS_EnterFight) String() string { return proto.CompactTextString(m) }
+func (*CS_EnterFight) ProtoMessage()    {}
+
+type CS_LeaveFight struct {
+	RoundId          *uint32 `protobuf:"varint,1,req" json:"RoundId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *CS_LeaveFight) Reset()         { *m = CS_LeaveFight{} }
+func (m *CS_LeaveFight) String() string { return proto.CompactTextString(m) }
+func (*CS_LeaveFight) ProtoMessage()    {}
+
+func (m *CS_LeaveFight) GetRoundId() uint32 {
+	if m != nil && m.RoundId != nil {
+		return *m.RoundId
+	}
+	return 0
+}
+
+func (m *CS_LeaveFight) SetRoundId(value uint32) {
+	if m != nil {
+		m.RoundId = &value
+	}
+}
+
+type CS_BattleRoundInfo struct {
+	RoundId          *uint32 `protobuf:"varint,1,req" json:"RoundId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *CS_BattleRoundInfo) Reset()         { *m = CS_BattleRoundInfo{} }
+func (m *CS_BattleRoundInfo) String() string { return proto.CompactTextString(m) }
+func (*CS_BattleRoundInfo) ProtoMessage()    {}
+
+func (m *CS_BattleRoundInfo) GetRoundId() uint32 {
+	if m != nil && m.RoundId != nil {
+		return *m.RoundId
+	}
+	return 0
+}
+
+func (m *CS_BattleRoundInfo) SetRoundId(value uint32) {
+	if m != nil {
+		m.RoundId = &value
+	}
+}
 
 func init() {
 }

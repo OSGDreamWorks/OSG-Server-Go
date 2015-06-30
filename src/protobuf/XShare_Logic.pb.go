@@ -11,6 +11,12 @@ It is generated from these files:
 It has these top-level messages:
 	StatusInfo
 	PlayerBaseInfo
+	ItemInfo
+	ArmyInfo
+	OneBattleAction
+	SameTimeBuffEffect
+	BattleRound
+	BonusInfo
 */
 package protobuf
 
@@ -22,6 +28,42 @@ import math "math"
 var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
+
+type OneBattleAction_EBattleActionType int32
+
+const (
+	OneBattleAction_eBattleAction_Move   OneBattleAction_EBattleActionType = 1
+	OneBattleAction_eBattleAction_Attack OneBattleAction_EBattleActionType = 2
+)
+
+var OneBattleAction_EBattleActionType_name = map[int32]string{
+	1: "eBattleAction_Move",
+	2: "eBattleAction_Attack",
+}
+var OneBattleAction_EBattleActionType_value = map[string]int32{
+	"eBattleAction_Move":   1,
+	"eBattleAction_Attack": 2,
+}
+
+func (x OneBattleAction_EBattleActionType) Enum() *OneBattleAction_EBattleActionType {
+	p := new(OneBattleAction_EBattleActionType)
+	*p = x
+	return p
+}
+func (x OneBattleAction_EBattleActionType) String() string {
+	return proto.EnumName(OneBattleAction_EBattleActionType_name, int32(x))
+}
+func (x OneBattleAction_EBattleActionType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *OneBattleAction_EBattleActionType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(OneBattleAction_EBattleActionType_value, data, "OneBattleAction_EBattleActionType")
+	if err != nil {
+		return err
+	}
+	*x = OneBattleAction_EBattleActionType(value)
+	return nil
+}
 
 type StatusInfo struct {
 	Name             *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
@@ -137,5 +179,214 @@ func (m *PlayerBaseInfo) SetStat(value *StatusInfo) {
 	}
 }
 
+type ItemInfo struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *ItemInfo) Reset()         { *m = ItemInfo{} }
+func (m *ItemInfo) String() string { return proto.CompactTextString(m) }
+func (*ItemInfo) ProtoMessage()    {}
+
+type ArmyInfo struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *ArmyInfo) Reset()         { *m = ArmyInfo{} }
+func (m *ArmyInfo) String() string { return proto.CompactTextString(m) }
+func (*ArmyInfo) ProtoMessage()    {}
+
+type OneBattleAction struct {
+	ActionType       *OneBattleAction_EBattleActionType `protobuf:"varint,1,req,enum=protobuf.OneBattleAction_EBattleActionType" json:"ActionType,omitempty"`
+	ActionTarget     *uint32                            `protobuf:"varint,2,req" json:"ActionTarget,omitempty"`
+	MainTarget       *uint32                            `protobuf:"varint,3,req" json:"MainTarget,omitempty"`
+	AutoHP           *int32                             `protobuf:"varint,4,opt,def=0" json:"AutoHP,omitempty"`
+	XXX_unrecognized []byte                             `json:"-"`
+}
+
+func (m *OneBattleAction) Reset()         { *m = OneBattleAction{} }
+func (m *OneBattleAction) String() string { return proto.CompactTextString(m) }
+func (*OneBattleAction) ProtoMessage()    {}
+
+const Default_OneBattleAction_AutoHP int32 = 0
+
+func (m *OneBattleAction) GetActionType() OneBattleAction_EBattleActionType {
+	if m != nil && m.ActionType != nil {
+		return *m.ActionType
+	}
+	return OneBattleAction_eBattleAction_Move
+}
+
+func (m *OneBattleAction) GetActionTarget() uint32 {
+	if m != nil && m.ActionTarget != nil {
+		return *m.ActionTarget
+	}
+	return 0
+}
+
+func (m *OneBattleAction) GetMainTarget() uint32 {
+	if m != nil && m.MainTarget != nil {
+		return *m.MainTarget
+	}
+	return 0
+}
+
+func (m *OneBattleAction) GetAutoHP() int32 {
+	if m != nil && m.AutoHP != nil {
+		return *m.AutoHP
+	}
+	return Default_OneBattleAction_AutoHP
+}
+
+func (m *OneBattleAction) SetActionType(value OneBattleAction_EBattleActionType) {
+	if m != nil {
+		m.ActionType = &value
+	}
+}
+
+func (m *OneBattleAction) SetActionTarget(value uint32) {
+	if m != nil {
+		m.ActionTarget = &value
+	}
+}
+
+func (m *OneBattleAction) SetMainTarget(value uint32) {
+	if m != nil {
+		m.MainTarget = &value
+	}
+}
+
+func (m *OneBattleAction) SetAutoHP(value int32) {
+	if m != nil {
+		m.AutoHP = &value
+	}
+}
+
+type SameTimeBuffEffect struct {
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *SameTimeBuffEffect) Reset()         { *m = SameTimeBuffEffect{} }
+func (m *SameTimeBuffEffect) String() string { return proto.CompactTextString(m) }
+func (*SameTimeBuffEffect) ProtoMessage()    {}
+
+// 一个回合的表现,
+type BattleRound struct {
+	Actions          []*OneBattleAction    `protobuf:"bytes,1,rep" json:"Actions,omitempty"`
+	BuffEffectArr    []*SameTimeBuffEffect `protobuf:"bytes,2,rep" json:"BuffEffectArr,omitempty"`
+	XXX_unrecognized []byte                `json:"-"`
+}
+
+func (m *BattleRound) Reset()         { *m = BattleRound{} }
+func (m *BattleRound) String() string { return proto.CompactTextString(m) }
+func (*BattleRound) ProtoMessage()    {}
+
+func (m *BattleRound) GetActions() []*OneBattleAction {
+	if m != nil {
+		return m.Actions
+	}
+	return nil
+}
+
+func (m *BattleRound) GetBuffEffectArr() []*SameTimeBuffEffect {
+	if m != nil {
+		return m.BuffEffectArr
+	}
+	return nil
+}
+
+func (m *BattleRound) SetActions(value []*OneBattleAction) {
+	if m != nil {
+		m.Actions = value
+	}
+}
+
+func (m *BattleRound) SetBuffEffectArr(value []*SameTimeBuffEffect) {
+	if m != nil {
+		m.BuffEffectArr = value
+	}
+}
+
+type BonusInfo struct {
+	BonusExp         *uint32     `protobuf:"varint,1,opt" json:"BonusExp,omitempty"`
+	GameMoney        *uint32     `protobuf:"varint,2,opt,def=0" json:"GameMoney,omitempty"`
+	RealMoney        *uint32     `protobuf:"varint,3,opt,def=0" json:"RealMoney,omitempty"`
+	HonourValue      *uint32     `protobuf:"varint,4,opt" json:"HonourValue,omitempty"`
+	ItemList         []*ItemInfo `protobuf:"bytes,5,rep" json:"ItemList,omitempty"`
+	XXX_unrecognized []byte      `json:"-"`
+}
+
+func (m *BonusInfo) Reset()         { *m = BonusInfo{} }
+func (m *BonusInfo) String() string { return proto.CompactTextString(m) }
+func (*BonusInfo) ProtoMessage()    {}
+
+const Default_BonusInfo_GameMoney uint32 = 0
+const Default_BonusInfo_RealMoney uint32 = 0
+
+func (m *BonusInfo) GetBonusExp() uint32 {
+	if m != nil && m.BonusExp != nil {
+		return *m.BonusExp
+	}
+	return 0
+}
+
+func (m *BonusInfo) GetGameMoney() uint32 {
+	if m != nil && m.GameMoney != nil {
+		return *m.GameMoney
+	}
+	return Default_BonusInfo_GameMoney
+}
+
+func (m *BonusInfo) GetRealMoney() uint32 {
+	if m != nil && m.RealMoney != nil {
+		return *m.RealMoney
+	}
+	return Default_BonusInfo_RealMoney
+}
+
+func (m *BonusInfo) GetHonourValue() uint32 {
+	if m != nil && m.HonourValue != nil {
+		return *m.HonourValue
+	}
+	return 0
+}
+
+func (m *BonusInfo) GetItemList() []*ItemInfo {
+	if m != nil {
+		return m.ItemList
+	}
+	return nil
+}
+
+func (m *BonusInfo) SetBonusExp(value uint32) {
+	if m != nil {
+		m.BonusExp = &value
+	}
+}
+
+func (m *BonusInfo) SetGameMoney(value uint32) {
+	if m != nil {
+		m.GameMoney = &value
+	}
+}
+
+func (m *BonusInfo) SetRealMoney(value uint32) {
+	if m != nil {
+		m.RealMoney = &value
+	}
+}
+
+func (m *BonusInfo) SetHonourValue(value uint32) {
+	if m != nil {
+		m.HonourValue = &value
+	}
+}
+
+func (m *BonusInfo) SetItemList(value []*ItemInfo) {
+	if m != nil {
+		m.ItemList = value
+	}
+}
+
 func init() {
+	proto.RegisterEnum("protobuf.OneBattleAction_EBattleActionType", OneBattleAction_EBattleActionType_name, OneBattleAction_EBattleActionType_value)
 }

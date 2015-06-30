@@ -1,6 +1,8 @@
 package protobuf;
 
 import "PB_PacketDefine.proto";
+import "PB_PacketCommon.proto";
+import "XShare_Logic.proto";
 
 option optimize_for = SPEED;
 
@@ -19,4 +21,63 @@ message SC_CheckSessionResult{
 
 message SC_PingResult{
 	required uint32 server_time = 1;
+}
+
+message SC_EnterClientScene {
+	required uint32 SceneID = 1;
+}
+
+message SC_BattleRoundInfo {
+	required uint32 RoundId = 1;
+	repeated ArmyInfo Partner = 2;		//我方部队信息
+	repeated ArmyInfo Enemy = 3;		//敌方部队信息
+}
+
+//总的战斗表现结构
+message SC_BattleData {
+	required uint32 LeftBloodValue	= 1;
+	required uint32 RightBloodValue = 2;
+	required uint32 LeftBattleValue = 3;
+	required uint32 RightBattleValue = 4;
+	repeated BattleRound battleRound = 5;	//战斗回合表现
+}
+
+message SC_BattleResult {
+
+	//--4>: 战斗阵营; 只能有左右双方, 如果增加, 逻辑部分需要修改
+	enum EBattleGroupType
+	{
+		option allow_alias = true;
+		eBattleGroup_Invalid	= -1;
+		eBattleGroup_Begin		= 1;
+		eBattleGroup_Left		= 1;
+		eBattleGroup_Right		= 2;
+		eBattleGroup_End		= 3;
+	}
+
+	// 每次回合战斗结果
+	enum EBattleResultFlag {
+		option allow_alias = true;
+		ebrf_Begin				= 1;
+		ebrf_Win1				= 1;	// 完胜
+		ebrf_Win2				= 2;	// 大胜
+		ebrf_Win3				= 3;	// 小胜
+		ebrf_Win4				= 4;	// 险胜
+		ebrf_Lose1				= 5;	// 惜败
+		ebrf_Lose2				= 6;	// 小败
+		ebrf_Lose3				= 7;	// 大败
+		ebrf_Lose4				= 8;	// 惨败
+		ebrf_End				= 9;
+	}
+	
+	required EBattleGroupType Winner = 1;
+	required EBattleResultFlag Result = 2;
+	optional BonusInfo Bonus = 3;
+}
+
+message SC_BattleSceneResult {
+	required int32 StarPoint 	= 1;
+	required int32 sceneLevel 	= 2;
+	required int32 exp			= 3;
+	required int32 extExp		= 4;
 }

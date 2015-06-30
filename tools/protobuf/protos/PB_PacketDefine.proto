@@ -32,6 +32,14 @@ enum CS_Protocol {
 	eCS_Disconnected 		= 20001;
 	eCS_CheckSession 		= 20002;
 	eCS_Ping 				= 20003;
+	
+	// Begin ClientScene & BattleScene
+	eCS_LeaveClientScene	= 21000;
+	eCS_EnterFight			= 21001;
+	eCS_LeaveFight			= 21002;
+	eCS_BattleRoundInfo		= 21003;
+	// End ClientScene & BattleScene
+	
 	//----------------------------
 	eCS_PacketEnd			= 30000;
 }
@@ -44,6 +52,15 @@ enum SC_Protocol {
 	eSC_Disconnected 		= 30001;
 	eSC_CheckSessionResult 	= 30002;
 	eCS_PingResult 			= 30003;
+	
+	// Begin ClientScene & BattleScene
+	eSC_EnterClientScene	= 31000;	
+	eSC_BattleRoundInfo		= 31001;		// 战斗回合信息
+	eSC_BattleData			= 31002;		// 战斗攻击移动表现
+	eSC_BattleResult		= 31003;
+	eSC_BattleSceneResult	= 31004;		// 结束界面
+	// End ClientScene & BattleScene
+	
 	//----------------------------
 	eSC_PacketEnd			= 40000;
 }
