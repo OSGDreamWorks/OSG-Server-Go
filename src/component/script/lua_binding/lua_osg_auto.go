@@ -12,6 +12,7 @@ const luaIndexTypeName = "__index"
 
 func RegisterOsgModule(L *lua.LState) int {
     logger.Debug("osg module Loader")
+    Register_lua_sync_RWMutex(L)
     Register_lua_json(L)
     Register_lua_common(L)
     Register_lua_db(L)

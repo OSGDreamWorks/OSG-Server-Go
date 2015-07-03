@@ -13,6 +13,8 @@ import (
 const luaRpcClientTypeName = "RpcClient"
 
 var indexRpcClientMethods = map[string]lua.LGFunction{
+    "ReConnect": Register_lua_rpc_RpcClient_ReConnect,
+    "AddDisCallback": Register_lua_rpc_RpcClient_AddDisCallback,
     "Call": Register_lua_rpc_RpcClient_Call,
     "Close": Register_lua_rpc_RpcClient_Close,
 }
@@ -45,6 +47,45 @@ func Register_lua_rpc_RpcClient_newClass(L *lua.LState) int {
     L.SetMetatable(ud, L.GetTypeMetatable(luaRpcClientTypeName))
     L.Push(ud)
     return 1
+}
+
+func Register_lua_rpc_RpcClient_ReConnect(L *lua.LState) int {
+
+    ud := L.CheckUserData(1)
+    host:= L.CheckString(2)
+
+    if v, ok := ud.Value.(*rpc.Client); ok {
+        v.ReConnect(host)
+    }
+
+    return 0
+}
+
+func Register_lua_rpc_RpcClient_AddDisCallback(L *lua.LState) int {
+
+    ud := L.CheckUserData(1)
+    luaFn := L.CheckFunction(2)
+
+    if v, ok := ud.Value.(*rpc.Client); ok {
+        v.AddDisCallback(
+        func(err error) {
+            errValue := ""
+            if err != nil {
+                errValue = err.Error()
+            }
+            err2 := L.CallByParam(lua.P{
+                Fn: luaFn,
+                NRet: 0,
+                Protect: true,
+            }, lua.LString(errValue))
+
+            if err2 !=nil {
+                logger.Error("AddDisCallback Error : %s", err2.Error())
+            }
+        },
+        )
+    }
+    return 0
 }
 
 func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {

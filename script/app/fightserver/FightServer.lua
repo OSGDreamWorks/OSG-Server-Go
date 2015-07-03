@@ -22,7 +22,7 @@ end
 
 function FightServer:SF_StartBattle(req, rst)
     logger.Debug(req)
-    return "ok"
+    return "rst"
 end
 
 return FightServer

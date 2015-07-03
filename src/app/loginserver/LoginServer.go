@@ -49,7 +49,21 @@ func CreateServices(lgcfg config.LoginConfig, authcfg config.AuthConfig) *LoginM
         m: make(map[uint64]serverInfo),
     }
 
-    pLoginServices.reConnect()
+    authConn, err := net.Dial("tcp", pLoginServices.authHost)
+    for {
+        if err == nil {
+            break
+        }
+        logger.Error("AuthServer Connect Error : %v", err.Error())
+        time.Sleep(time.Second * 3)
+        authConn, err = net.Dial("tcp", pLoginServices.authHost)
+    }
+
+    pLoginServices.loginServer.authServer = rpc.NewClient(authConn)
+    pLoginServices.loginServer.authServer.AddDisCallback(func(err error) {
+        logger.Info("disconnected error:", err)
+        pLoginServices.loginServer.authServer.ReConnect(pLoginServices.authHost)
+    })
 
     pLoginServices.rpcServer.rpcServer.Register(pLoginServices.rpcServer)
     pLoginServices.loginServer.loginServer.Register(pLoginServices.loginServer)
@@ -73,26 +87,6 @@ func CreateServices(lgcfg config.LoginConfig, authcfg config.AuthConfig) *LoginM
     pLoginServices.loginServer.loginServer.ListenAndServe(lgcfg.TcpHostForClient, lgcfg.HttpHostForClient)
 
     return pLoginServices
-}
-
-func (self *LoginMasterServer)reConnect() {
-
-    authConn, err := net.Dial("tcp", self.authHost)
-    for {
-        if err == nil {
-            break
-        }
-        logger.Error("AuthServer Connect Error : %v", err.Error())
-        time.Sleep(time.Second * 3)
-        authConn, err = net.Dial("tcp", self.authHost)
-    }
-
-    self.loginServer.authServer = rpc.NewClient(authConn)
-
-    self.loginServer.authServer.AddDisCallback(func(err error) {
-        logger.Info("disconnected error:", err)
-        self.reConnect()
-    })
 }
 
 func (self *LoginRpcServer)SL_UpdatePlayerCount(uConnId *uint64, req *[]byte, ret *[]byte) error {

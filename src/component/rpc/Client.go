@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"reflect"
 	"sync"
+	"time"
 )
 
 // ServerError represents an error that has been returned from
@@ -67,6 +68,28 @@ type ClientCodec interface {
 	ReadResponseBody(interface{}) error
 
 	Close() error
+}
+
+func (client *Client)ReConnect(host string) {
+
+	conn, err := net.Dial("tcp", host)
+	for {
+		if err == nil {
+			break
+		}
+		//logger.Error("Rpc Client Connect Error : %v", err.Error())
+		time.Sleep(time.Second * 3)
+		conn, err = net.Dial("tcp", host)
+	}
+
+	client.shutdown = false
+	client.closing = false
+
+	encBuf := bufio.NewWriter(conn)
+	clientcodec := &gobClientCodec{conn, gob.NewDecoder(conn), gob.NewEncoder(encBuf), encBuf}
+	client.codec = clientcodec
+
+	go client.input()
 }
 
 func (client *Client) send(call *Call) {

@@ -25,6 +25,8 @@ end
 
 function GameServer:CreateServices(cfg)
 
+    self.l = RWMutex.new()
+
     --初始化DB
     db.Init()
 
@@ -33,7 +35,15 @@ function GameServer:CreateServices(cfg)
 
     --
     local loginCfg = common.config.ReadConfig("etc/loginserver.json")
-    self.loginServer = RpcClient.new(loginCfg.LoginHost)
+    self.LoginHost = loginCfg.LoginHost
+    self.loginServer = RpcClient.new(self.LoginHost)
+
+    local gs = self
+    self.loginServer:AddDisCallback(
+        function(err)
+            gs.loginServer:ReConnect(gs.LoginHost)
+        end
+    )
 
     --初始化战斗服组
     self.fightServer = FsConnMgr.new("FsConnMgr")
@@ -96,20 +106,28 @@ function GameServer:onDisConn(conn)
 end
 
 function GameServer:addPlayer(cId, player, _)
-    self.gameServer:Lock()
+
+    self.l:Lock()
+
     self.players[cId] = player
     self.playersbyid[player.info_["uid"]] = player
-    self.gameServer:Unlock()
+
+    self.l:Unlock()
+
 end
 
 function GameServer:delPlayer(cId)
     local player = self.players[cId]
     if player ~= nil then
         player:OnQuit()
-        self.gameServer:Lock()
+
+        self.l:Lock()
+
         self.players[cId] = nil
         self.playersbyid[player.info_["uid"]] = nil
-        self.gameServer:Unlock()
+
+        self.l:Unlock()
+
     end
 end
 
@@ -170,7 +188,7 @@ function GameServer:CS_EnterFight(conn, buf)
     local msg = CSPacket_pb.CS_EnterFight()
     msg:ParseFromString(buf)
 
-    local rst = self.fightServer:Call("FightServer.SF_StartBattle", "111", "222")
+    local rst = self.fightServer:Call("FightServer.SF_StartBattle", "SF_StartBattle", "rst")
 
     logger.Debug(rst)
 

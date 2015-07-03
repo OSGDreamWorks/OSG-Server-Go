@@ -9,25 +9,37 @@ function FsConnMgr:ctor(appName)
 end
 
 function FsConnMgr:init(cfg)
+
     self.fspool = {}
     for key, value in pairs(cfg.FsHost) do
-        logger.Debug("key %v, value:%v", key, value)
+        local fs = self
         self.fspool[key] = RpcClient.new(value)
+        self.fspool[key]:AddDisCallback(
+            function(err)
+                fs.fspool[key]:ReConnect(value)
+            end
+        )
     end
 
     self.poolsize = #cfg.FsHost
     self.workindex = 1
+    self.l = RWMutex.new()
 
 end
 
 function FsConnMgr:GetWorkConn()
+
+    self.l:Lock()
 
     self.workindex = self.workindex + 1
     if self.workindex > self.poolsize then
         self.workindex = 1
     end
 
+    self.l:Unlock()
+
     return self.fspool[self.workindex]
+
 end
 
 function FsConnMgr:Call(serviceMethod, req, rst)
