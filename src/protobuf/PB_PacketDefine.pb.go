@@ -127,8 +127,9 @@ const (
 	// Begin ClientScene & BattleScene
 	CS_Protocol_eCS_LeaveClientScene CS_Protocol = 21000
 	CS_Protocol_eCS_EnterFight       CS_Protocol = 21001
-	CS_Protocol_eCS_LeaveFight       CS_Protocol = 21002
+	CS_Protocol_eCS_ExitFight        CS_Protocol = 21002
 	CS_Protocol_eCS_BattleRoundInfo  CS_Protocol = 21003
+	CS_Protocol_eCS_BattleData       CS_Protocol = 21004
 	// ----------------------------
 	CS_Protocol_eCS_PacketEnd CS_Protocol = 30000
 )
@@ -141,8 +142,9 @@ var CS_Protocol_name = map[int32]string{
 	20003: "eCS_Ping",
 	21000: "eCS_LeaveClientScene",
 	21001: "eCS_EnterFight",
-	21002: "eCS_LeaveFight",
+	21002: "eCS_ExitFight",
 	21003: "eCS_BattleRoundInfo",
+	21004: "eCS_BattleData",
 	30000: "eCS_PacketEnd",
 }
 var CS_Protocol_value = map[string]int32{
@@ -153,8 +155,9 @@ var CS_Protocol_value = map[string]int32{
 	"eCS_Ping":             20003,
 	"eCS_LeaveClientScene": 21000,
 	"eCS_EnterFight":       21001,
-	"eCS_LeaveFight":       21002,
+	"eCS_ExitFight":        21002,
 	"eCS_BattleRoundInfo":  21003,
+	"eCS_BattleData":       21004,
 	"eCS_PacketEnd":        30000,
 }
 
@@ -188,11 +191,12 @@ const (
 	SC_Protocol_eSC_CheckSessionResult SC_Protocol = 30002
 	SC_Protocol_eCS_PingResult         SC_Protocol = 30003
 	// Begin ClientScene & BattleScene
-	SC_Protocol_eSC_EnterClientScene  SC_Protocol = 31000
-	SC_Protocol_eSC_BattleRoundInfo   SC_Protocol = 31001
-	SC_Protocol_eSC_BattleData        SC_Protocol = 31002
-	SC_Protocol_eSC_BattleResult      SC_Protocol = 31003
-	SC_Protocol_eSC_BattleSceneResult SC_Protocol = 31004
+	SC_Protocol_eSC_LeaveClientScene  SC_Protocol = 31000
+	SC_Protocol_eSC_EnterClientScene  SC_Protocol = 31001
+	SC_Protocol_eSC_ExitClientScene   SC_Protocol = 31002
+	SC_Protocol_eSC_BattleRoundInfo   SC_Protocol = 31003
+	SC_Protocol_eSC_BattleData        SC_Protocol = 31004
+	SC_Protocol_eSC_BattleSceneResult SC_Protocol = 31005
 	// ----------------------------
 	SC_Protocol_eSC_PacketEnd SC_Protocol = 40000
 )
@@ -203,11 +207,12 @@ var SC_Protocol_name = map[int32]string{
 	30001: "eSC_Disconnected",
 	30002: "eSC_CheckSessionResult",
 	30003: "eCS_PingResult",
-	31000: "eSC_EnterClientScene",
-	31001: "eSC_BattleRoundInfo",
-	31002: "eSC_BattleData",
-	31003: "eSC_BattleResult",
-	31004: "eSC_BattleSceneResult",
+	31000: "eSC_LeaveClientScene",
+	31001: "eSC_EnterClientScene",
+	31002: "eSC_ExitClientScene",
+	31003: "eSC_BattleRoundInfo",
+	31004: "eSC_BattleData",
+	31005: "eSC_BattleSceneResult",
 	40000: "eSC_PacketEnd",
 }
 var SC_Protocol_value = map[string]int32{
@@ -216,11 +221,12 @@ var SC_Protocol_value = map[string]int32{
 	"eSC_Disconnected":       30001,
 	"eSC_CheckSessionResult": 30002,
 	"eCS_PingResult":         30003,
-	"eSC_EnterClientScene":   31000,
-	"eSC_BattleRoundInfo":    31001,
-	"eSC_BattleData":         31002,
-	"eSC_BattleResult":       31003,
-	"eSC_BattleSceneResult":  31004,
+	"eSC_LeaveClientScene":   31000,
+	"eSC_EnterClientScene":   31001,
+	"eSC_ExitClientScene":    31002,
+	"eSC_BattleRoundInfo":    31003,
+	"eSC_BattleData":         31004,
+	"eSC_BattleSceneResult":  31005,
 	"eSC_PacketEnd":          40000,
 }
 

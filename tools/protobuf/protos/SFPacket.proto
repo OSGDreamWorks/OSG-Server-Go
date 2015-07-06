@@ -1,0 +1,21 @@
+package protobuf;
+
+import "PB_PacketServerDefine.proto";
+
+option optimize_for = SPEED;
+
+message SF_Battle {
+	
+}
+
+message SF_EnterBattle {
+	
+}
+
+message SF_ExitBattle {
+	
+}
+
+message SF_BattleQuery {
+	
+}

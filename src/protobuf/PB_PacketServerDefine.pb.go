@@ -209,9 +209,125 @@ func (x *SL_Protocol) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type SF_Protocol int32
+
+const (
+	SF_Protocol_eSF_PacketBegin SF_Protocol = 40000
+	// ----------------------------
+	SF_Protocol_eSF_Connected    SF_Protocol = 40000
+	SF_Protocol_eSF_Disconnected SF_Protocol = 40001
+	// Begin ClientScene & BattleScene
+	SF_Protocol_eSF_Battle      SF_Protocol = 41000
+	SF_Protocol_eSF_EnterBattle SF_Protocol = 41001
+	SF_Protocol_eSF_ExitBattle  SF_Protocol = 41002
+	SF_Protocol_eSF_BattleQuery SF_Protocol = 41003
+	// ----------------------------
+	SF_Protocol_eSF_PacketEnd SF_Protocol = 50000
+)
+
+var SF_Protocol_name = map[int32]string{
+	40000: "eSF_PacketBegin",
+	// Duplicate value: 40000: "eSF_Connected",
+	40001: "eSF_Disconnected",
+	41000: "eSF_Battle",
+	41001: "eSF_EnterBattle",
+	41002: "eSF_ExitBattle",
+	41003: "eSF_BattleQuery",
+	50000: "eSF_PacketEnd",
+}
+var SF_Protocol_value = map[string]int32{
+	"eSF_PacketBegin":  40000,
+	"eSF_Connected":    40000,
+	"eSF_Disconnected": 40001,
+	"eSF_Battle":       41000,
+	"eSF_EnterBattle":  41001,
+	"eSF_ExitBattle":   41002,
+	"eSF_BattleQuery":  41003,
+	"eSF_PacketEnd":    50000,
+}
+
+func (x SF_Protocol) Enum() *SF_Protocol {
+	p := new(SF_Protocol)
+	*p = x
+	return p
+}
+func (x SF_Protocol) String() string {
+	return proto.EnumName(SF_Protocol_name, int32(x))
+}
+func (x SF_Protocol) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *SF_Protocol) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(SF_Protocol_value, data, "SF_Protocol")
+	if err != nil {
+		return err
+	}
+	*x = SF_Protocol(value)
+	return nil
+}
+
+type FS_Protocol int32
+
+const (
+	FS_Protocol_eFS_PacketBegin FS_Protocol = 50000
+	// ----------------------------
+	FS_Protocol_eFS_Connected    FS_Protocol = 50000
+	FS_Protocol_eFS_Disconnected FS_Protocol = 50001
+	// Begin ClientScene & BattleScene
+	FS_Protocol_eFS_Battle      FS_Protocol = 51000
+	FS_Protocol_eFS_BattleBegin FS_Protocol = 51001
+	FS_Protocol_eFS_BattleEnd   FS_Protocol = 51002
+	FS_Protocol_eFS_BattleInfo  FS_Protocol = 51003
+	// ----------------------------
+	FS_Protocol_eFS_PacketEnd FS_Protocol = 60000
+)
+
+var FS_Protocol_name = map[int32]string{
+	50000: "eFS_PacketBegin",
+	// Duplicate value: 50000: "eFS_Connected",
+	50001: "eFS_Disconnected",
+	51000: "eFS_Battle",
+	51001: "eFS_BattleBegin",
+	51002: "eFS_BattleEnd",
+	51003: "eFS_BattleInfo",
+	60000: "eFS_PacketEnd",
+}
+var FS_Protocol_value = map[string]int32{
+	"eFS_PacketBegin":  50000,
+	"eFS_Connected":    50000,
+	"eFS_Disconnected": 50001,
+	"eFS_Battle":       51000,
+	"eFS_BattleBegin":  51001,
+	"eFS_BattleEnd":    51002,
+	"eFS_BattleInfo":   51003,
+	"eFS_PacketEnd":    60000,
+}
+
+func (x FS_Protocol) Enum() *FS_Protocol {
+	p := new(FS_Protocol)
+	*p = x
+	return p
+}
+func (x FS_Protocol) String() string {
+	return proto.EnumName(FS_Protocol_name, int32(x))
+}
+func (x FS_Protocol) MarshalJSON() ([]byte, error) {
+	return json.Marshal(x.String())
+}
+func (x *FS_Protocol) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(FS_Protocol_value, data, "FS_Protocol")
+	if err != nil {
+		return err
+	}
+	*x = FS_Protocol(value)
+	return nil
+}
+
 func init() {
 	proto.RegisterEnum("protobuf.LA_Protocol", LA_Protocol_name, LA_Protocol_value)
 	proto.RegisterEnum("protobuf.AL_Protocol", AL_Protocol_name, AL_Protocol_value)
 	proto.RegisterEnum("protobuf.LS_Protocol", LS_Protocol_name, LS_Protocol_value)
 	proto.RegisterEnum("protobuf.SL_Protocol", SL_Protocol_name, SL_Protocol_value)
+	proto.RegisterEnum("protobuf.SF_Protocol", SF_Protocol_name, SF_Protocol_value)
+	proto.RegisterEnum("protobuf.FS_Protocol", FS_Protocol_name, FS_Protocol_value)
 }

@@ -5,8 +5,8 @@ import "PB_PacketServerDefine.proto";
 option optimize_for = SPEED;
 
 message SL_UpdatePlayerCount{
-	required uint32 ServerId = 1;
-	required uint32 PlayerCount = 2;
-	required string TcpServerIp = 3;
-	required string HttpServerIp = 4;
+	required uint32 ServerId = 1;				//游戏服id
+	required uint32 PlayerCount = 2;			//当前连接玩家数
+	required string TcpServerIp = 3;			//tcp 链接地址
+	required string HttpServerIp = 4;			//http链接地址
 }

@@ -8,7 +8,7 @@ enum LA_Protocol {
 	//----------------------------
 	eLA_Connected			= 11000;
 	eLA_Disconnected 		= 11001;
-	eLA_CheckAccount 		= 11002;
+	eLA_CheckAccount 		= 11002;			//服务端发给认证服接口
 	//----------------------------
 	eLA_PacketEnd			= 12000;
 }
@@ -19,7 +19,7 @@ enum AL_Protocol {
 	//----------------------------
 	eAL_Connected			= 12000;
 	eAL_Disconnected 		= 12001;
-	eAL_CheckAccountResult  = 12002;
+	eAL_CheckAccountResult  = 12002;			//认证服回调的结果
 	//----------------------------
 	eAL_PacketEnd			= 13000;
 }
@@ -34,13 +34,50 @@ enum LS_Protocol {
 	//----------------------------
 	eSLS_PacketEnd			= 14000;
 }
+
 enum SL_Protocol {
 	option allow_alias = true;
 	eSL_PacketBegin			= 14000;
 	//----------------------------
 	eSL_Connected			= 14000;
 	eSL_Disconnected 		= 14001;
-	eSL_UpdatePlayerCount	= 14002;
+	eSL_UpdatePlayerCount	= 14002;			//游戏服发给登陆服的在线玩家连接数
 	//----------------------------
 	eSL_PacketEnd			= 20000;
+}
+
+enum SF_Protocol {
+	option allow_alias = true;
+	eSF_PacketBegin			= 40000;
+	//----------------------------
+	eSF_Connected			= 40000;
+	eSF_Disconnected 		= 40001;
+	
+	// Begin ClientScene & BattleScene
+	eSF_Battle				= 41000;
+	eSF_EnterBattle			= 41001;
+	eSF_ExitBattle			= 41002;
+	eSF_BattleQuery			= 41003;
+	// End ClientScene & BattleScene
+	
+	//----------------------------
+	eSF_PacketEnd			= 50000;
+}
+
+enum FS_Protocol {
+	option allow_alias = true;
+	eFS_PacketBegin			= 50000;
+	//----------------------------
+	eFS_Connected			= 50000;
+	eFS_Disconnected 		= 50001;
+	
+	// Begin ClientScene & BattleScene
+	eFS_Battle				= 51000;
+	eFS_BattleBegin			= 51001;		// 战斗开始
+	eFS_BattleEnd			= 51002;		// 战斗结束
+	eFS_BattleInfo			= 51003;		// 战斗回合信息
+	// End ClientScene & BattleScene
+	
+	//----------------------------
+	eFS_PacketEnd			= 60000;
 }

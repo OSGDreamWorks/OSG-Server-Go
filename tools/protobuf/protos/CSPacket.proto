@@ -1,13 +1,14 @@
 package protobuf;
 
 import "PB_PacketDefine.proto";
+import "XShare_Logic.proto";
 
 option optimize_for = SPEED;
 
 message CS_CheckSession{
-	required string uid = 1;
-	required string sessionKey = 2;
-	optional uint32 timestamp = 3;
+	required string uid = 1;				//服务端返回的玩家uid
+	required string sessionKey = 2;			//登陆后服务端返回的会话key， 需要在游戏服验证正确性
+	optional uint32 timestamp = 3;			//服务器时间
 }
 
 message CS_Ping{
@@ -22,10 +23,18 @@ message CS_EnterFight {
 	
 }
 
-message CS_LeaveFight {
+message CS_ExitFight {
 	required uint32 RoundId = 1;
 }
 
 message CS_BattleRoundInfo {
 	required uint32 RoundId = 1;
+}
+
+message CS_BattleData {
+	required uint32 LeftBloodValue	= 1;
+	required uint32 RightBloodValue = 2;
+	required uint32 LeftBattleValue = 3;
+	required uint32 RightBattleValue = 4;
+	repeated BattleRound battleRound = 5;	//战斗回合表现
 }

@@ -9,6 +9,6 @@ message LS_UpdatePlayerCountResult{
 		OK = 1;
 		SERVERERROR = 2;
 	}
-	required Result result = 1;
+	required Result result = 1;				//
 	required uint32 server_time = 2;
 }

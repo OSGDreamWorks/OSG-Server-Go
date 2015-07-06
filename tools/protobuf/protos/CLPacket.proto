@@ -5,10 +5,10 @@ import "PB_PacketDefine.proto";
 option optimize_for = SPEED;
 
 message CL_CheckAccount{
-	optional string uid = 1;
-	required string account = 2;
-	required string password = 3;
-	optional string option = 4;
-	optional uint32 language = 5;
-	optional string udid = 6;
+	optional string uid = 1;			//可选玩家uid 全服唯一，通过服务端返回记录，第一次登陆可以传空
+	required string account = 2;		//玩家账号
+	required string password = 3;		//玩家密码
+	optional string option = 4;			//登陆参数可选项，用于第三方认证特殊参数，json格式字符串
+	optional uint32 language = 5;		//客户端语言
+	optional string udid = 6;			//客户端设备id
 }

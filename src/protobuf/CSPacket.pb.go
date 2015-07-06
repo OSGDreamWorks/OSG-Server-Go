@@ -13,8 +13,9 @@ It has these top-level messages:
 	CS_Ping
 	CS_LeaveClientScene
 	CS_EnterFight
-	CS_LeaveFight
+	CS_ExitFight
 	CS_BattleRoundInfo
+	CS_BattleData
 */
 package protobuf
 
@@ -23,6 +24,7 @@ import json "encoding/json"
 import math "math"
 
 // discarding unused import protobuf1 "PB_PacketDefine.pb"
+//import protobuf2 "XShare_Logic.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -104,23 +106,23 @@ func (m *CS_EnterFight) Reset()         { *m = CS_EnterFight{} }
 func (m *CS_EnterFight) String() string { return proto.CompactTextString(m) }
 func (*CS_EnterFight) ProtoMessage()    {}
 
-type CS_LeaveFight struct {
+type CS_ExitFight struct {
 	RoundId          *uint32 `protobuf:"varint,1,req" json:"RoundId,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *CS_LeaveFight) Reset()         { *m = CS_LeaveFight{} }
-func (m *CS_LeaveFight) String() string { return proto.CompactTextString(m) }
-func (*CS_LeaveFight) ProtoMessage()    {}
+func (m *CS_ExitFight) Reset()         { *m = CS_ExitFight{} }
+func (m *CS_ExitFight) String() string { return proto.CompactTextString(m) }
+func (*CS_ExitFight) ProtoMessage()    {}
 
-func (m *CS_LeaveFight) GetRoundId() uint32 {
+func (m *CS_ExitFight) GetRoundId() uint32 {
 	if m != nil && m.RoundId != nil {
 		return *m.RoundId
 	}
 	return 0
 }
 
-func (m *CS_LeaveFight) SetRoundId(value uint32) {
+func (m *CS_ExitFight) SetRoundId(value uint32) {
 	if m != nil {
 		m.RoundId = &value
 	}
@@ -145,6 +147,84 @@ func (m *CS_BattleRoundInfo) GetRoundId() uint32 {
 func (m *CS_BattleRoundInfo) SetRoundId(value uint32) {
 	if m != nil {
 		m.RoundId = &value
+	}
+}
+
+type CS_BattleData struct {
+	LeftBloodValue   *uint32                  `protobuf:"varint,1,req" json:"LeftBloodValue,omitempty"`
+	RightBloodValue  *uint32                  `protobuf:"varint,2,req" json:"RightBloodValue,omitempty"`
+	LeftBattleValue  *uint32                  `protobuf:"varint,3,req" json:"LeftBattleValue,omitempty"`
+	RightBattleValue *uint32                  `protobuf:"varint,4,req" json:"RightBattleValue,omitempty"`
+	BattleRound      []*BattleRound `protobuf:"bytes,5,rep,name=battleRound" json:"battleRound,omitempty"`
+	XXX_unrecognized []byte                   `json:"-"`
+}
+
+func (m *CS_BattleData) Reset()         { *m = CS_BattleData{} }
+func (m *CS_BattleData) String() string { return proto.CompactTextString(m) }
+func (*CS_BattleData) ProtoMessage()    {}
+
+func (m *CS_BattleData) GetLeftBloodValue() uint32 {
+	if m != nil && m.LeftBloodValue != nil {
+		return *m.LeftBloodValue
+	}
+	return 0
+}
+
+func (m *CS_BattleData) GetRightBloodValue() uint32 {
+	if m != nil && m.RightBloodValue != nil {
+		return *m.RightBloodValue
+	}
+	return 0
+}
+
+func (m *CS_BattleData) GetLeftBattleValue() uint32 {
+	if m != nil && m.LeftBattleValue != nil {
+		return *m.LeftBattleValue
+	}
+	return 0
+}
+
+func (m *CS_BattleData) GetRightBattleValue() uint32 {
+	if m != nil && m.RightBattleValue != nil {
+		return *m.RightBattleValue
+	}
+	return 0
+}
+
+func (m *CS_BattleData) GetBattleRound() []*BattleRound {
+	if m != nil {
+		return m.BattleRound
+	}
+	return nil
+}
+
+func (m *CS_BattleData) SetLeftBloodValue(value uint32) {
+	if m != nil {
+		m.LeftBloodValue = &value
+	}
+}
+
+func (m *CS_BattleData) SetRightBloodValue(value uint32) {
+	if m != nil {
+		m.RightBloodValue = &value
+	}
+}
+
+func (m *CS_BattleData) SetLeftBattleValue(value uint32) {
+	if m != nil {
+		m.LeftBattleValue = &value
+	}
+}
+
+func (m *CS_BattleData) SetRightBattleValue(value uint32) {
+	if m != nil {
+		m.RightBattleValue = &value
+	}
+}
+
+func (m *CS_BattleData) SetBattleRound(value []*BattleRound) {
+	if m != nil {
+		m.BattleRound = value
 	}
 }
 

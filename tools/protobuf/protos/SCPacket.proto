@@ -22,8 +22,16 @@ message SC_PingResult{
 	required uint32 server_time = 1;
 }
 
+message SC_LeaveClientScene {
+	required uint32 SceneID = 1;
+}
+
 message SC_EnterClientScene {
 	required uint32 SceneID = 1;
+}
+
+message SC_ExitClientScene {
+	
 }
 
 message SC_BattleRoundInfo {
@@ -41,7 +49,7 @@ message SC_BattleData {
 	repeated BattleRound battleRound = 5;	//战斗回合表现
 }
 
-message SC_BattleResult {
+message SC_BattleSceneResult {
 
 	//--4>: 战斗阵营; 只能有左右双方, 如果增加, 逻辑部分需要修改
 	enum EBattleGroupType
@@ -68,15 +76,10 @@ message SC_BattleResult {
 		ebrf_Lose4				= 8;	// 惨败
 		ebrf_End				= 9;
 	}
+
 	
 	required EBattleGroupType Winner = 1;
 	required EBattleResultFlag Result = 2;
-	optional BonusInfo Bonus = 3;
-}
-
-message SC_BattleSceneResult {
-	required int32 StarPoint 	= 1;
-	required int32 sceneLevel 	= 2;
 	required int32 exp			= 3;
-	required int32 extExp		= 4;
+	optional BonusInfo Bonus 	= 4;
 }
