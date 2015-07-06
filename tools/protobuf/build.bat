@@ -43,6 +43,7 @@ echo %%i
 )
 cd ..\
 
+del /a /f /q /s protos\csharp\protobuf\*
 ::move protos\csharp\protobuf\* ..\..\client\Assets\OSGClient\Scripts\protobuf
 
 echo OK
@@ -77,6 +78,7 @@ node  "node_modules\protobufjs\bin\pbjs" .\protos\LAPacket.proto -path=.\protos 
 node  "node_modules\protobufjs\bin\pbjs" .\protos\SFPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\SFPacket.js
 node  "node_modules\protobufjs\bin\pbjs" .\protos\FSPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\FSPacket.js
 
+del /a /f /q /s protos\javascript\protobuf\*
 ::move protos\javascript\protobuf\* ..\..\client\SRPG\Test\SRPG\src\protobuf\
 
 echo OK
