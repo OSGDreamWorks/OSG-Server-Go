@@ -25,15 +25,15 @@ go get code.google.com/p/goprotobuf/proto
 go get code.google.com/p/snappy-go/snappy
 cd %PRODIR%
 
-set GOPATH=%PRODIR%;%PKGDIR%;
+set GOPATH=%PRODIR%;%PKGDIR%
 
 go build -o %PRODIR%\bin\dbserver.exe		%PRODIR%\src\runtime\dbserver\main.go
 
 go build -o %PRODIR%\bin\authserver.exe		%PRODIR%\src\runtime\authserver\main.go
 
-go build -o %PRODIR%\bin\gateserver.exe		%PRODIR%\src\runtime\gateserver\main.go
+go build -o %PRODIR%\bin\loginserver.exe		%PRODIR%\src\runtime\loginserver\main.go
 
-go build -o %PRODIR%\bin\fightserver.exe		%PRODIR%\src\runtime\fightserver\main.go
+::go build -o %PRODIR%\bin\fightserver.exe		%PRODIR%\src\runtime\fightserver\main.go
 
 go build -o %PRODIR%\bin\gameserver.exe		%PRODIR%\src\runtime\gameserver\main.go
 

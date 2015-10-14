@@ -25,7 +25,7 @@ go get code.google.com/p/goprotobuf/proto
 go get code.google.com/p/snappy-go/snappy
 cd %PRODIR%
 
-set GOPATH=%PRODIR%;%PKGDIR%;
+set GOPATH=%PRODIR%;%PKGDIR%
 
 start go run %PRODIR%\src\runtime\dbserver\main.go &
 
@@ -33,7 +33,7 @@ Sleep 3
 start go run %PRODIR%\src\runtime\authserver\main.go &
 
 Sleep 3
-start go run %PRODIR%\src\runtime\gateserver\main.go &
+start go run %PRODIR%\src\runtime\loginserver\main.go &
 
 Sleep 3
 start go run %PRODIR%\src\runtime\fightserver\main.go &

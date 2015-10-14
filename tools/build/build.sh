@@ -32,7 +32,7 @@ go build -o "$PRODIR"/bin/dbserver		"$PRODIR"/src/runtime/dbserver/main.go
 
 go build -o "$PRODIR"/bin/authserver		"$PRODIR"/src/runtime/authserver/main.go
 
-go build -o "$PRODIR"/bin/gateserver		"$PRODIR"/src/runtime/gateserver/main.go
+go build -o "$PRODIR"/bin/loginserver		"$PRODIR"/src/runtime/loginserver/main.go
 
 go build -o "$PRODIR"/bin/fightserver		"$PRODIR"/src/runtime/fightserver/main.go
 

@@ -34,7 +34,7 @@ Sleep 3
 go run "$PRODIR"/src/runtime/authserver/main.go
 
 Sleep 3
-go run "$PRODIR"/src/runtime/gateserver/main.go
+go run "$PRODIR"/src/runtime/loginserver/main.go
 
 Sleep 3
 go run "$PRODIR"/src/runtime/fightserver/main.go
