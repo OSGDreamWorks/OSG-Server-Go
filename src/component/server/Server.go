@@ -11,13 +11,13 @@ import (
 	"reflect"
 	"runtime/debug"
 	sysdebug "runtime/debug"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 	"unicode"
 	"unicode/utf8"
 	"github.com/yuin/gopher-lua"
+	"strconv"
 )
 
 // Precompute the reflect type for error.  Can't use error directly
@@ -28,7 +28,7 @@ type methodType struct {
 	sync.Mutex // protects counters
 	method     reflect.Method
 	ArgType    reflect.Type
-	luaFn	   *lua.LFunction
+	luaMethod  *lua.LFunction
 	numCalls   uint
 }
 
@@ -43,7 +43,7 @@ type service struct {
 	name   string                 // name of service
 	rcvr   reflect.Value          // receiver of methods for the service
 	typ    reflect.Type           // type of the receiver
-	method map[string]*methodType // registered methods
+	method map[uint32]*methodType // registered methods
 }
 
 func (s *service) call(server *Server, mtype *methodType, req *RequestWrap, argv reflect.Value, conn RpcConn) {
@@ -54,7 +54,7 @@ func (s *service) call(server *Server, mtype *methodType, req *RequestWrap, argv
 	// Invoke the method, providing a new value for the reply.
 	var returnValues []reflect.Value
 	if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
-		returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), reflect.ValueOf(conn), argv, reflect.ValueOf(req.GetMethod())})
+		returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), reflect.ValueOf(conn), argv, reflect.ValueOf(req.GetCmd())})
 	}else {
 		returnValues = function.Call([]reflect.Value{s.rcvr, reflect.ValueOf(conn), argv})
 	}
@@ -69,14 +69,13 @@ func (s *service) call(server *Server, mtype *methodType, req *RequestWrap, argv
 }
 
 type RequestWrap struct {
-	protobuf.Request
+	protobuf.Packet
 	next *RequestWrap // for free list in Server
 }
 
 // Server represents an RPC Server.
 type Server struct {
 	mu           sync.RWMutex // protects the serviceMap
-	l            sync.RWMutex // protects the script Map foe example lua script
 	serviceMap   map[string]*service
 	id           uint64
 	connMap      map[uint64]RpcConn
@@ -88,6 +87,7 @@ type Server struct {
 	quitSync     sync.RWMutex
 	quit         bool
 	state        *lua.LState
+	protocol	map[string]uint32
 }
 
 // NewServer returns a new Server.
@@ -100,6 +100,18 @@ func NewServer() *Server {
 		onDisConn:    make([]func(conn RpcConn), 0),
 		onCallBefore: make([]func(conn RpcConn), 0),
 		onCallAfter:  make([]func(conn RpcConn), 0),
+		protocol: 	  make(map[string]uint32),
+	}
+}
+
+func (server *Server) ApplyProtocol(protocal map[string]int32) {
+	logger.Debug("ApplyProtocol")
+	for key, value := range protocal {
+		cmd := key[1:len(key)]
+		server.protocol[cmd] = uint32(value)
+	}
+	for key, value := range server.protocol {
+		logger.Debug("ApplyProtocol %s, %d", key, value)
 	}
 }
 
@@ -155,15 +167,14 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 	if server.serviceMap == nil {
 		server.serviceMap = make(map[string]*service)
 	}
-	s := new(service)
-	s.typ = reflect.TypeOf(rcvr)
-	s.rcvr = reflect.ValueOf(rcvr)
-	sname := reflect.Indirect(s.rcvr).Type().Name()
+
+	rcvrValue := reflect.ValueOf(rcvr)
+	sname := reflect.Indirect(rcvrValue).Type().Name()
 	if useName {
 		sname = name
 	}
 	if sname == "" {
-		logger.Fatal("rpc: no service name for type", s.typ.String())
+		logger.Fatal("rpc: no service name for type %v", reflect.ValueOf(rcvr).Interface())
 	}
 	if !isExported(sname) && !useName {
 		s := "rpc Register: type " + sname + " is not exported"
@@ -171,21 +182,30 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 		server.mu.Lock()
 		return errors.New(s)
 	}
-	if _, present := server.serviceMap[sname]; present {
+
+	var s *service
+	if value, ok := server.serviceMap[sname]; ok {
 		server.mu.Lock()
-		return errors.New("rpc: service already defined: " + sname)
+		s = value;
+		logger.Warning("rpc: service already defined: %s", sname)
+		//return errors.New("rpc: service already defined: " + sname)
+	}else {
+
+		s = new(service)
+		s.typ = reflect.TypeOf(rcvr)
+		s.rcvr = reflect.ValueOf(rcvr)
+		s.name = sname
+		s.method = make(map[uint32]*methodType)
 	}
-	s.name = sname
-	s.method = make(map[string]*methodType)
 
 	// Install the methods
-	//logger.Debug("Install the methods begine!")
-	s.method = server.suitableMethods(rcvr, s.typ, true, rcvrFns ...)
+	// logger.Debug("Install the methods begine!")
+	s.method = server.suitableMethods(rcvr, s, s.typ, true, rcvrFns ...)
 
 	if len(s.method) == 0 {
 		str := ""
 		// To help the user, see if a pointer receiver would work.
-		method := server.suitableMethods(rcvr, reflect.PtrTo(s.typ), false)
+		method := server.suitableMethods(rcvr, s, reflect.PtrTo(s.typ), false)
 		if len(method) != 0 {
 			str = "rpc.Register: type " + sname + " has no exported methods of suitable type (hint: pass a pointer to value of that type)"
 		} else {
@@ -218,8 +238,8 @@ func isExportedOrBuiltinType(t reflect.Type) bool {
 
 // suitableMethods returns suitable Rpc methods of typ, it will report
 // error using logger if reportErr is true.
-func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, reportErr bool, rcvrFns ...interface{}) map[string]*methodType {
-	methods := make(map[string]*methodType)
+func (server *Server) suitableMethods(rcvr interface{}, s *service, typ  reflect.Type, reportErr bool, rcvrFns ...interface{}) map[uint32]*methodType {
+	methods := s.method
 
 	if typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
 
@@ -246,7 +266,7 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 						//continue
 					}
 
-					methods[key.String()] = &methodType{method: method, ArgType: argType, luaFn: value.(*lua.LFunction)}
+					methods[server.protocol[key.String()]] = &methodType{method: method, ArgType: argType, luaMethod: value.(*lua.LFunction)}
 
 					logger.Debug("regist %v", key.String())
 				}
@@ -307,7 +327,8 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 				}
 				continue
 			}
-			methods[mname] = &methodType{method: method, ArgType: argType}
+			methods[server.protocol[mname]] = &methodType{method: method, ArgType: argType}
+			logger.Debug("suitableMethods protocol %v, %d, %v", mname, server.protocol[mname], methods[server.protocol[mname]])
 		}
 	}
 
@@ -316,27 +337,28 @@ func (server *Server) suitableMethods(rcvr interface{}, typ reflect.Type, report
 
 const luaRpcConnTypeName = "RpcConn"
 
-func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err error) {
+func (server *Server) CallLua(conn RpcConn, buf []byte, cmd uint32) (err error) {
 	//logger.Debug("CallLua %v", method)
-
-	serviceMethod := strings.Split(method, ".")
-	if len(serviceMethod) != 2 {
-		err = errors.New("CallLua: service/method request ill-formed: " + method)
-		return
-	}
-
+	var mtype *methodType
+	var table *lua.LTable
 	// Look up the request.
 	server.mu.RLock()
-	service := server.serviceMap[serviceMethod[0]]
-	server.mu.RUnlock()
-	if service == nil {
-		err = errors.New("CallLua: can't find service " + method)
-		return
+	for key, value := range server.serviceMap {
+		service := value
+		if service == nil {
+			err = errors.New("CallLua: rpc: can't find service " + key)
+			server.mu.RUnlock()
+			return
+		}
+		mtype = service.method[cmd]
+		table = service.rcvr.Interface().(*lua.LTable)
+		if mtype != nil {
+			break;//find the cmd
+		}
 	}
-
-	mtype := service.method[serviceMethod[1]]
+	server.mu.RUnlock()
 	if mtype == nil {
-		err = errors.New("CallLua: can't find method " + method)
+		err = errors.New("CallLua: can't find any method " + strconv.Itoa(int(cmd)))
 		return
 	}
 
@@ -345,10 +367,10 @@ func (server *Server) CallLua(conn RpcConn, buf []byte, method string) (err erro
 	server.state.SetMetatable(ud, server.state.GetTypeMetatable(luaRpcConnTypeName))
 
 	err2 := server.state.CallByParam(lua.P{
-		Fn: mtype.luaFn,
+		Fn: mtype.luaMethod,
 		NRet: 1,
 		Protect: true,
-	}, service.rcvr.Interface().(*lua.LTable), ud, lua.LString(string(buf)))
+	}, table, ud, lua.LString(string(buf)))
 
 	if err2 !=nil {
 		logger.Error("CallLua Error : %s", err2.Error())
@@ -498,7 +520,7 @@ func (server *Server) sendErrorResponse(req *RequestWrap, conn RpcConn, errmsg s
 
 	resp := protobuf.RpcErrorResponse{}
 
-	resp.Method = req.Method
+	resp.Cmd = req.Cmd
 	resp.Text = &errmsg
 
 	err := conn.WriteObj(resp)
@@ -511,7 +533,7 @@ func (server *Server) sendErrorResponse(req *RequestWrap, conn RpcConn, errmsg s
 
 func (server *Server) readRequest(conn RpcConn) (service *service, mtype *methodType, req *RequestWrap, argv reflect.Value, keepReading bool, err error) {
 	req = server.getRequest()
-	err = conn.ReadRequest(&req.Request)
+	err = conn.ReadRequest(&req.Packet)
 
 	if err != nil {
 		req = nil
@@ -532,24 +554,24 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	// we can still recover and move on to the next request.
 	keepReading = true
 
-	serviceMethod := strings.Split(req.GetMethod(), ".")
-	if len(serviceMethod) != 2 {
-		err = errors.New("rpc: service/method request ill-formed: " + req.GetMethod())
-		return
-	}
-
 	// Look up the request.
 	server.mu.RLock()
-	service = server.serviceMap[serviceMethod[0]]
-	server.mu.RUnlock()
-	if service == nil {
-		err = errors.New("rpc: can't find service " + req.GetMethod())
-		return
+	for key, value := range server.serviceMap {
+		service = value
+		if service == nil {
+			err = errors.New("rpc: can't find service " + key)
+			server.mu.RUnlock()
+			return
+		}
+		mtype = service.method[req.GetCmd()]
+		if mtype != nil {
+			break;//find the cmd
+		}
 	}
+	server.mu.RUnlock()
 
-	mtype = service.method[serviceMethod[1]]
 	if mtype == nil {
-		err = errors.New("rpc: can't find method " + req.GetMethod())
+		err = errors.New("rpc: can't find method " + strconv.Itoa(int(req.GetCmd())))
 		return
 	}
 
@@ -558,7 +580,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
 	} else if mtype.ArgType.Kind()  == reflect.Slice{
-		argv = reflect.ValueOf(req.Request.GetSerializedRequest())
+		argv = reflect.ValueOf(req.Packet.GetSerializedPacket())
 		return
 	}else {
 		argv = reflect.New(mtype.ArgType)
@@ -566,7 +588,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	}
 
 	// argv guaranteed to be a pointer now.
-	if err = conn.GetRequestBody(&req.Request, argv.Interface()); err != nil {
+	if err = conn.GetRequestBody(&req.Packet, argv.Interface()); err != nil {
 		return
 	}
 
@@ -586,11 +608,11 @@ func (server *Server) freeRequest(req *RequestWrap) {
 }
 
 func (server *Server) Lock() {
-	server.l.Lock()
+	server.mu.Lock()
 }
 
 func (server *Server) Unlock() {
-	server.l.Unlock()
+	server.mu.Unlock()
 }
 
 type RpcConn interface {
@@ -598,13 +620,13 @@ type RpcConn interface {
 
 	IsWebConn() bool
 
-	ReadRequest(*protobuf.Request) error
+	ReadRequest(*protobuf.Packet) error
 
-	Call(string, interface{}) error
+	Call(uint32, interface{}) error
 
 	GetRemoteIp() string
 
-	GetRequestBody(*protobuf.Request, interface{}) error
+	GetRequestBody(*protobuf.Packet, interface{}) error
 
 	WriteObj(interface{}) error
 

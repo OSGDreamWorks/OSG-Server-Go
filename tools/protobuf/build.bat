@@ -34,7 +34,7 @@ mkdir protos\csharp\protobuf
 cd protos
 for %%i in (*.proto) do (  
 echo %%i
-"..\protogen.exe" -i:%%i -o:csharp\protobuf\%%i.cs
+::"..\protogen.exe" -i:%%i -o:csharp\protobuf\%%i.cs
 
 )
 cd ..\
@@ -57,17 +57,17 @@ goto doneProtobuf
 :installProtobuf
 npm install protobufjs
 :doneProtobuf
-node  "node_modules\protobufjs\bin\pbjs" .\protos\CLPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\CLPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\CSPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\CSPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\LAPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\LAPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\LCPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\LCPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketCommon.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketCommon.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketDefine.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketDefine.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketServerDefine.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketServerDefine.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\SCPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\SCPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\SLPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\SLPacket.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Logic.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Logic.js
-node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Server.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Server.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\CLPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\CLPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\CSPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\CSPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\LAPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\LAPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\LCPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\LCPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketCommon.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketCommon.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketDefine.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketDefine.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\PB_PacketServerDefine.proto -path=.\protos -target=js > .\protos\javascript\protobuf\PB_PacketServerDefine.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\SCPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\SCPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\SLPacket.proto -path=.\protos -target=js > .\protos\javascript\protobuf\SLPacket.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Logic.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Logic.js
+::node  "node_modules\protobufjs\bin\pbjs" .\protos\XShare_Server.proto -path=.\protos -target=js > .\protos\javascript\protobuf\XShare_Server.js
 
 ::move protos\javascript\protobuf\* ..\..\client\SRPG\Test\SRPG\src\protobuf\
 

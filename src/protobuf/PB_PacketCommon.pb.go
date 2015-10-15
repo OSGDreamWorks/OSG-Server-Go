@@ -9,7 +9,7 @@ It is generated from these files:
 	PB_PacketCommon.proto
 
 It has these top-level messages:
-	Request
+	Packet
 	RpcErrorResponse
 	Vector3
 	Vector2
@@ -25,101 +25,101 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
-type Request struct {
-	Id                *uint64                   `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
-	Method            *string                   `protobuf:"bytes,2,req,name=method" json:"method,omitempty"`
-	SerializedRequest []byte                    `protobuf:"bytes,3,opt,name=serialized_request" json:"serialized_request,omitempty"`
-	Timer             *string                   `protobuf:"bytes,4,opt,name=timer" json:"timer,omitempty"`
-	Desc              *string                   `protobuf:"bytes,5,opt,name=desc" json:"desc,omitempty"`
-	XXX_extensions    map[int32]proto.Extension `json:"-"`
-	XXX_unrecognized  []byte                    `json:"-"`
+type Packet struct {
+	Id               *uint64                   `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
+	Cmd              *uint32                   `protobuf:"varint,2,req,name=cmd" json:"cmd,omitempty"`
+	SerializedPacket []byte                    `protobuf:"bytes,3,opt,name=serialized_packet" json:"serialized_packet,omitempty"`
+	Timer            *uint64                   `protobuf:"varint,4,opt,name=timer" json:"timer,omitempty"`
+	Desc             *string                   `protobuf:"bytes,5,opt,name=desc" json:"desc,omitempty"`
+	XXX_extensions   map[int32]proto.Extension `json:"-"`
+	XXX_unrecognized []byte                    `json:"-"`
 }
 
-func (m *Request) Reset()         { *m = Request{} }
-func (m *Request) String() string { return proto.CompactTextString(m) }
-func (*Request) ProtoMessage()    {}
+func (m *Packet) Reset()         { *m = Packet{} }
+func (m *Packet) String() string { return proto.CompactTextString(m) }
+func (*Packet) ProtoMessage()    {}
 
-var extRange_Request = []proto.ExtensionRange{
+var extRange_Packet = []proto.ExtensionRange{
 	{100, 536870911},
 }
 
-func (*Request) ExtensionRangeArray() []proto.ExtensionRange {
-	return extRange_Request
+func (*Packet) ExtensionRangeArray() []proto.ExtensionRange {
+	return extRange_Packet
 }
-func (m *Request) ExtensionMap() map[int32]proto.Extension {
+func (m *Packet) ExtensionMap() map[int32]proto.Extension {
 	if m.XXX_extensions == nil {
 		m.XXX_extensions = make(map[int32]proto.Extension)
 	}
 	return m.XXX_extensions
 }
 
-func (m *Request) GetId() uint64 {
+func (m *Packet) GetId() uint64 {
 	if m != nil && m.Id != nil {
 		return *m.Id
 	}
 	return 0
 }
 
-func (m *Request) GetMethod() string {
-	if m != nil && m.Method != nil {
-		return *m.Method
+func (m *Packet) GetCmd() uint32 {
+	if m != nil && m.Cmd != nil {
+		return *m.Cmd
 	}
-	return ""
+	return 0
 }
 
-func (m *Request) GetSerializedRequest() []byte {
+func (m *Packet) GetSerializedPacket() []byte {
 	if m != nil {
-		return m.SerializedRequest
+		return m.SerializedPacket
 	}
 	return nil
 }
 
-func (m *Request) GetTimer() string {
+func (m *Packet) GetTimer() uint64 {
 	if m != nil && m.Timer != nil {
 		return *m.Timer
 	}
-	return ""
+	return 0
 }
 
-func (m *Request) GetDesc() string {
+func (m *Packet) GetDesc() string {
 	if m != nil && m.Desc != nil {
 		return *m.Desc
 	}
 	return ""
 }
 
-func (m *Request) SetId(value uint64) {
+func (m *Packet) SetId(value uint64) {
 	if m != nil {
 		m.Id = &value
 	}
 }
 
-func (m *Request) SetMethod(value string) {
+func (m *Packet) SetCmd(value uint32) {
 	if m != nil {
-		m.Method = &value
+		m.Cmd = &value
 	}
 }
 
-func (m *Request) SetSerializedRequest(value []byte) {
+func (m *Packet) SetSerializedPacket(value []byte) {
 	if m != nil {
-		m.SerializedRequest = value
+		m.SerializedPacket = value
 	}
 }
 
-func (m *Request) SetTimer(value string) {
+func (m *Packet) SetTimer(value uint64) {
 	if m != nil {
 		m.Timer = &value
 	}
 }
 
-func (m *Request) SetDesc(value string) {
+func (m *Packet) SetDesc(value string) {
 	if m != nil {
 		m.Desc = &value
 	}
 }
 
 type RpcErrorResponse struct {
-	Method           *string `protobuf:"bytes,1,req,name=method" json:"method,omitempty"`
+	Cmd              *uint32 `protobuf:"varint,1,req,name=cmd" json:"cmd,omitempty"`
 	Text             *string `protobuf:"bytes,2,req,name=text" json:"text,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -128,11 +128,11 @@ func (m *RpcErrorResponse) Reset()         { *m = RpcErrorResponse{} }
 func (m *RpcErrorResponse) String() string { return proto.CompactTextString(m) }
 func (*RpcErrorResponse) ProtoMessage()    {}
 
-func (m *RpcErrorResponse) GetMethod() string {
-	if m != nil && m.Method != nil {
-		return *m.Method
+func (m *RpcErrorResponse) GetCmd() uint32 {
+	if m != nil && m.Cmd != nil {
+		return *m.Cmd
 	}
-	return ""
+	return 0
 }
 
 func (m *RpcErrorResponse) GetText() string {
@@ -142,9 +142,9 @@ func (m *RpcErrorResponse) GetText() string {
 	return ""
 }
 
-func (m *RpcErrorResponse) SetMethod(value string) {
+func (m *RpcErrorResponse) SetCmd(value uint32) {
 	if m != nil {
-		m.Method = &value
+		m.Cmd = &value
 	}
 }
 

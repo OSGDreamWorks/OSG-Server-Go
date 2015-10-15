@@ -15,6 +15,7 @@ import (
 	"errors"
 	"io"
 	"sync"
+	"strings"
 )
 
 const (
@@ -128,7 +129,7 @@ type ProtoBufConn struct {
 	id          uint64
 	msg_id      uint64
 	c			Conn
-	send        chan *protobuf.Request
+	send        chan *protobuf.Packet
 	t           *timer.Timer
 	exit        chan bool
 	last_time   int64
@@ -138,16 +139,18 @@ type ProtoBufConn struct {
 	sync.Mutex
 	connMgr     *Server
 	resultServer	string
+	protocol	map[string]uint32
 }
 
 func NewWebSocketConn(server *Server, c websocket.Conn, size int32, k uint32, t uint32) (conn RpcConn) {
 	pbc := &ProtoBufConn{
-		send:        make(chan *protobuf.Request, size),
+		send:        make(chan *protobuf.Packet, size),
 		exit:        make(chan bool, 1),
 		last_time:   time.Now().Unix(),
 		time_out:    k,
 		connMgr:     server,
 		resultServer:	"",
+		protocol: 	  make(map[string]uint32),
 	}
 
 	pbc.c = Conn{
@@ -170,7 +173,7 @@ func NewWebSocketConn(server *Server, c websocket.Conn, size int32, k uint32, t 
 
 func NewTCPSocketConn(server *Server, c net.Conn, size int32, k uint32, t uint32) (conn RpcConn) {
 	pbc := &ProtoBufConn{
-		send:        make(chan *protobuf.Request, size),
+		send:        make(chan *protobuf.Packet, size),
 		exit:        make(chan bool, 1),
 		last_time:   time.Now().Unix(),
 		time_out:    k,
@@ -194,6 +197,17 @@ func NewTCPSocketConn(server *Server, c net.Conn, size int32, k uint32, t uint32
 
 	go pbc.mux()
 	return pbc
+}
+
+func (conn *ProtoBufConn) ApplyProtocol(protocal map[string]int32) {
+	logger.Debug("ApplyProtocol")
+	for key, value := range protocal {
+		protocalMethod := strings.Split(key, "_")
+		if len(protocalMethod) != 2 {
+			logger.Error("rpc: ApplyProtocol ill-formed: %v , no '_' for split key" + key)
+		}
+		conn.protocol[protocalMethod[1]] = uint32(value)
+	}
 }
 
 func (conn *ProtoBufConn) SetResultServer(name string) {
@@ -270,7 +284,7 @@ func (conn *ProtoBufConn) GetRemoteIp() string {
 	return conn.c.RemoteAddr().String()
 }
 
-func (conn *ProtoBufConn) ReadRequest(req *protobuf.Request) error {
+func (conn *ProtoBufConn) ReadRequest(req *protobuf.Packet) error {
 
 	conn.c.SetReadDeadline(time.Now().Add(ConnReadTimeOut))
 
@@ -296,13 +310,13 @@ func (conn *ProtoBufConn) ReadRequest(req *protobuf.Request) error {
 	return err
 }
 
-func (conn *ProtoBufConn) writeRequest(r *protobuf.Request) error {
+func (conn *ProtoBufConn) writeRequest(r *protobuf.Packet) error {
 	r.SetId(conn.msg_id)
 	conn.send <- r
 	return nil
 }
 
-func (conn *ProtoBufConn) Call(serviceMethod string, args interface{}) (err error) {
+func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
 
 	var msg proto.Message
 	var buf []byte
@@ -321,16 +335,16 @@ func (conn *ProtoBufConn) Call(serviceMethod string, args interface{}) (err erro
 		return fmt.Errorf("Call args type error %v", args)
 	}
 
-	req := &protobuf.Request{}
-	req.Method = &serviceMethod
-	req.SerializedRequest = buf
+	req := &protobuf.Packet{}
+	req.Cmd = &cmd
+	req.SerializedPacket = buf
 
 	return conn.writeRequest(req)
 }
 
-func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Request, body interface{}) error {
+func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Packet, body interface{}) error {
 	if value, ok := body.(proto.Message); ok {
-		return proto.Unmarshal(req.GetSerializedRequest(), value)
+		return proto.Unmarshal(req.GetSerializedPacket(), value)
 	}
 
 	return fmt.Errorf("GetRequestBody value type error %v", body)
@@ -352,15 +366,15 @@ func (conn *ProtoBufConn) WriteObj(value interface{}) error {
 		return err
 	}
 
-	req := &protobuf.Request{}
+	req := &protobuf.Packet{}
 
 	t := reflect.Indirect(reflect.ValueOf(msg)).Type()
 	if conn.resultServer == "" {
-		req.SetMethod(t.PkgPath() + "." + t.Name())
+		req.SetCmd(conn.protocol[t.PkgPath() + "." + t.Name()])
 	} else {
-		req.SetMethod(conn.resultServer + "." + t.Name())
+		req.SetCmd(conn.protocol[conn.resultServer + "." + t.Name()])
 	}
-	req.SerializedRequest = buf
+	req.SerializedPacket = buf
 	return conn.writeRequest(req)
 }
 

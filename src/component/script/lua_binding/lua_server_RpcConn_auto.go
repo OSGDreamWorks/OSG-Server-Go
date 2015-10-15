@@ -58,10 +58,10 @@ func Register_lua_server_RpcConn_IsWebConn(L *lua.LState) int {
 
 func Register_lua_server_RpcConn_Call(L *lua.LState) int {
     ud := L.CheckUserData(1)
-    method := L.CheckString(2)
+    cmd := L.CheckNumber(2)
     buffer := L.CheckString(3)
     if  v, ok := ud.Value.(*server.RpcConn); ok {
-        err := (*v).Call(method,[]byte(buffer))
+        err := (*v).Call(uint32(cmd),[]byte(buffer))
         if err != nil {
             logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())
         }

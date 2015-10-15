@@ -52,6 +52,8 @@ func CreateServices(lgcfg config.LoginConfig, authcfg config.AuthConfig) *LoginM
     pLoginServices.reConnect()
 
     pLoginServices.rpcServer.rpcServer.Register(pLoginServices.rpcServer)
+
+    pLoginServices.loginServer.loginServer.ApplyProtocol(protobuf.CL_Protocol_value)
     pLoginServices.loginServer.loginServer.Register(pLoginServices.loginServer)
 
     pLoginServices.rpcServer.rpcServer.RegCallBackOnConn(
