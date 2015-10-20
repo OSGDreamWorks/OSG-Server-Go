@@ -13,8 +13,9 @@ import (
 	"time"
 	"runtime/debug"
 	"sync"
-	"common"
 	"fmt"
+	"code.google.com/p/goprotobuf/proto"
+	"github.com/garyburd/redigo/redis"
 )
 
 type serverInfo struct {
@@ -25,8 +26,9 @@ type serverInfo struct {
 type Connector struct {
 	m            map[uint32]serverInfo
 	stableServer string
+	maincache    *db.CachePool
 	authserver  *rpc.Client
-	gateserver   *rpc.Client
+	loginserver   *rpc.Client
 	FsMgr        FServerConnMgr
 	rpcServer    *server.Server
 	players         map[uint64]*Player
@@ -99,7 +101,7 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 	pConnector.rpcServer.ServeConn(rpcConn)
 }
 
-func CreateConnectorServerForClient(cfg *config.SvrConfig) *Connector {
+func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 
 	db.Init()
 
@@ -112,11 +114,11 @@ func CreateConnectorServerForClient(cfg *config.SvrConfig) *Connector {
 		logger.Fatal("connect logserver failed %s", err.Error())
 	}
 
-	var gsCfg config.GateConfig
-	if err = config.ReadConfig("etc/gateserver.json", &gsCfg); err != nil {
+	var gsCfg config.LoginConfig
+	if err = config.ReadConfig("etc/loginserver.json", &gsCfg); err != nil {
 		logger.Fatal("load config failed, error is: %v", err)
 	}
-	gsConn, err := net.Dial("tcp", gsCfg.GateHost)
+	gsConn, err := net.Dial("tcp", gsCfg.LoginHost)
 	if err != nil {
 		logger.Fatal("%s", err.Error())
 	}
@@ -124,12 +126,17 @@ func CreateConnectorServerForClient(cfg *config.SvrConfig) *Connector {
 	pConnector = &Connector{
 		m:           make(map[uint32]serverInfo),
 		authserver: rpc.NewClient(authConn),
-		gateserver: rpc.NewClient(gsConn),
+		loginserver: rpc.NewClient(gsConn),
 		rpcServer:   server.NewServer(),
 		players:       make(map[uint64]*Player),
 		playersbyid:   make(map[string]*Player),
 	}
 
+	//初始化cache
+	logger.Info("Init Cache %v", authCfg.MainCacheProfile)
+	pConnector.maincache = db.NewCachePool(authCfg.MainCacheProfile)
+
+	pConnector.rpcServer.ApplyProtocol(protobuf.CS_Protocol_value)
 	pConnector.rpcServer.Register(pConnector)
 
 	pConnector.rpcServer.RegCallBackOnConn(
@@ -222,8 +229,8 @@ func (self *Connector) sendPlayerCountToGateServer() {
 			playerCount := uint32(len(self.players))
 			self.l.RUnlock()
 
-			var ret protobuf.ConnectorInfoResult
-			req := protobuf.ConnectorInfo{}
+			var ret []byte
+			req := protobuf.SL_UpdatePlayerCount{}
 			req.SetServerId(self.id)
 			req.SetPlayerCount(playerCount)
 			req.SetTcpServerIp(self.listenTcpIp)
@@ -231,10 +238,16 @@ func (self *Connector) sendPlayerCountToGateServer() {
 
 			//logger.Debug("playerCount %v", playerCount)
 
-			err := self.gateserver.Call("GateServices.UpdateCnsPlayerCount", &req, &ret)
+			buf,err := proto.Marshal(&req)
+			if err != nil {
+				logger.Error("Error On Connector.sendPlayerCountToGateServer : %s", err.Error())
+				return
+
+			}
+			err = self.loginserver.Call("LoginRpcServer.SL_UpdatePlayerCount", &buf, &ret)
 
 			if err != nil {
-				logger.Error("Error On GateServices.UpdateCnsPlayerCount : %s", err.Error())
+				logger.Error("Error On LoginRpcServer.SL_UpdatePlayerCount : %s", err.Error())
 				return
 			}
 
@@ -287,22 +300,26 @@ func WriteResult(conn server.RpcConn, value interface{}) bool {
 	return true
 }
 
-func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
+func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_CheckSession) (err error) {
 
-	rep := protobuf.LoginResult{}
+	rep := protobuf.SC_CheckSessionResult{}
 	uid := login.GetUid()
-	if uid == "" {
-		uid = common.GenUUID(login.GetAccount())
-		login.SetUid(uid)
+	var rst []byte
+
+	rst, err = redis.Bytes(self.maincache.Do("GET", "SessionKey_" + uid))
+	rep.SetResult(protobuf.SC_CheckSessionResult_AUTH_FAILED)
+	rep.SetServerTime(uint32(time.Now().Unix()))
+	if rst != nil || err == nil{
+		if login.GetSessionKey() == string(rst) {
+			rep.SetResult(protobuf.SC_CheckSessionResult_OK)
+		}
 	}
 
-	self.authserver.Call("AuthServer.Login", &login, &rep)
-
-	logger.Debug("LoginResult %v", rep)
+	logger.Debug("SC_CheckSessionResult %v", rep)
 
 	rep.SetResult(rep.GetResult())
 
-	if rep.GetResult() == protobuf.LoginResult_OK {
+	if rep.GetResult() == protobuf.SC_CheckSessionResult_OK {
 		WriteResult(conn, &rep)
 		if p, ok := self.playersbyid[login.GetUid()]; ok {
 			if err := p.conn.Close(); err == nil {
@@ -311,40 +328,19 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		}
 
 		var base protobuf.PlayerBaseInfo
-		logger.Info("query db : %v", rep.GetUid())
-		result, err :=db.Query("playerbase", rep.GetUid(), &base)
+		logger.Info("query db : %v", login.GetUid())
+		result, err :=db.Query("playerbase", login.GetUid(), &base)
 		if result == false {
 			base = protobuf.PlayerBaseInfo{}
 			base.SetUid(login.GetUid())
 
 			stat := &protobuf.StatusInfo{}
-			stat.SetName(login.GetAccount())
-			trans:= protobuf.Transform{}
-			vec3:= protobuf.Vector3{}
-			vec3.SetX(0)
-			vec3.SetY(0)
-			vec3.SetZ(0)
-			quat:= protobuf.Quaternion{}
-			quat.SetX(0)
-			quat.SetY(0)
-			quat.SetZ(0)
-			quat.SetW(1)
-			trans.SetPosition(&vec3)
-			trans.SetRotation(&quat)
-			trans.SetScale(&vec3)
-			stat.SetTransform(&trans)
+			stat.SetName("test_" + uid)
 			stat.SetLevel(1)
-			stat.SetExperience(0)
-			stat.SetHP(100)
-			stat.SetMP(100)
-			stat.SetRage(100)
+
 			base.SetStat(stat)
-			prop := &protobuf.PropertyInfo{}
-			prop.SetMaxHP(100)
-			prop.SetMaxMP(100)
-			base.SetProperty(prop)
-			db.Write("playerbase", rep.GetUid(), &base)
-			logger.Info("playerbase create %v", rep.GetUid())
+			db.Write("playerbase", login.GetUid(), &base)
+			logger.Info("playerbase create %v", login.GetUid())
 		}else {
 			if err != nil {
 				logger.Info("err query db : %v", err)
@@ -362,8 +358,6 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 		self.addPlayer(conn.GetId(), p)
 
 	}else {
-		rep.SetSessionKey("")
-		rep.SetUid("")
 		WriteResult(conn, &rep)
 
 		go func() {
@@ -377,9 +371,9 @@ func (self *Connector) Login(conn server.RpcConn, login protobuf.Login) error {
 	return nil
 }
 
-func (self *Connector) Ping(conn server.RpcConn, login protobuf.Ping) error {
+func (self *Connector) CS_Ping(conn server.RpcConn, login protobuf.CS_Ping) error {
 
-	rep := protobuf.PingResult{}
+	rep := protobuf.SC_PingResult{}
 	rep.SetServerTime(uint32(time.Now().Unix()))
 
 	WriteResult(conn, &rep)

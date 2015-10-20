@@ -60,7 +60,7 @@ func (self *FServerConnMgr) GetWorkConn() server.RpcConn {
 	return self.connpool[self.workindex]
 }
 
-func (self *FServerConnMgr) Call(serviceMethod string, arg interface{}) error {
+func (self *FServerConnMgr) Call(serviceMethod uint32, arg interface{}) error {
 	logger.Info("Call FServerConnMgr -----> (%v) %v", serviceMethod, arg)
 	return self.GetWorkConn().Call(serviceMethod, arg)
 }
@@ -77,7 +77,7 @@ func (self *FServerConnMgr) Quit() {
 	}
 }
 
-func (self *FServerConnMgr) Init(connnector *server.Server, cfg *config.SvrConfig) {
+func (self *FServerConnMgr) Init(connnector *server.Server, cfg config.SvrConfig) {
 
 	fsCount := len(cfg.FsHost)
 	self.Open(uint8(fsCount))
