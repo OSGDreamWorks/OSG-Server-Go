@@ -9,12 +9,12 @@ import (
 	"net"
 	"net/http"
 	"reflect"
-	"strings"
 	"sync"
 	"unicode"
 	"unicode/utf8"
 	"github.com/yuin/gopher-lua"
 	"common/logger"
+	"strconv"
 )
 
 const (
@@ -46,14 +46,14 @@ type service struct {
 	name   string                 // name of service
 	rcvr   reflect.Value          // receiver of methods for the service
 	typ    reflect.Type           // type of the receiver
-	method map[string]*methodType // registered methods
+	method map[uint32]*methodType // registered methods
 }
 
 // Request is a header written before every RPC call.  It is used internally
 // but documented here as an aid to debugging, such as when analyzing
 // network traffic.
 type Request struct {
-	ServiceMethod string   // format: "Service.Method"
+	ServiceMethod uint32   // format: "Service.Method"
 	Seq           uint64   // sequence number chosen by client
 	next          *Request // for free list in Server
 }
@@ -62,7 +62,7 @@ type Request struct {
 // but documented here as an aid to debugging, such as when analyzing
 // network traffic.
 type Response struct {
-	ServiceMethod string    // echoes that of the Request
+	ServiceMethod uint32    // echoes that of the Request
 	Seq           uint64    // echoes that of the request
 	Error         string    // error, if any.
 	next          *Response // for free list in Server
@@ -82,6 +82,7 @@ type Server struct {
 	state      *lua.LState
 	onConn       []func(context interface{})
 	onDisConn    []func(context interface{})
+	protocol	map[string]uint32
 }
 
 // NewServer returns a new Server.
@@ -90,6 +91,18 @@ func NewServer() *Server {
 		serviceMap: make(map[string]*service),
 		onConn:       make([]func(context interface{}), 0),
 		onDisConn:    make([]func(context interface{}), 0),
+		protocol: 	  make(map[string]uint32),
+	}
+}
+
+func (server *Server) ApplyProtocol(protocal map[string]int32) {
+	logger.Debug("ApplyProtocol")
+	for key, value := range protocal {
+		cmd := key[1:len(key)]
+		server.protocol[cmd] = uint32(value)
+	}
+	for key, value := range server.protocol {
+		logger.Debug("ApplyProtocol %s, %d", key, value)
 	}
 }
 
@@ -345,7 +358,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 		return errors.New("rpc: service already defined: " + sname)
 	}
 	s.name = sname
-	s.method = make(map[string]*methodType)
+	s.method = make(map[uint32]*methodType)
 
 	// Install the methods
 
@@ -363,7 +376,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 
 					if mt := prepareLuaMethod(method); mt != nil {
 						mt.luaFn = value.(*lua.LFunction)
-						s.method[key.String()] = mt
+						s.method[server.protocol[key.String()]] = mt
 					}
 
 					logger.Debug("regist %v", key.String())
@@ -374,7 +387,11 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 		for m := 0; m < s.typ.NumMethod(); m++ {
 			method := s.typ.Method(m)
 			if mt := prepareMethod(method); mt != nil {
-				s.method[method.Name] = mt
+
+				s.method[server.protocol[method.Name]] = mt
+
+				logger.Debug("suitableMethods protocol %v, %d, %v", method.Name, server.protocol[method.Name], s.method[server.protocol[method.Name]])
+
 			}
 		}
 	}
@@ -388,27 +405,29 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 	return nil
 }
 
-func (server *Server) CallLua(req *[]byte, ret *[]byte, method string) (err error) {
+func (server *Server) CallLua(req *[]byte, ret *[]byte, cmd uint32) (err error) {
 	//logger.Debug("CallLua %v", method)
-
-	serviceMethod := strings.Split(method, ".")
-	if len(serviceMethod) != 2 {
-		err = errors.New("CallLua: service/method request ill-formed: " + method)
-		return
-	}
-
+	//logger.Debug("CallLua %v", method)
+	var mtype *methodType
+	var table *lua.LTable
 	// Look up the request.
 	server.mu.Lock()
-	service := server.serviceMap[serviceMethod[0]]
-	server.mu.Unlock()
-	if service == nil {
-		err = errors.New("CallLua: can't find service " + method)
-		return
+	for key, value := range server.serviceMap {
+		service := value
+		if service == nil {
+			err = errors.New("CallLua: rpc: can't find service " + key)
+			server.mu.Unlock()
+			return
+		}
+		mtype = service.method[cmd]
+		table = service.rcvr.Interface().(*lua.LTable)
+		if mtype != nil {
+			break;//find the cmd
+		}
 	}
-
-	mtype := service.method[serviceMethod[1]]
+	server.mu.Unlock()
 	if mtype == nil {
-		err = errors.New("CallLua: can't find method " + method)
+		err = errors.New("CallLua: can't find any method " + strconv.Itoa(int(cmd)))
 		return
 	}
 
@@ -416,7 +435,7 @@ func (server *Server) CallLua(req *[]byte, ret *[]byte, method string) (err erro
 		Fn: mtype.luaFn,
 		NRet: 1,
 		Protect: true,
-	}, service.rcvr.Interface().(*lua.LTable), lua.LString(string(*req)), lua.LString(string(*ret)))
+	}, table, lua.LString(string(*req)), lua.LString(string(*ret)))
 
 	if err2 !=nil {
 		logger.Error("CallLua Error : %s", err2.Error())
@@ -784,6 +803,10 @@ func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *m
 	argIsValue := false // if true, need to indirect before calling.
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
+	} else if mtype.ArgType.Kind()  == reflect.Slice{
+		//argv = reflect.ValueOf(req.Packet.GetSerializedPacket())
+		err = errors.New("rpc: readRequest: test")
+		return
 	}else {
 		argv = reflect.New(mtype.ArgType)
 		argIsValue = true
@@ -819,22 +842,24 @@ func (server *Server) readRequestHeader(codec ServerCodec) (service *service, mt
 	// we can still recover and move on to the next request.
 	keepReading = true
 
-	serviceMethod := strings.Split(req.ServiceMethod, ".")
-	if len(serviceMethod) != 2 {
-		err = errors.New("rpc: service/method request ill-formed: " + req.ServiceMethod)
-		return
-	}
 	// Look up the request.
 	server.mu.Lock()
-	service = server.serviceMap[serviceMethod[0]]
-	server.mu.Unlock()
-	if service == nil {
-		err = errors.New("rpc: can't find service " + req.ServiceMethod)
-		return
+	for key, value := range server.serviceMap {
+		service = value
+		if service == nil {
+			err = errors.New("rpc: can't find service " + key)
+			server.mu.Unlock()
+			return
+		}
+		mtype = service.method[req.ServiceMethod]
+		if mtype != nil {
+			break;//find the cmd
+		}
 	}
-	mtype = service.method[serviceMethod[1]]
+	server.mu.Unlock()
+
 	if mtype == nil {
-		err = errors.New("rpc: can't find method " + req.ServiceMethod)
+		err = errors.New("rpc: can't find method " + strconv.Itoa(int(req.ServiceMethod)))
 	}
 	return
 }

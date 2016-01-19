@@ -11,8 +11,6 @@ It is generated from these files:
 It has these top-level messages:
 	Packet
 	RpcErrorResponse
-	Vector3
-	Vector2
 */
 package protobuf
 
@@ -28,7 +26,7 @@ var _ = math.Inf
 type Packet struct {
 	Id               *uint64                   `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
 	Cmd              *uint32                   `protobuf:"varint,2,req,name=cmd" json:"cmd,omitempty"`
-	SerializedPacket []byte                    `protobuf:"bytes,3,opt,name=serialized_packet" json:"serialized_packet,omitempty"`
+	SerializedData   []byte                    `protobuf:"bytes,3,opt,name=serialized_data" json:"serialized_data,omitempty"`
 	Timer            *uint64                   `protobuf:"varint,4,opt,name=timer" json:"timer,omitempty"`
 	Desc             *string                   `protobuf:"bytes,5,opt,name=desc" json:"desc,omitempty"`
 	XXX_extensions   map[int32]proto.Extension `json:"-"`
@@ -67,9 +65,9 @@ func (m *Packet) GetCmd() uint32 {
 	return 0
 }
 
-func (m *Packet) GetSerializedPacket() []byte {
+func (m *Packet) GetSerializedData() []byte {
 	if m != nil {
-		return m.SerializedPacket
+		return m.SerializedData
 	}
 	return nil
 }
@@ -100,9 +98,9 @@ func (m *Packet) SetCmd(value uint32) {
 	}
 }
 
-func (m *Packet) SetSerializedPacket(value []byte) {
+func (m *Packet) SetSerializedData(value []byte) {
 	if m != nil {
-		m.SerializedPacket = value
+		m.SerializedData = value
 	}
 }
 
@@ -151,92 +149,6 @@ func (m *RpcErrorResponse) SetCmd(value uint32) {
 func (m *RpcErrorResponse) SetText(value string) {
 	if m != nil {
 		m.Text = &value
-	}
-}
-
-type Vector3 struct {
-	X                *float32 `protobuf:"fixed32,1,req,name=x" json:"x,omitempty"`
-	Y                *float32 `protobuf:"fixed32,2,req,name=y" json:"y,omitempty"`
-	Z                *float32 `protobuf:"fixed32,3,req,name=z" json:"z,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
-}
-
-func (m *Vector3) Reset()         { *m = Vector3{} }
-func (m *Vector3) String() string { return proto.CompactTextString(m) }
-func (*Vector3) ProtoMessage()    {}
-
-func (m *Vector3) GetX() float32 {
-	if m != nil && m.X != nil {
-		return *m.X
-	}
-	return 0
-}
-
-func (m *Vector3) GetY() float32 {
-	if m != nil && m.Y != nil {
-		return *m.Y
-	}
-	return 0
-}
-
-func (m *Vector3) GetZ() float32 {
-	if m != nil && m.Z != nil {
-		return *m.Z
-	}
-	return 0
-}
-
-func (m *Vector3) SetX(value float32) {
-	if m != nil {
-		m.X = &value
-	}
-}
-
-func (m *Vector3) SetY(value float32) {
-	if m != nil {
-		m.Y = &value
-	}
-}
-
-func (m *Vector3) SetZ(value float32) {
-	if m != nil {
-		m.Z = &value
-	}
-}
-
-type Vector2 struct {
-	X                *float32 `protobuf:"fixed32,1,req,name=x" json:"x,omitempty"`
-	Y                *float32 `protobuf:"fixed32,2,req,name=y" json:"y,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
-}
-
-func (m *Vector2) Reset()         { *m = Vector2{} }
-func (m *Vector2) String() string { return proto.CompactTextString(m) }
-func (*Vector2) ProtoMessage()    {}
-
-func (m *Vector2) GetX() float32 {
-	if m != nil && m.X != nil {
-		return *m.X
-	}
-	return 0
-}
-
-func (m *Vector2) GetY() float32 {
-	if m != nil && m.Y != nil {
-		return *m.Y
-	}
-	return 0
-}
-
-func (m *Vector2) SetX(value float32) {
-	if m != nil {
-		m.X = &value
-	}
-}
-
-func (m *Vector2) SetY(value float32) {
-	if m != nil {
-		m.Y = &value
 	}
 }
 

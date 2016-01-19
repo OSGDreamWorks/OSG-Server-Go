@@ -51,6 +51,7 @@ func CreateServices(lgcfg config.LoginConfig, authcfg config.AuthConfig) *LoginM
 
     pLoginServices.reConnect()
 
+    pLoginServices.rpcServer.rpcServer.ApplyProtocol(protobuf.SL_Protocol_value)
     pLoginServices.rpcServer.rpcServer.Register(pLoginServices.rpcServer)
 
     pLoginServices.loginServer.loginServer.ApplyProtocol(protobuf.CL_Protocol_value)
@@ -141,7 +142,7 @@ func (self *LoginServer)CL_CheckAccount(conn server.RpcConn, checkAccount protob
 
     ret := protobuf.AL_CheckAccountResult{}
 
-    err := self.authServer.Call("AuthServer.LA_CheckAccount", &req, &ret)
+    err := self.authServer.Call(protobuf.Network_Protocol(protobuf.LA_Protocol_eLA_CheckAccount), &req, &ret)
 
     result := protobuf.LC_CheckAccountResult{}
     if err != nil {

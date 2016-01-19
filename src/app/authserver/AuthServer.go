@@ -37,6 +37,7 @@ func CreateServices(authcfg config.AuthConfig)  *AuthServer {
 		exit:        make(chan bool),
 	}
 
+	pAuthServices.rpcServer.ApplyProtocol(protobuf.LA_Protocol_value)
 	pAuthServices.rpcServer.Register(pAuthServices)
 
 	pAuthServices.rpcServer.ListenAndServe(authcfg.AuthHost, nil)

@@ -24,28 +24,28 @@ var _ = math.Inf
 type CL_Protocol int32
 
 const (
-	CL_Protocol_eCL_PacketBegin CL_Protocol = 10000
+	CL_Protocol_eCL_PacketBegin CL_Protocol = 33554432
 	// ----------------------------
-	CL_Protocol_eCL_Connected    CL_Protocol = 10000
-	CL_Protocol_eCL_Disconnected CL_Protocol = 10001
-	CL_Protocol_eCL_CheckAccount CL_Protocol = 10002
+	CL_Protocol_eCL_Connected    CL_Protocol = 33554432
+	CL_Protocol_eCL_Disconnected CL_Protocol = 33554433
+	CL_Protocol_eCL_CheckAccount CL_Protocol = 33554434
 	// ----------------------------
-	CL_Protocol_eCL_PacketEnd CL_Protocol = 10500
+	CL_Protocol_eCL_PacketEnd CL_Protocol = 34603008
 )
 
 var CL_Protocol_name = map[int32]string{
-	10000: "eCL_PacketBegin",
-	// Duplicate value: 10000: "eCL_Connected",
-	10001: "eCL_Disconnected",
-	10002: "eCL_CheckAccount",
-	10500: "eCL_PacketEnd",
+	33554432: "eCL_PacketBegin",
+	// Duplicate value: 33554432: "eCL_Connected",
+	33554433: "eCL_Disconnected",
+	33554434: "eCL_CheckAccount",
+	34603008: "eCL_PacketEnd",
 }
 var CL_Protocol_value = map[string]int32{
-	"eCL_PacketBegin":  10000,
-	"eCL_Connected":    10000,
-	"eCL_Disconnected": 10001,
-	"eCL_CheckAccount": 10002,
-	"eCL_PacketEnd":    10500,
+	"eCL_PacketBegin":  33554432,
+	"eCL_Connected":    33554432,
+	"eCL_Disconnected": 33554433,
+	"eCL_CheckAccount": 33554434,
+	"eCL_PacketEnd":    34603008,
 }
 
 func (x CL_Protocol) Enum() *CL_Protocol {
@@ -71,28 +71,28 @@ func (x *CL_Protocol) UnmarshalJSON(data []byte) error {
 type LC_Protocol int32
 
 const (
-	LC_Protocol_eLC_PacketBegin LC_Protocol = 10500
+	LC_Protocol_eLC_PacketBegin LC_Protocol = 34603008
 	// ----------------------------
-	LC_Protocol_eLC_Connected          LC_Protocol = 10500
-	LC_Protocol_eLC_Disconnected       LC_Protocol = 10501
-	LC_Protocol_eLC_CheckAccountResult LC_Protocol = 10502
+	LC_Protocol_eLC_Connected          LC_Protocol = 34603008
+	LC_Protocol_eLC_Disconnected       LC_Protocol = 34603009
+	LC_Protocol_eLC_CheckAccountResult LC_Protocol = 34603010
 	// ----------------------------
-	LC_Protocol_eLC_PacketEnd LC_Protocol = 11000
+	LC_Protocol_eLC_PacketEnd LC_Protocol = 35651584
 )
 
 var LC_Protocol_name = map[int32]string{
-	10500: "eLC_PacketBegin",
-	// Duplicate value: 10500: "eLC_Connected",
-	10501: "eLC_Disconnected",
-	10502: "eLC_CheckAccountResult",
-	11000: "eLC_PacketEnd",
+	34603008: "eLC_PacketBegin",
+	// Duplicate value: 34603008: "eLC_Connected",
+	34603009: "eLC_Disconnected",
+	34603010: "eLC_CheckAccountResult",
+	35651584: "eLC_PacketEnd",
 }
 var LC_Protocol_value = map[string]int32{
-	"eLC_PacketBegin":        10500,
-	"eLC_Connected":          10500,
-	"eLC_Disconnected":       10501,
-	"eLC_CheckAccountResult": 10502,
-	"eLC_PacketEnd":          11000,
+	"eLC_PacketBegin":        34603008,
+	"eLC_Connected":          34603008,
+	"eLC_Disconnected":       34603009,
+	"eLC_CheckAccountResult": 34603010,
+	"eLC_PacketEnd":          35651584,
 }
 
 func (x LC_Protocol) Enum() *LC_Protocol {
@@ -118,31 +118,31 @@ func (x *LC_Protocol) UnmarshalJSON(data []byte) error {
 type CS_Protocol int32
 
 const (
-	CS_Protocol_eCS_PacketBegin CS_Protocol = 20000
+	CS_Protocol_eCS_PacketBegin CS_Protocol = 50331648
 	// ----------------------------
-	CS_Protocol_eCS_Connected    CS_Protocol = 20000
-	CS_Protocol_eCS_Disconnected CS_Protocol = 20001
-	CS_Protocol_eCS_CheckSession CS_Protocol = 20002
-	CS_Protocol_eCS_Ping         CS_Protocol = 20003
+	CS_Protocol_eCS_Connected    CS_Protocol = 50331648
+	CS_Protocol_eCS_Disconnected CS_Protocol = 50331649
+	CS_Protocol_eCS_CheckSession CS_Protocol = 50331650
+	CS_Protocol_eCS_Ping         CS_Protocol = 50331651
 	// ----------------------------
-	CS_Protocol_eCS_PacketEnd CS_Protocol = 30000
+	CS_Protocol_eCS_PacketEnd CS_Protocol = 83886080
 )
 
 var CS_Protocol_name = map[int32]string{
-	20000: "eCS_PacketBegin",
-	// Duplicate value: 20000: "eCS_Connected",
-	20001: "eCS_Disconnected",
-	20002: "eCS_CheckSession",
-	20003: "eCS_Ping",
-	30000: "eCS_PacketEnd",
+	50331648: "eCS_PacketBegin",
+	// Duplicate value: 50331648: "eCS_Connected",
+	50331649: "eCS_Disconnected",
+	50331650: "eCS_CheckSession",
+	50331651: "eCS_Ping",
+	83886080: "eCS_PacketEnd",
 }
 var CS_Protocol_value = map[string]int32{
-	"eCS_PacketBegin":  20000,
-	"eCS_Connected":    20000,
-	"eCS_Disconnected": 20001,
-	"eCS_CheckSession": 20002,
-	"eCS_Ping":         20003,
-	"eCS_PacketEnd":    30000,
+	"eCS_PacketBegin":  50331648,
+	"eCS_Connected":    50331648,
+	"eCS_Disconnected": 50331649,
+	"eCS_CheckSession": 50331650,
+	"eCS_Ping":         50331651,
+	"eCS_PacketEnd":    83886080,
 }
 
 func (x CS_Protocol) Enum() *CS_Protocol {
@@ -168,31 +168,31 @@ func (x *CS_Protocol) UnmarshalJSON(data []byte) error {
 type SC_Protocol int32
 
 const (
-	SC_Protocol_eSC_PacketBegin SC_Protocol = 30000
+	SC_Protocol_eSC_PacketBegin SC_Protocol = 83886080
 	// ----------------------------
-	SC_Protocol_eSC_Connected          SC_Protocol = 30000
-	SC_Protocol_eSC_Disconnected       SC_Protocol = 30001
-	SC_Protocol_eSC_CheckSessionResult SC_Protocol = 30002
-	SC_Protocol_eCS_PingResult         SC_Protocol = 30003
+	SC_Protocol_eSC_Connected          SC_Protocol = 83886080
+	SC_Protocol_eSC_Disconnected       SC_Protocol = 83886081
+	SC_Protocol_eSC_CheckSessionResult SC_Protocol = 83886082
+	SC_Protocol_eCS_PingResult         SC_Protocol = 83886083
 	// ----------------------------
-	SC_Protocol_eSC_PacketEnd SC_Protocol = 40000
+	SC_Protocol_eSC_PacketEnd SC_Protocol = 117440512
 )
 
 var SC_Protocol_name = map[int32]string{
-	30000: "eSC_PacketBegin",
-	// Duplicate value: 30000: "eSC_Connected",
-	30001: "eSC_Disconnected",
-	30002: "eSC_CheckSessionResult",
-	30003: "eCS_PingResult",
-	40000: "eSC_PacketEnd",
+	83886080: "eSC_PacketBegin",
+	// Duplicate value: 83886080: "eSC_Connected",
+	83886081:  "eSC_Disconnected",
+	83886082:  "eSC_CheckSessionResult",
+	83886083:  "eCS_PingResult",
+	117440512: "eSC_PacketEnd",
 }
 var SC_Protocol_value = map[string]int32{
-	"eSC_PacketBegin":        30000,
-	"eSC_Connected":          30000,
-	"eSC_Disconnected":       30001,
-	"eSC_CheckSessionResult": 30002,
-	"eCS_PingResult":         30003,
-	"eSC_PacketEnd":          40000,
+	"eSC_PacketBegin":        83886080,
+	"eSC_Connected":          83886080,
+	"eSC_Disconnected":       83886081,
+	"eSC_CheckSessionResult": 83886082,
+	"eCS_PingResult":         83886083,
+	"eSC_PacketEnd":          117440512,
 }
 
 func (x SC_Protocol) Enum() *SC_Protocol {

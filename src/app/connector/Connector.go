@@ -244,7 +244,7 @@ func (self *Connector) sendPlayerCountToGateServer() {
 				return
 
 			}
-			err = self.loginserver.Call("LoginRpcServer.SL_UpdatePlayerCount", &buf, &ret)
+			err = self.loginserver.Call(protobuf.Network_Protocol(protobuf.SL_Protocol_eSL_UpdatePlayerCount), &buf, &ret)
 
 			if err != nil {
 				logger.Error("Error On LoginRpcServer.SL_UpdatePlayerCount : %s", err.Error())

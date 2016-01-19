@@ -580,7 +580,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
 	} else if mtype.ArgType.Kind()  == reflect.Slice{
-		argv = reflect.ValueOf(req.Packet.GetSerializedPacket())
+		argv = reflect.ValueOf(req.Packet.GetSerializedData())
 		return
 	}else {
 		argv = reflect.New(mtype.ArgType)

@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"reflect"
 	"sync"
+	"protobuf"
 )
 
 // ServerError represents an error that has been returned from
@@ -28,7 +29,7 @@ var ErrShutdown = errors.New("connection is shut down")
 
 // Call represents an active RPC.
 type Call struct {
-	ServiceMethod string      // The name of the service and method to call.
+	ServiceMethod uint32      // The name of the service and method to call.
 	Args          interface{} // The argument to the function (*struct).
 	Reply         interface{} // The reply from the function (*struct for single, chan * struct for streaming).
 	Error         error       // After completion, the error status.
@@ -322,7 +323,7 @@ func (client *Client) Close() error {
 // the invocation.  The done channel will signal when the call is complete by returning
 // the same Call object.  If done is nil, Go will allocate a new channel.
 // If non-nil, done must be buffered or Go will deliberately crash.
-func (client *Client) Go(serviceMethod string, args interface{}, reply interface{}, done chan *Call) *Call {
+func (client *Client) Go(serviceMethod uint32, args interface{}, reply interface{}, done chan *Call) *Call {
 	call := new(Call)
 	call.ServiceMethod = serviceMethod
 	call.Args = args
@@ -345,7 +346,7 @@ func (client *Client) Go(serviceMethod string, args interface{}, reply interface
 
 // Go invokes the streaming function asynchronously.  It returns the Call structure representing
 // the invocation.
-func (client *Client) StreamGo(serviceMethod string, args interface{}, replyStream interface{}) *Call {
+func (client *Client) StreamGo(serviceMethod uint32, args interface{}, replyStream interface{}) *Call {
 	// first check the replyStream object is a stream of pointers to a data structure
 	typ := reflect.TypeOf(replyStream)
 	// FIXME: check the direction of the channel, maybe?
@@ -365,8 +366,8 @@ func (client *Client) StreamGo(serviceMethod string, args interface{}, replyStre
 }
 
 // Call invokes the named function, waits for it to complete, and returns its error status.
-func (client *Client) Call(serviceMethod string, args interface{}, reply interface{}) error {
-	call := <-client.Go(serviceMethod, args, reply, make(chan *Call, 1)).Done
+func (client *Client) Call(cmd protobuf.Network_Protocol, args interface{}, reply interface{}) error {
+	call := <-client.Go(uint32(cmd), args, reply, make(chan *Call, 1)).Done
 	return call.Error
 }
 

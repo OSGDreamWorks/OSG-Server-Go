@@ -15,7 +15,7 @@ func KVQuery(db *rpcplus.Client, table, uid string, value interface{}) (exist bo
 
 	var reply protobuf.DBQueryResult
 
-	err = db.Call("DBServer.Query", protobuf.DBQuery{table, uid}, &reply)
+	err = db.Call(protobuf.DB_Protocol_eDB_Query, protobuf.DBQuery{table, uid}, &reply)
 
 	if err != nil {
 		logger.Error("KVQuery Error On Query %s : %s (%s)", table, uid, err.Error())
@@ -97,7 +97,7 @@ func KVWrite(db *rpcplus.Client, table, uid string, value interface{}) (result b
 	}
 
 	var reply protobuf.DBWriteResult
-	err = db.Call("DBServer.Write", protobuf.DBWrite{table, uid, dst}, &reply)
+	err = db.Call(protobuf.DB_Protocol_eDB_Write, protobuf.DBWrite{table, uid, dst}, &reply)
 
 	if err != nil {
 		logger.Error("KVWrite Error On Create %s: %s (%s)", table, uid, err.Error())
@@ -118,7 +118,7 @@ func KVDelete(db *rpcplus.Client, table, uid string) (result bool, err error) {
 	//defer te("KVDelete", table, uid)
 
 	var reply protobuf.DBDelResult
-	err = db.Call("DBServer.Delete", protobuf.DBDel{table, uid}, &reply)
+	err = db.Call(protobuf.DB_Protocol_eDB_Delete, protobuf.DBDel{table, uid}, &reply)
 
 	if err != nil {
 		logger.Error("KVDelete Error On %s: %s (%s)", table, uid, err.Error())

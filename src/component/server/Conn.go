@@ -337,14 +337,14 @@ func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
 
 	req := &protobuf.Packet{}
 	req.Cmd = &cmd
-	req.SerializedPacket = buf
+	req.SerializedData = buf
 
 	return conn.writeRequest(req)
 }
 
 func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Packet, body interface{}) error {
 	if value, ok := body.(proto.Message); ok {
-		return proto.Unmarshal(req.GetSerializedPacket(), value)
+		return proto.Unmarshal(req.GetSerializedData(), value)
 	}
 
 	return fmt.Errorf("GetRequestBody value type error %v", body)
@@ -374,7 +374,7 @@ func (conn *ProtoBufConn) WriteObj(value interface{}) error {
 	} else {
 		req.SetCmd(conn.protocol[conn.resultServer + "." + t.Name()])
 	}
-	req.SerializedPacket = buf
+	req.SerializedData = buf
 	return conn.writeRequest(req)
 }
 

@@ -4,43 +4,43 @@ option optimize_for = SPEED;
 
 enum LA_Protocol {
 	option allow_alias = true;
-	eLA_PacketBegin			= 11000;
+	eLA_PacketBegin			= 0x01100000;
 	//----------------------------
-	eLA_Connected			= 11000;
-	eLA_Disconnected 		= 11001;
-	eLA_CheckAccount 		= 11002;
+	eLA_Connected			= 0x01100000;
+	eLA_Disconnected 		= 0x01100001;
+	eLA_CheckAccount 		= 0x01100002;
 	//----------------------------
-	eLA_PacketEnd			= 12000;
+	eLA_PacketEnd			= 0x01200000;
 }
 
 enum AL_Protocol {
 	option allow_alias = true;
-	eAL_PacketBegin			= 12000;
+	eAL_PacketBegin			= 0x01200000;
 	//----------------------------
-	eAL_Connected			= 12000;
-	eAL_Disconnected 		= 12001;
-	eAL_CheckAccountResult  = 12002;
+	eAL_Connected			= 0x01200000;
+	eAL_Disconnected 		= 0x01200001;
+	eAL_CheckAccountResult  = 0x01200002;
 	//----------------------------
-	eAL_PacketEnd			= 13000;
+	eAL_PacketEnd			= 0x01300000;
 }
 
 enum LS_Protocol {
 	option allow_alias = true;
-	eLS_PacketBegin			= 13000;
+	eLS_PacketBegin			= 0x01300000;
 	//----------------------------
-	eLS_Connected			= 13000;
-	eLS_Disconnected 		= 13001;
-	eLS_UpdatePlayerCountResult	= 13002;
+	eLS_Connected			= 0x01300000;
+	eLS_Disconnected 		= 0x01300001;
+	eLS_UpdatePlayerCountResult	= 0x01300002;
 	//----------------------------
-	eSLS_PacketEnd			= 14000;
+	eSLS_PacketEnd			= 0x01400000;
 }
 enum SL_Protocol {
 	option allow_alias = true;
-	eSL_PacketBegin			= 14000;
+	eSL_PacketBegin			= 0x01400000;
 	//----------------------------
-	eSL_Connected			= 14000;
-	eSL_Disconnected 		= 14001;
-	eSL_UpdatePlayerCount	= 14002;
+	eSL_Connected			= 0x01400000;
+	eSL_Disconnected 		= 0x01400001;
+	eSL_UpdatePlayerCount	= 0x01400002;
 	//----------------------------
-	eSL_PacketEnd			= 20000;
+	eSL_PacketEnd			= 0x01500000;
 }

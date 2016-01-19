@@ -47,6 +47,8 @@ func CreateServices(cfg config.DBConfig) *DBServer {
 
 func StartServices(self *DBServer, listener net.Listener) {
 	rpcServer := rpc.NewServer()
+
+	rpcServer.ApplyProtocol(protobuf.DB_Protocol_value)
 	rpcServer.Register(self)
 
 	for {

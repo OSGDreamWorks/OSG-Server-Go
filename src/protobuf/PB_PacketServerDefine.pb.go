@@ -24,28 +24,28 @@ var _ = math.Inf
 type LA_Protocol int32
 
 const (
-	LA_Protocol_eLA_PacketBegin LA_Protocol = 11000
+	LA_Protocol_eLA_PacketBegin LA_Protocol = 17825792
 	// ----------------------------
-	LA_Protocol_eLA_Connected    LA_Protocol = 11000
-	LA_Protocol_eLA_Disconnected LA_Protocol = 11001
-	LA_Protocol_eLA_CheckAccount LA_Protocol = 11002
+	LA_Protocol_eLA_Connected    LA_Protocol = 17825792
+	LA_Protocol_eLA_Disconnected LA_Protocol = 17825793
+	LA_Protocol_eLA_CheckAccount LA_Protocol = 17825794
 	// ----------------------------
-	LA_Protocol_eLA_PacketEnd LA_Protocol = 12000
+	LA_Protocol_eLA_PacketEnd LA_Protocol = 18874368
 )
 
 var LA_Protocol_name = map[int32]string{
-	11000: "eLA_PacketBegin",
-	// Duplicate value: 11000: "eLA_Connected",
-	11001: "eLA_Disconnected",
-	11002: "eLA_CheckAccount",
-	12000: "eLA_PacketEnd",
+	17825792: "eLA_PacketBegin",
+	// Duplicate value: 17825792: "eLA_Connected",
+	17825793: "eLA_Disconnected",
+	17825794: "eLA_CheckAccount",
+	18874368: "eLA_PacketEnd",
 }
 var LA_Protocol_value = map[string]int32{
-	"eLA_PacketBegin":  11000,
-	"eLA_Connected":    11000,
-	"eLA_Disconnected": 11001,
-	"eLA_CheckAccount": 11002,
-	"eLA_PacketEnd":    12000,
+	"eLA_PacketBegin":  17825792,
+	"eLA_Connected":    17825792,
+	"eLA_Disconnected": 17825793,
+	"eLA_CheckAccount": 17825794,
+	"eLA_PacketEnd":    18874368,
 }
 
 func (x LA_Protocol) Enum() *LA_Protocol {
@@ -71,28 +71,28 @@ func (x *LA_Protocol) UnmarshalJSON(data []byte) error {
 type AL_Protocol int32
 
 const (
-	AL_Protocol_eAL_PacketBegin AL_Protocol = 12000
+	AL_Protocol_eAL_PacketBegin AL_Protocol = 18874368
 	// ----------------------------
-	AL_Protocol_eAL_Connected          AL_Protocol = 12000
-	AL_Protocol_eAL_Disconnected       AL_Protocol = 12001
-	AL_Protocol_eAL_CheckAccountResult AL_Protocol = 12002
+	AL_Protocol_eAL_Connected          AL_Protocol = 18874368
+	AL_Protocol_eAL_Disconnected       AL_Protocol = 18874369
+	AL_Protocol_eAL_CheckAccountResult AL_Protocol = 18874370
 	// ----------------------------
-	AL_Protocol_eAL_PacketEnd AL_Protocol = 13000
+	AL_Protocol_eAL_PacketEnd AL_Protocol = 19922944
 )
 
 var AL_Protocol_name = map[int32]string{
-	12000: "eAL_PacketBegin",
-	// Duplicate value: 12000: "eAL_Connected",
-	12001: "eAL_Disconnected",
-	12002: "eAL_CheckAccountResult",
-	13000: "eAL_PacketEnd",
+	18874368: "eAL_PacketBegin",
+	// Duplicate value: 18874368: "eAL_Connected",
+	18874369: "eAL_Disconnected",
+	18874370: "eAL_CheckAccountResult",
+	19922944: "eAL_PacketEnd",
 }
 var AL_Protocol_value = map[string]int32{
-	"eAL_PacketBegin":        12000,
-	"eAL_Connected":          12000,
-	"eAL_Disconnected":       12001,
-	"eAL_CheckAccountResult": 12002,
-	"eAL_PacketEnd":          13000,
+	"eAL_PacketBegin":        18874368,
+	"eAL_Connected":          18874368,
+	"eAL_Disconnected":       18874369,
+	"eAL_CheckAccountResult": 18874370,
+	"eAL_PacketEnd":          19922944,
 }
 
 func (x AL_Protocol) Enum() *AL_Protocol {
@@ -118,28 +118,28 @@ func (x *AL_Protocol) UnmarshalJSON(data []byte) error {
 type LS_Protocol int32
 
 const (
-	LS_Protocol_eLS_PacketBegin LS_Protocol = 13000
+	LS_Protocol_eLS_PacketBegin LS_Protocol = 19922944
 	// ----------------------------
-	LS_Protocol_eLS_Connected               LS_Protocol = 13000
-	LS_Protocol_eLS_Disconnected            LS_Protocol = 13001
-	LS_Protocol_eLS_UpdatePlayerCountResult LS_Protocol = 13002
+	LS_Protocol_eLS_Connected               LS_Protocol = 19922944
+	LS_Protocol_eLS_Disconnected            LS_Protocol = 19922945
+	LS_Protocol_eLS_UpdatePlayerCountResult LS_Protocol = 19922946
 	// ----------------------------
-	LS_Protocol_eSLS_PacketEnd LS_Protocol = 14000
+	LS_Protocol_eSLS_PacketEnd LS_Protocol = 20971520
 )
 
 var LS_Protocol_name = map[int32]string{
-	13000: "eLS_PacketBegin",
-	// Duplicate value: 13000: "eLS_Connected",
-	13001: "eLS_Disconnected",
-	13002: "eLS_UpdatePlayerCountResult",
-	14000: "eSLS_PacketEnd",
+	19922944: "eLS_PacketBegin",
+	// Duplicate value: 19922944: "eLS_Connected",
+	19922945: "eLS_Disconnected",
+	19922946: "eLS_UpdatePlayerCountResult",
+	20971520: "eSLS_PacketEnd",
 }
 var LS_Protocol_value = map[string]int32{
-	"eLS_PacketBegin":             13000,
-	"eLS_Connected":               13000,
-	"eLS_Disconnected":            13001,
-	"eLS_UpdatePlayerCountResult": 13002,
-	"eSLS_PacketEnd":              14000,
+	"eLS_PacketBegin":             19922944,
+	"eLS_Connected":               19922944,
+	"eLS_Disconnected":            19922945,
+	"eLS_UpdatePlayerCountResult": 19922946,
+	"eSLS_PacketEnd":              20971520,
 }
 
 func (x LS_Protocol) Enum() *LS_Protocol {
@@ -165,28 +165,28 @@ func (x *LS_Protocol) UnmarshalJSON(data []byte) error {
 type SL_Protocol int32
 
 const (
-	SL_Protocol_eSL_PacketBegin SL_Protocol = 14000
+	SL_Protocol_eSL_PacketBegin SL_Protocol = 20971520
 	// ----------------------------
-	SL_Protocol_eSL_Connected         SL_Protocol = 14000
-	SL_Protocol_eSL_Disconnected      SL_Protocol = 14001
-	SL_Protocol_eSL_UpdatePlayerCount SL_Protocol = 14002
+	SL_Protocol_eSL_Connected         SL_Protocol = 20971520
+	SL_Protocol_eSL_Disconnected      SL_Protocol = 20971521
+	SL_Protocol_eSL_UpdatePlayerCount SL_Protocol = 20971522
 	// ----------------------------
-	SL_Protocol_eSL_PacketEnd SL_Protocol = 20000
+	SL_Protocol_eSL_PacketEnd SL_Protocol = 22020096
 )
 
 var SL_Protocol_name = map[int32]string{
-	14000: "eSL_PacketBegin",
-	// Duplicate value: 14000: "eSL_Connected",
-	14001: "eSL_Disconnected",
-	14002: "eSL_UpdatePlayerCount",
-	20000: "eSL_PacketEnd",
+	20971520: "eSL_PacketBegin",
+	// Duplicate value: 20971520: "eSL_Connected",
+	20971521: "eSL_Disconnected",
+	20971522: "eSL_UpdatePlayerCount",
+	22020096: "eSL_PacketEnd",
 }
 var SL_Protocol_value = map[string]int32{
-	"eSL_PacketBegin":       14000,
-	"eSL_Connected":         14000,
-	"eSL_Disconnected":      14001,
-	"eSL_UpdatePlayerCount": 14002,
-	"eSL_PacketEnd":         20000,
+	"eSL_PacketBegin":       20971520,
+	"eSL_Connected":         20971520,
+	"eSL_Disconnected":      20971521,
+	"eSL_UpdatePlayerCount": 20971522,
+	"eSL_PacketEnd":         22020096,
 }
 
 func (x SL_Protocol) Enum() *SL_Protocol {
