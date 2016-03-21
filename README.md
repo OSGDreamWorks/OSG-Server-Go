@@ -18,13 +18,13 @@ OSG-Server-Go遵循的协议 [MIT Open Source License](http://opensource.org/lic
 
 ## How to use
 
-require install golang 1.4
+require install golang 1.5+
 (option)the protobuf js require install nodejs
 (option)IntelliJ IDEA require [golang idea plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/releases "golang idea plugin")
 
-需要安装golang 1.4
+需要安装golang 1.5+
 (可选)js版本的protobuf需要安装nodejs
-(可选)IntelliJ IDEA开发，需要安装[golang Idea插件](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/releases "golang Idea插件")
+(可选)IntelliJ IDEA 2016+ 开发，需要安装[golang Idea插件](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/releases "golang Idea插件")
 
 # Commit to OSG-Server-Go
 
@@ -38,5 +38,5 @@ We work from `develop` branch and PR into `develop` branch. Stable versions are 
 
 ## Where to start?
 
-Just pick an enchancement (feature) issue or a bug issue from the [open issues list](https://github.com/OSGDreamWorks/Document/issues?state=open). Thanks for your help!
-你可以从这里开始：[问题列表](https://github.com/OSGDreamWorks/Document/issues?state=open). 谢谢您的帮助与支持!
+Just pick an enchancement (feature) issue or a bug issue from the [open issues list](http://git.oschina.net/3dseals/OSG-Server-Go/issues). Thanks for your help!
+你可以从这里开始：[问题列表](http://git.oschina.net/3dseals/OSG-Server-Go/issues). 谢谢您的帮助与支持!
