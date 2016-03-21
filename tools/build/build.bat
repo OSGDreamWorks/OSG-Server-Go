@@ -2,8 +2,8 @@
 
 setlocal
 
-if exist debug.bat goto ok
-echo debug.bat must be run from its folder
+if exist build.bat goto ok
+echo build.bat must be run from its folder
 goto end
 
 :ok
@@ -13,16 +13,8 @@ set PKGDIR=%~dp0..\..\3rdpkg\
 
 set OLDGOPATH=%GOPATH%
 
-if not exist %PKGDIR% mkdir %PKGDIR%
+if not exist %PKGDIR% goto req
 
-set GOPATH=%PKGDIR%
-cd %PKGDIR%
-go get github.com/googollee/go-socket.io
-go get github.com/garyburd/redigo/redis
-go get github.com/go-sql-driver/mysql
-go get github.com/yuin/gopher-lua
-go get code.google.com/p/goprotobuf/proto
-go get code.google.com/p/snappy-go/snappy
 cd %PRODIR%
 
 set GOPATH=%PRODIR%;%PKGDIR%
@@ -43,5 +35,10 @@ cd %PRODIR%tools\build\
 
 xcopy %PRODIR%etc %PRODIR%bin\etc /d/e/i
 
+goto end
+
+:req
+echo "please run install-require.bat first."
+
 :end
-echo "build successfully"
+echo "build finish"

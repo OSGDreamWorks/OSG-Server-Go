@@ -9,20 +9,20 @@ type Network_Protocol uint32
 
 const (
 	DB_Protocol_eDB_PacketBegin Network_Protocol = 0x01000000
-// ----------------------------
-	DB_Protocol_eDB_Query    	Network_Protocol = 0x01000000
-	DB_Protocol_eDB_Write 		Network_Protocol = 0x01000001
-	DB_Protocol_eDB_Delete 		Network_Protocol = 0x01000002
-// ----------------------------
-	DB_Protocol_eDB_PacketEnd   Network_Protocol = 0x01100000
+	// ----------------------------
+	DB_Protocol_eDB_Query  Network_Protocol = 0x01000000
+	DB_Protocol_eDB_Write  Network_Protocol = 0x01000001
+	DB_Protocol_eDB_Delete Network_Protocol = 0x01000002
+	// ----------------------------
+	DB_Protocol_eDB_PacketEnd Network_Protocol = 0x01100000
 )
 
 var DB_Protocol_value = map[string]int32{
-	"eDB_PacketBegin":        0x01000000,
-	"eLC_eDB_Query":          0x01000000,
-	"eLC_eDB_Write":       	0x01000001,
-	"eLC_eDB_Delete":  		0x01000002,
-	"eDB_PacketEnd":          0x01100000,
+	"eDB_PacketBegin": 0x01000000,
+	"eLC_eDB_Query":   0x01000000,
+	"eLC_eDB_Write":   0x01000001,
+	"eLC_eDB_Delete":  0x01000002,
+	"eDB_PacketEnd":   0x01100000,
 }
 
 type DBQuery struct {

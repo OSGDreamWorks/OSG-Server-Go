@@ -9,7 +9,7 @@ import (
     "common/logger"
     "net"
     "time"
-    "code.google.com/p/goprotobuf/proto"
+    "github.com/golang/protobuf/proto"
 )
 
 type serverInfo struct {
@@ -105,7 +105,7 @@ func (self *LoginRpcServer)SL_UpdatePlayerCount(uConnId *uint64, req *[]byte, re
     info := protobuf.SL_UpdatePlayerCount{}
     err := proto.Unmarshal(*req, &info)
 
-    pLoginServices.m[*uConnId] = serverInfo{info.GetPlayerCount(), info.GetTcpServerIp(), info.GetHttpServerIp()}
+    pLoginServices.m[*uConnId] = serverInfo{info.PlayerCount, info.TcpServerIp, info.HttpServerIp}
     playerCountMax := uint32(0xffffffff) // max count
     pLoginServices.stableTcpServer = ""
     pLoginServices.stableHttpServer = ""
@@ -118,27 +118,27 @@ func (self *LoginRpcServer)SL_UpdatePlayerCount(uConnId *uint64, req *[]byte, re
     }
 
     result := protobuf.LS_UpdatePlayerCountResult{}
-    result.SetResult(protobuf.LS_UpdatePlayerCountResult_OK)
-    result.SetServerTime(uint32(time.Now().Unix()))
+    result.Result = protobuf.LS_UpdatePlayerCountResult_OK
+    result.ServerTime = uint32(time.Now().Unix())
 
     buf,err := proto.Marshal(&result)
     *ret = buf
 
     pLoginServices.l.Unlock()
 
-    logger.Debug("recv cns msg [%v]: server %v , player count %v, player ip = %v | %v \n", *uConnId, info.GetServerId(), info.GetPlayerCount(), info.GetTcpServerIp(), info.GetHttpServerIp())
+    logger.Debug("recv cns msg [%v]: server %v , player count %v, player ip = %v | %v \n", *uConnId, info.ServerId, info.PlayerCount, info.TcpServerIp, info.HttpServerIp)
     return err
 }
 
 func (self *LoginServer)CL_CheckAccount(conn server.RpcConn, checkAccount protobuf.CL_CheckAccount) error {
 
     req := protobuf.LA_CheckAccount{}
-    req.SetUid(checkAccount.GetUid())
-    req.SetAccount(checkAccount.GetAccount())
-    req.SetPassword(checkAccount.GetPassword())
-    req.SetOption(checkAccount.GetOption())
-    req.SetLanguage(checkAccount.GetLanguage())
-    req.SetUdid(checkAccount.GetUdid())
+    req.Uid = checkAccount.Uid
+    req.Account = checkAccount.Account
+    req.Password = checkAccount.Password
+    req.Option = checkAccount.Option
+    req.Language = checkAccount.Language
+    req.Udid = checkAccount.Udid
 
     ret := protobuf.AL_CheckAccountResult{}
 
@@ -147,22 +147,22 @@ func (self *LoginServer)CL_CheckAccount(conn server.RpcConn, checkAccount protob
     result := protobuf.LC_CheckAccountResult{}
     if err != nil {
         logger.Error("CL_CheckAccount Error : %v", err)
-        result.SetResult(protobuf.LC_CheckAccountResult_SERVERERROR)
-        result.SetServerTime(uint32(time.Now().Unix()))
-        result.SetSessionKey("")
-        result.SetUid("")
-        result.SetGameServerIp("")
+        result.Result = protobuf.LC_CheckAccountResult_SERVERERROR
+        result.ServerTime = uint32(time.Now().Unix())
+        result.SessionKey = ""
+        result.Uid = ""
+        result.GameServerIp = ""
     }else {
-        result.SetResult(protobuf.LC_CheckAccountResult_OK)
-        result.SetServerTime(uint32(time.Now().Unix()))
-        result.SetSessionKey(ret.GetSessionKey())
-        result.SetUid(ret.GetUid())
-        result.SetGameServerIp(pLoginServices.stableTcpServer)
+        result.Result = protobuf.LC_CheckAccountResult_OK
+        result.ServerTime = uint32(time.Now().Unix())
+        result.SessionKey = ret.SessionKey
+        result.Uid = ret.Uid
+        result.GameServerIp = pLoginServices.stableTcpServer
         if conn.IsWebConn() {
-            result.SetGameServerIp(pLoginServices.stableHttpServer)
+            result.GameServerIp = pLoginServices.stableHttpServer
         }
 
-        logger.Debug("CL_CheckAccount : %v, %v, %v", ret, result.GetSessionKey(), result.GetGameServerIp())
+        logger.Debug("CL_CheckAccount : %v, %v, %v", ret, result.SessionKey, result.GameServerIp)
     }
     conn.WriteObj(&result)
 

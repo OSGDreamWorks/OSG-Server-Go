@@ -2,100 +2,70 @@
 // source: LSPacket.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	LSPacket.proto
-
-It has these top-level messages:
-	LS_UpdatePlayerCountResult
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
-
-// discarding unused import protobuf1 "PB_PacketServerDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type LS_UpdatePlayerCountResult_Result int32
 
 const (
+	LS_UpdatePlayerCountResult_SUCCESS     LS_UpdatePlayerCountResult_Result = 0
 	LS_UpdatePlayerCountResult_OK          LS_UpdatePlayerCountResult_Result = 1
 	LS_UpdatePlayerCountResult_SERVERERROR LS_UpdatePlayerCountResult_Result = 2
 )
 
 var LS_UpdatePlayerCountResult_Result_name = map[int32]string{
+	0: "SUCCESS",
 	1: "OK",
 	2: "SERVERERROR",
 }
 var LS_UpdatePlayerCountResult_Result_value = map[string]int32{
+	"SUCCESS":     0,
 	"OK":          1,
 	"SERVERERROR": 2,
 }
 
-func (x LS_UpdatePlayerCountResult_Result) Enum() *LS_UpdatePlayerCountResult_Result {
-	p := new(LS_UpdatePlayerCountResult_Result)
-	*p = x
-	return p
-}
 func (x LS_UpdatePlayerCountResult_Result) String() string {
 	return proto.EnumName(LS_UpdatePlayerCountResult_Result_name, int32(x))
 }
-func (x LS_UpdatePlayerCountResult_Result) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *LS_UpdatePlayerCountResult_Result) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(LS_UpdatePlayerCountResult_Result_value, data, "LS_UpdatePlayerCountResult_Result")
-	if err != nil {
-		return err
-	}
-	*x = LS_UpdatePlayerCountResult_Result(value)
-	return nil
+func (LS_UpdatePlayerCountResult_Result) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor5, []int{0, 0}
 }
 
 type LS_UpdatePlayerCountResult struct {
-	Result           *LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result" json:"result,omitempty"`
-	ServerTime       *uint32                            `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
-	XXX_unrecognized []byte                             `json:"-"`
+	Result     LS_UpdatePlayerCountResult_Result `protobuf:"varint,1,opt,name=result,enum=protobuf.LS_UpdatePlayerCountResult_Result" json:"result,omitempty"`
+	ServerTime uint32                            `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
 }
 
-func (m *LS_UpdatePlayerCountResult) Reset()         { *m = LS_UpdatePlayerCountResult{} }
-func (m *LS_UpdatePlayerCountResult) String() string { return proto.CompactTextString(m) }
-func (*LS_UpdatePlayerCountResult) ProtoMessage()    {}
-
-func (m *LS_UpdatePlayerCountResult) GetResult() LS_UpdatePlayerCountResult_Result {
-	if m != nil && m.Result != nil {
-		return *m.Result
-	}
-	return LS_UpdatePlayerCountResult_OK
-}
-
-func (m *LS_UpdatePlayerCountResult) GetServerTime() uint32 {
-	if m != nil && m.ServerTime != nil {
-		return *m.ServerTime
-	}
-	return 0
-}
-
-func (m *LS_UpdatePlayerCountResult) SetResult(value LS_UpdatePlayerCountResult_Result) {
-	if m != nil {
-		m.Result = &value
-	}
-}
-
-func (m *LS_UpdatePlayerCountResult) SetServerTime(value uint32) {
-	if m != nil {
-		m.ServerTime = &value
-	}
-}
+func (m *LS_UpdatePlayerCountResult) Reset()                    { *m = LS_UpdatePlayerCountResult{} }
+func (m *LS_UpdatePlayerCountResult) String() string            { return proto.CompactTextString(m) }
+func (*LS_UpdatePlayerCountResult) ProtoMessage()               {}
+func (*LS_UpdatePlayerCountResult) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{0} }
 
 func init() {
+	proto.RegisterType((*LS_UpdatePlayerCountResult)(nil), "protobuf.LS_UpdatePlayerCountResult")
 	proto.RegisterEnum("protobuf.LS_UpdatePlayerCountResult_Result", LS_UpdatePlayerCountResult_Result_name, LS_UpdatePlayerCountResult_Result_value)
+}
+
+var fileDescriptor5 = []byte{
+	// 184 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xe2, 0xe2, 0xf3, 0x09, 0x0e, 0x48,
+	0x4c, 0xce, 0x4e, 0x2d, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x00, 0x53, 0x49, 0xa5,
+	0x69, 0x4a, 0x9b, 0x18, 0xb9, 0xa4, 0x7c, 0x82, 0xe3, 0x43, 0x0b, 0x52, 0x12, 0x4b, 0x52, 0x03,
+	0x72, 0x12, 0x2b, 0x53, 0x8b, 0x9c, 0xf3, 0x4b, 0xf3, 0x4a, 0x82, 0x52, 0x8b, 0x4b, 0x73, 0x4a,
+	0x84, 0x9c, 0xb9, 0xd8, 0x8a, 0xc0, 0x2c, 0x09, 0x46, 0x05, 0x46, 0x0d, 0x3e, 0x23, 0x6d, 0x3d,
+	0x98, 0x4e, 0x3d, 0xdc, 0xba, 0xf4, 0x20, 0x54, 0x10, 0x54, 0xab, 0x90, 0x3c, 0x17, 0x77, 0x71,
+	0x6a, 0x51, 0x59, 0x6a, 0x51, 0x7c, 0x49, 0x66, 0x6e, 0xaa, 0x04, 0x13, 0xd0, 0x24, 0xde, 0x20,
+	0x2e, 0x88, 0x50, 0x08, 0x50, 0x44, 0x49, 0x8f, 0x8b, 0x0d, 0x6a, 0x1f, 0x37, 0x17, 0x7b, 0x70,
+	0xa8, 0xb3, 0xb3, 0x6b, 0x70, 0xb0, 0x00, 0x83, 0x10, 0x1b, 0x17, 0x93, 0xbf, 0xb7, 0x00, 0xa3,
+	0x10, 0x3f, 0x17, 0x77, 0xb0, 0x6b, 0x50, 0x98, 0x6b, 0x90, 0x6b, 0x50, 0x90, 0x7f, 0x90, 0x00,
+	0x93, 0x13, 0x93, 0x07, 0x63, 0x12, 0x1b, 0xd8, 0x21, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff,
+	0x2d, 0x88, 0xed, 0xe1, 0xdb, 0x00, 0x00, 0x00,
 }

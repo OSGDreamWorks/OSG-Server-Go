@@ -2,31 +2,21 @@
 // source: LCPacket.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	LCPacket.proto
-
-It has these top-level messages:
-	LC_CheckAccountResult
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
-
-// discarding unused import protobuf1 "PB_PacketDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type LC_CheckAccountResult_Result int32
 
 const (
+	LC_CheckAccountResult_SUCCESS      LC_CheckAccountResult_Result = 0
 	LC_CheckAccountResult_OK           LC_CheckAccountResult_Result = 1
 	LC_CheckAccountResult_SERVERERROR  LC_CheckAccountResult_Result = 2
 	LC_CheckAccountResult_USERNOTFOUND LC_CheckAccountResult_Result = 3
@@ -35,6 +25,7 @@ const (
 )
 
 var LC_CheckAccountResult_Result_name = map[int32]string{
+	0: "SUCCESS",
 	1: "OK",
 	2: "SERVERERROR",
 	3: "USERNOTFOUND",
@@ -42,6 +33,7 @@ var LC_CheckAccountResult_Result_name = map[int32]string{
 	5: "ISONFIRE",
 }
 var LC_CheckAccountResult_Result_value = map[string]int32{
+	"SUCCESS":      0,
 	"OK":           1,
 	"SERVERERROR":  2,
 	"USERNOTFOUND": 3,
@@ -49,104 +41,48 @@ var LC_CheckAccountResult_Result_value = map[string]int32{
 	"ISONFIRE":     5,
 }
 
-func (x LC_CheckAccountResult_Result) Enum() *LC_CheckAccountResult_Result {
-	p := new(LC_CheckAccountResult_Result)
-	*p = x
-	return p
-}
 func (x LC_CheckAccountResult_Result) String() string {
 	return proto.EnumName(LC_CheckAccountResult_Result_name, int32(x))
 }
-func (x LC_CheckAccountResult_Result) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *LC_CheckAccountResult_Result) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(LC_CheckAccountResult_Result_value, data, "LC_CheckAccountResult_Result")
-	if err != nil {
-		return err
-	}
-	*x = LC_CheckAccountResult_Result(value)
-	return nil
+func (LC_CheckAccountResult_Result) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor4, []int{0, 0}
 }
 
 type LC_CheckAccountResult struct {
-	Result           *LC_CheckAccountResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.LC_CheckAccountResult_Result" json:"result,omitempty"`
-	ServerTime       *uint32                       `protobuf:"varint,2,req,name=server_time" json:"server_time,omitempty"`
-	SessionKey       *string                       `protobuf:"bytes,3,req,name=sessionKey" json:"sessionKey,omitempty"`
-	Uid              *string                       `protobuf:"bytes,4,req,name=uid" json:"uid,omitempty"`
-	GameServerIp     *string                       `protobuf:"bytes,5,opt,name=gameServerIp" json:"gameServerIp,omitempty"`
-	XXX_unrecognized []byte                        `json:"-"`
+	Result       LC_CheckAccountResult_Result `protobuf:"varint,1,opt,name=result,enum=protobuf.LC_CheckAccountResult_Result" json:"result,omitempty"`
+	ServerTime   uint32                       `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
+	SessionKey   string                       `protobuf:"bytes,3,opt,name=sessionKey" json:"sessionKey,omitempty"`
+	Uid          string                       `protobuf:"bytes,4,opt,name=uid" json:"uid,omitempty"`
+	GameServerIp string                       `protobuf:"bytes,5,opt,name=gameServerIp" json:"gameServerIp,omitempty"`
 }
 
-func (m *LC_CheckAccountResult) Reset()         { *m = LC_CheckAccountResult{} }
-func (m *LC_CheckAccountResult) String() string { return proto.CompactTextString(m) }
-func (*LC_CheckAccountResult) ProtoMessage()    {}
-
-func (m *LC_CheckAccountResult) GetResult() LC_CheckAccountResult_Result {
-	if m != nil && m.Result != nil {
-		return *m.Result
-	}
-	return LC_CheckAccountResult_OK
-}
-
-func (m *LC_CheckAccountResult) GetServerTime() uint32 {
-	if m != nil && m.ServerTime != nil {
-		return *m.ServerTime
-	}
-	return 0
-}
-
-func (m *LC_CheckAccountResult) GetSessionKey() string {
-	if m != nil && m.SessionKey != nil {
-		return *m.SessionKey
-	}
-	return ""
-}
-
-func (m *LC_CheckAccountResult) GetUid() string {
-	if m != nil && m.Uid != nil {
-		return *m.Uid
-	}
-	return ""
-}
-
-func (m *LC_CheckAccountResult) GetGameServerIp() string {
-	if m != nil && m.GameServerIp != nil {
-		return *m.GameServerIp
-	}
-	return ""
-}
-
-func (m *LC_CheckAccountResult) SetResult(value LC_CheckAccountResult_Result) {
-	if m != nil {
-		m.Result = &value
-	}
-}
-
-func (m *LC_CheckAccountResult) SetServerTime(value uint32) {
-	if m != nil {
-		m.ServerTime = &value
-	}
-}
-
-func (m *LC_CheckAccountResult) SetSessionKey(value string) {
-	if m != nil {
-		m.SessionKey = &value
-	}
-}
-
-func (m *LC_CheckAccountResult) SetUid(value string) {
-	if m != nil {
-		m.Uid = &value
-	}
-}
-
-func (m *LC_CheckAccountResult) SetGameServerIp(value string) {
-	if m != nil {
-		m.GameServerIp = &value
-	}
-}
+func (m *LC_CheckAccountResult) Reset()                    { *m = LC_CheckAccountResult{} }
+func (m *LC_CheckAccountResult) String() string            { return proto.CompactTextString(m) }
+func (*LC_CheckAccountResult) ProtoMessage()               {}
+func (*LC_CheckAccountResult) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
 
 func init() {
+	proto.RegisterType((*LC_CheckAccountResult)(nil), "protobuf.LC_CheckAccountResult")
 	proto.RegisterEnum("protobuf.LC_CheckAccountResult_Result", LC_CheckAccountResult_Result_name, LC_CheckAccountResult_Result_value)
+}
+
+var fileDescriptor4 = []byte{
+	// 272 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x6c, 0x90, 0xc1, 0x4f, 0x83, 0x30,
+	0x14, 0xc6, 0x85, 0x6d, 0x38, 0x1f, 0x38, 0x9b, 0x26, 0x26, 0x9c, 0xd4, 0x70, 0x30, 0x9e, 0x38,
+	0xe8, 0xdd, 0x04, 0x59, 0xc9, 0xc8, 0x08, 0x98, 0x57, 0xf0, 0x4a, 0x36, 0xac, 0x4a, 0xe6, 0xc6,
+	0x02, 0xc5, 0xc4, 0xbf, 0xca, 0x7f, 0xd1, 0xae, 0x9b, 0x89, 0x26, 0x9e, 0xde, 0xd7, 0xdf, 0xd7,
+	0xef, 0x6b, 0xfa, 0x60, 0x92, 0x84, 0x8f, 0x8b, 0x6a, 0x25, 0xa4, 0xbf, 0x6d, 0x1b, 0xd9, 0xd0,
+	0xb1, 0x1e, 0xcb, 0xfe, 0xc5, 0xfb, 0x32, 0xe1, 0x3c, 0x09, 0xcb, 0xf0, 0x4d, 0x54, 0xab, 0xa0,
+	0xaa, 0x9a, 0x7e, 0x23, 0x51, 0x74, 0xfd, 0xbb, 0xa4, 0xf7, 0x60, 0xb5, 0x5a, 0xb9, 0xc6, 0x95,
+	0x71, 0x33, 0xb9, 0xbd, 0xf6, 0x7f, 0x42, 0xfe, 0xbf, 0x01, 0x7f, 0x3f, 0xf0, 0x90, 0xa2, 0x97,
+	0x60, 0x77, 0xa2, 0xfd, 0x10, 0x6d, 0x29, 0xeb, 0xb5, 0x70, 0x4d, 0x55, 0x72, 0x8a, 0xb0, 0x47,
+	0xb9, 0x22, 0xf4, 0x02, 0xd4, 0xa9, 0xeb, 0xea, 0x66, 0x33, 0x17, 0x9f, 0xee, 0x40, 0xf9, 0x27,
+	0xf8, 0x8b, 0x50, 0x02, 0x83, 0xbe, 0x7e, 0x76, 0x87, 0xda, 0xd8, 0x49, 0xea, 0x81, 0xf3, 0xba,
+	0x58, 0x0b, 0xae, 0x3b, 0xe2, 0xad, 0x3b, 0xd2, 0xd6, 0x1f, 0xe6, 0x95, 0x60, 0x1d, 0x3e, 0x60,
+	0xc3, 0x31, 0x2f, 0xc2, 0x90, 0x71, 0x4e, 0x8e, 0xa8, 0x05, 0x66, 0x36, 0x27, 0x06, 0x3d, 0x03,
+	0x9b, 0x33, 0x7c, 0x62, 0xc8, 0x10, 0x33, 0x24, 0xa6, 0x7a, 0xc5, 0x29, 0x14, 0x49, 0xb3, 0x3c,
+	0xca, 0x8a, 0x74, 0x4a, 0x06, 0xbb, 0x2b, 0x41, 0x91, 0xcf, 0xca, 0x28, 0x88, 0x13, 0x36, 0x25,
+	0x43, 0xea, 0xc0, 0x38, 0xe6, 0x59, 0x1a, 0xc5, 0xc8, 0xc8, 0xe8, 0xc1, 0x9c, 0x19, 0x4b, 0x4b,
+	0xaf, 0xe2, 0xee, 0x3b, 0x00, 0x00, 0xff, 0xff, 0x61, 0x0a, 0x79, 0x61, 0x58, 0x01, 0x00, 0x00,
 }

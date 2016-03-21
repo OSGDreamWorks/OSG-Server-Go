@@ -52,11 +52,11 @@ func WaitForExit(self *AuthServer) {
 
 func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *protobuf.AL_CheckAccountResult) error {
 
-	uid := common.GenUUID(req.GetAccount())
+	uid := common.GenUUID(req.Account)
 
-	if len(req.GetUid()) > 0{
-		if req.GetUid() != uid {//客户端伪造uid
-			(*ret).SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
+	if len(req.Uid) > 0{
+		if req.Uid != uid {//客户端伪造uid
+			ret.Result = protobuf.AL_CheckAccountResult_AUTH_FAILED
 			return nil
 		}
 	}
@@ -65,39 +65,39 @@ func (self *AuthServer) LA_CheckAccount(req *protobuf.LA_CheckAccount, ret *prot
 	result, err :=db.Query("AccountInfo", uid, account)
 
 	if err != nil {
-		(*ret).SetResult(protobuf.AL_CheckAccountResult_SERVERERROR)
+		ret.Result = protobuf.AL_CheckAccountResult_SERVERERROR
 		return nil
 	}
 
 	if result == false {//用户注册
 
-		account.SetUid(uid)
-		account.SetAccount(req.GetAccount())
-		account.SetPassword(common.GenPassword(req.GetAccount(), req.GetPassword()))
-		account.SetLanguage(req.GetLanguage())
-		account.SetOption(req.GetOption())
-		account.SetSessionKey(common.GenSessionKey())
-		account.SetUdid(req.GetUdid())
-		account.SetCreateTime(uint32(time.Now().Unix()))
+		account.Uid = uid
+		account.Account = req.Account
+		account.Password = common.GenPassword(req.Account, req.Password)
+		account.Language = req.Language
+		account.Option = req.Option
+		account.SessionKey = common.GenSessionKey()
+		account.Udid = req.Udid
+		account.CreateTime = uint32(time.Now().Unix())
 
 		db.Write("AccountInfo", uid, account)
 		logger.Info("Auth AccountInfo create")
 
 	}else {//用户登陆
-		if !common.CheckPassword(account.GetPassword(), req.GetAccount(), req.GetPassword()) {
-			(*ret).SetResult(protobuf.AL_CheckAccountResult_AUTH_FAILED)
+		if !common.CheckPassword(account.Password, req.Account, req.Password) {
+			ret.Result = protobuf.AL_CheckAccountResult_AUTH_FAILED
 			return nil
 		}
-		account.SetSessionKey(common.GenSessionKey())//保存进缓存
+		account.SessionKey = common.GenSessionKey()//保存进缓存
 		db.Write("AccountInfo", uid, account)
 		logger.Info("Auth Account find")
 	}
 
-	self.maincache.Do("SET", "SessionKey_" + uid, []byte(account.GetSessionKey()))
+	self.maincache.Do("SET", "SessionKey_" + uid, []byte(account.SessionKey))
 
-	(*ret).SetResult(protobuf.AL_CheckAccountResult_OK)
-	(*ret).SetSessionKey(account.GetSessionKey())
-	(*ret).SetUid(account.GetUid())
+	ret.Result = protobuf.AL_CheckAccountResult_OK
+	ret.SessionKey = account.SessionKey
+	ret.Uid = account.Uid
 
 	logger.Info("ComeInto AuthServer.Login %v, %v", req, ret)
 

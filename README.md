@@ -1,11 +1,11 @@
 # OSG-Server-Go
 
 OSG-Server-Go is a open source server framework. support tcpsocket & websocket connector with protobuf.
-More info & Documentation: [click here](https://github.com/OSGDreamWorks/Document/tree/master/documents/OSG-Server-Go "click here")  
+More info & Documentation: [click here](http://git.oschina.net/3dseals/OSG-Server-Go/blob/master/doc "click here")  
 OSG-Server-Go is published under the [MIT Open Source License](http://opensource.org/licenses/mit-license.php "MIT Open Source License").
 
 OSG-Server-Go 是用golang写的一个开源服务器框架，支持tcpsocket和websocket，使用protobuf通信
-更多的介绍&文档：[点这里](https://github.com/OSGDreamWorks/Document/tree/master/documents/OSG-Server-Go "点这里")  
+更多的介绍&文档：[点这里](http://git.oschina.net/3dseals/OSG-Server-Go/blob/master/doc "点这里")  
 OSG-Server-Go遵循的协议 [MIT Open Source License](http://opensource.org/licenses/mit-license.php "MIT Open Source License").
 
 ## Main features

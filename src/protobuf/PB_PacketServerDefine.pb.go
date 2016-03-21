@@ -2,28 +2,21 @@
 // source: PB_PacketServerDefine.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	PB_PacketServerDefine.proto
-
-It has these top-level messages:
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type LA_Protocol int32
 
 const (
+	LA_Protocol_eLA_ZERO        LA_Protocol = 0
 	LA_Protocol_eLA_PacketBegin LA_Protocol = 17825792
 	// ----------------------------
 	LA_Protocol_eLA_Connected    LA_Protocol = 17825792
@@ -34,6 +27,7 @@ const (
 )
 
 var LA_Protocol_name = map[int32]string{
+	0:        "eLA_ZERO",
 	17825792: "eLA_PacketBegin",
 	// Duplicate value: 17825792: "eLA_Connected",
 	17825793: "eLA_Disconnected",
@@ -41,6 +35,7 @@ var LA_Protocol_name = map[int32]string{
 	18874368: "eLA_PacketEnd",
 }
 var LA_Protocol_value = map[string]int32{
+	"eLA_ZERO":         0,
 	"eLA_PacketBegin":  17825792,
 	"eLA_Connected":    17825792,
 	"eLA_Disconnected": 17825793,
@@ -48,29 +43,15 @@ var LA_Protocol_value = map[string]int32{
 	"eLA_PacketEnd":    18874368,
 }
 
-func (x LA_Protocol) Enum() *LA_Protocol {
-	p := new(LA_Protocol)
-	*p = x
-	return p
-}
 func (x LA_Protocol) String() string {
 	return proto.EnumName(LA_Protocol_name, int32(x))
 }
-func (x LA_Protocol) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *LA_Protocol) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(LA_Protocol_value, data, "LA_Protocol")
-	if err != nil {
-		return err
-	}
-	*x = LA_Protocol(value)
-	return nil
-}
+func (LA_Protocol) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
 
 type AL_Protocol int32
 
 const (
+	AL_Protocol_eAL_ZERO        AL_Protocol = 0
 	AL_Protocol_eAL_PacketBegin AL_Protocol = 18874368
 	// ----------------------------
 	AL_Protocol_eAL_Connected          AL_Protocol = 18874368
@@ -81,6 +62,7 @@ const (
 )
 
 var AL_Protocol_name = map[int32]string{
+	0:        "eAL_ZERO",
 	18874368: "eAL_PacketBegin",
 	// Duplicate value: 18874368: "eAL_Connected",
 	18874369: "eAL_Disconnected",
@@ -88,6 +70,7 @@ var AL_Protocol_name = map[int32]string{
 	19922944: "eAL_PacketEnd",
 }
 var AL_Protocol_value = map[string]int32{
+	"eAL_ZERO":               0,
 	"eAL_PacketBegin":        18874368,
 	"eAL_Connected":          18874368,
 	"eAL_Disconnected":       18874369,
@@ -95,29 +78,15 @@ var AL_Protocol_value = map[string]int32{
 	"eAL_PacketEnd":          19922944,
 }
 
-func (x AL_Protocol) Enum() *AL_Protocol {
-	p := new(AL_Protocol)
-	*p = x
-	return p
-}
 func (x AL_Protocol) String() string {
 	return proto.EnumName(AL_Protocol_name, int32(x))
 }
-func (x AL_Protocol) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *AL_Protocol) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(AL_Protocol_value, data, "AL_Protocol")
-	if err != nil {
-		return err
-	}
-	*x = AL_Protocol(value)
-	return nil
-}
+func (AL_Protocol) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
 
 type LS_Protocol int32
 
 const (
+	LS_Protocol_eLS_ZERO        LS_Protocol = 0
 	LS_Protocol_eLS_PacketBegin LS_Protocol = 19922944
 	// ----------------------------
 	LS_Protocol_eLS_Connected               LS_Protocol = 19922944
@@ -128,6 +97,7 @@ const (
 )
 
 var LS_Protocol_name = map[int32]string{
+	0:        "eLS_ZERO",
 	19922944: "eLS_PacketBegin",
 	// Duplicate value: 19922944: "eLS_Connected",
 	19922945: "eLS_Disconnected",
@@ -135,6 +105,7 @@ var LS_Protocol_name = map[int32]string{
 	20971520: "eSLS_PacketEnd",
 }
 var LS_Protocol_value = map[string]int32{
+	"eLS_ZERO":                    0,
 	"eLS_PacketBegin":             19922944,
 	"eLS_Connected":               19922944,
 	"eLS_Disconnected":            19922945,
@@ -142,29 +113,15 @@ var LS_Protocol_value = map[string]int32{
 	"eSLS_PacketEnd":              20971520,
 }
 
-func (x LS_Protocol) Enum() *LS_Protocol {
-	p := new(LS_Protocol)
-	*p = x
-	return p
-}
 func (x LS_Protocol) String() string {
 	return proto.EnumName(LS_Protocol_name, int32(x))
 }
-func (x LS_Protocol) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *LS_Protocol) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(LS_Protocol_value, data, "LS_Protocol")
-	if err != nil {
-		return err
-	}
-	*x = LS_Protocol(value)
-	return nil
-}
+func (LS_Protocol) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
 
 type SL_Protocol int32
 
 const (
+	SL_Protocol_eSL_ZERO        SL_Protocol = 0
 	SL_Protocol_eSL_PacketBegin SL_Protocol = 20971520
 	// ----------------------------
 	SL_Protocol_eSL_Connected         SL_Protocol = 20971520
@@ -175,6 +132,7 @@ const (
 )
 
 var SL_Protocol_name = map[int32]string{
+	0:        "eSL_ZERO",
 	20971520: "eSL_PacketBegin",
 	// Duplicate value: 20971520: "eSL_Connected",
 	20971521: "eSL_Disconnected",
@@ -182,6 +140,7 @@ var SL_Protocol_name = map[int32]string{
 	22020096: "eSL_PacketEnd",
 }
 var SL_Protocol_value = map[string]int32{
+	"eSL_ZERO":              0,
 	"eSL_PacketBegin":       20971520,
 	"eSL_Connected":         20971520,
 	"eSL_Disconnected":      20971521,
@@ -189,29 +148,39 @@ var SL_Protocol_value = map[string]int32{
 	"eSL_PacketEnd":         22020096,
 }
 
-func (x SL_Protocol) Enum() *SL_Protocol {
-	p := new(SL_Protocol)
-	*p = x
-	return p
-}
 func (x SL_Protocol) String() string {
 	return proto.EnumName(SL_Protocol_name, int32(x))
 }
-func (x SL_Protocol) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *SL_Protocol) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(SL_Protocol_value, data, "SL_Protocol")
-	if err != nil {
-		return err
-	}
-	*x = SL_Protocol(value)
-	return nil
-}
+func (SL_Protocol) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
 
 func init() {
 	proto.RegisterEnum("protobuf.LA_Protocol", LA_Protocol_name, LA_Protocol_value)
 	proto.RegisterEnum("protobuf.AL_Protocol", AL_Protocol_name, AL_Protocol_value)
 	proto.RegisterEnum("protobuf.LS_Protocol", LS_Protocol_name, LS_Protocol_value)
 	proto.RegisterEnum("protobuf.SL_Protocol", SL_Protocol_name, SL_Protocol_value)
+}
+
+var fileDescriptor8 = []byte{
+	// 329 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x64, 0x92, 0xcd, 0x4e, 0xc2, 0x40,
+	0x14, 0x85, 0x85, 0x85, 0x81, 0xeb, 0x5f, 0x33, 0x11, 0x4c, 0x44, 0x37, 0x2e, 0x59, 0xb8, 0xf1,
+	0x09, 0xa0, 0x90, 0xb8, 0x20, 0xb1, 0x61, 0xe2, 0xc6, 0x0d, 0x29, 0xc3, 0x45, 0x1b, 0x9a, 0x29,
+	0x29, 0xad, 0x89, 0xbb, 0xea, 0x3b, 0xb8, 0xd1, 0x95, 0x6f, 0xc2, 0xa3, 0x39, 0x77, 0xc6, 0xd4,
+	0x99, 0xe9, 0x8a, 0xdc, 0x73, 0x9a, 0x33, 0x5f, 0xbe, 0x00, 0x83, 0x68, 0xbc, 0x88, 0x62, 0xb1,
+	0xc1, 0x82, 0x63, 0xfe, 0x8a, 0xf9, 0x04, 0xd7, 0x89, 0xc4, 0xdb, 0x6d, 0x9e, 0x15, 0x19, 0xeb,
+	0xe8, 0x9f, 0x65, 0xb9, 0x1e, 0x7e, 0xb6, 0xe0, 0x68, 0x36, 0x5a, 0x44, 0x74, 0x8b, 0x2c, 0x65,
+	0xc7, 0xd0, 0x41, 0x75, 0x3f, 0x4d, 0xe7, 0x0f, 0xc1, 0x01, 0xeb, 0xc3, 0x19, 0x5d, 0x66, 0x67,
+	0x8c, 0xcf, 0x89, 0x0c, 0xaa, 0x6a, 0xdf, 0x61, 0xe7, 0x70, 0x42, 0x79, 0x98, 0x49, 0x89, 0xa2,
+	0xc0, 0x95, 0x49, 0x2f, 0x20, 0xa0, 0x74, 0x92, 0xec, 0x44, 0x5d, 0xbc, 0x5b, 0x45, 0xf8, 0x82,
+	0x62, 0x33, 0x12, 0x22, 0x2b, 0x65, 0x11, 0x7c, 0x58, 0x3b, 0x66, 0x7f, 0x2a, 0x69, 0xa7, 0xea,
+	0x5e, 0xb6, 0x83, 0xd6, 0xf0, 0x5b, 0x71, 0x8d, 0x66, 0x2e, 0x97, 0xba, 0x2d, 0x2e, 0x6a, 0x1d,
+	0xae, 0xaa, 0xab, 0xf7, 0x54, 0x6e, 0x73, 0xa9, 0x94, 0x9e, 0x57, 0xa9, 0xc7, 0xa5, 0x8a, 0x6b,
+	0xe8, 0xeb, 0xcf, 0x2d, 0xae, 0x39, 0xee, 0xca, 0x94, 0xe8, 0xfe, 0xd7, 0x6c, 0xba, 0xbd, 0xa1,
+	0xfb, 0x21, 0x6b, 0xdc, 0xb3, 0xc6, 0x1d, 0x6b, 0xdc, 0xb7, 0x66, 0xf6, 0x54, 0xee, 0x58, 0x33,
+	0x74, 0x2a, 0xf5, 0xad, 0x75, 0xd9, 0x0d, 0x0c, 0xa8, 0x78, 0xdc, 0xae, 0xe2, 0x02, 0xa3, 0x34,
+	0x7e, 0xc3, 0x3c, 0x74, 0x10, 0xd5, 0x37, 0x3d, 0x38, 0x45, 0x5e, 0xbf, 0xf5, 0x67, 0x10, 0x34,
+	0xe3, 0x97, 0x62, 0xe4, 0x9e, 0x41, 0xee, 0x18, 0xe4, 0x0d, 0x83, 0xa0, 0x19, 0xb9, 0x67, 0x10,
+	0x34, 0x23, 0x6f, 0x1a, 0x04, 0x76, 0x05, 0x3d, 0x2a, 0x1a, 0x8c, 0x24, 0xb0, 0x1e, 0x73, 0x04,
+	0x6a, 0xb8, 0x71, 0xfb, 0xbe, 0xb5, 0x3c, 0xd4, 0x7f, 0xc2, 0xbb, 0xdf, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0x1e, 0x76, 0x7e, 0x71, 0xaa, 0x02, 0x00, 0x00,
 }

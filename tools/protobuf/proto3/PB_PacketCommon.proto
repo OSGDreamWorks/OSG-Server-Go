@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+message Packet{
+	uint64 id = 1;
+	uint32 cmd = 2;
+	bytes serialized_data = 3;
+}
+
+message RpcErrorResponse{
+	uint32 cmd = 1;
+	string text = 2;
+}

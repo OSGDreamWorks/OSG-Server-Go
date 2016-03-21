@@ -2,7 +2,6 @@ package server
 
 import (
 	"bytes"
-	"code.google.com/p/goprotobuf/proto"
 	"common/logger"
 	"protobuf"
 	"common/timer"
@@ -16,6 +15,7 @@ import (
 	"io"
 	"sync"
 	"strings"
+	"github.com/golang/protobuf/proto"
 )
 
 const (
@@ -306,12 +306,12 @@ func (conn *ProtoBufConn) ReadRequest(req *protobuf.Packet) error {
 	//logger.Info("ReadRequest dst: %v", dst)
 
 	err = proto.Unmarshal(dst, req)
-	conn.msg_id = req.GetId()
+	conn.msg_id = req.Id
 	return err
 }
 
 func (conn *ProtoBufConn) writeRequest(r *protobuf.Packet) error {
-	r.SetId(conn.msg_id)
+	r.Id = conn.msg_id
 	conn.send <- r
 	return nil
 }
@@ -336,7 +336,7 @@ func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
 	}
 
 	req := &protobuf.Packet{}
-	req.Cmd = &cmd
+	req.Cmd = cmd
 	req.SerializedData = buf
 
 	return conn.writeRequest(req)
@@ -344,7 +344,7 @@ func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
 
 func (conn *ProtoBufConn) GetRequestBody(req *protobuf.Packet, body interface{}) error {
 	if value, ok := body.(proto.Message); ok {
-		return proto.Unmarshal(req.GetSerializedData(), value)
+		return proto.Unmarshal(req.SerializedData, value)
 	}
 
 	return fmt.Errorf("GetRequestBody value type error %v", body)
@@ -370,9 +370,9 @@ func (conn *ProtoBufConn) WriteObj(value interface{}) error {
 
 	t := reflect.Indirect(reflect.ValueOf(msg)).Type()
 	if conn.resultServer == "" {
-		req.SetCmd(conn.protocol[t.PkgPath() + "." + t.Name()])
+		req.Cmd = conn.protocol[t.PkgPath() + "." + t.Name()]
 	} else {
-		req.SetCmd(conn.protocol[conn.resultServer + "." + t.Name()])
+		req.Cmd = conn.protocol[conn.resultServer + "." + t.Name()]
 	}
 	req.SerializedData = buf
 	return conn.writeRequest(req)

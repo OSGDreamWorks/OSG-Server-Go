@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+//============================================
+//--4>: 客户端和服务器共享数据定义
+//		逻辑功能相关的需要和客户端共享的枚举和常量
+//============================================
+
+
+message StatusInfo{
+    string name = 1;			//名字
+    uint32 level = 2;			//等级
+    uint32 experience = 3;		//经验
+    uint32 gender = 4;			//性别
+    uint32 headIcon = 5;		//头像id
+}
+
+message PlayerBaseInfo{
+    string uid = 1;
+    StatusInfo stat = 2;				//状态
+}

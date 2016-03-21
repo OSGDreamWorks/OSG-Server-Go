@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+message LS_UpdatePlayerCountResult{
+	enum Result {
+		SUCCESS = 0;
+		OK = 1;
+		SERVERERROR = 2;
+	}
+	Result result = 1;
+	uint32 server_time = 2;
+}

@@ -1,7 +1,7 @@
 package db
 
 import (
-	gp "code.google.com/p/goprotobuf/proto"
+	gp "github.com/golang/protobuf/proto"
 	"common/config"
 	"common/logger"
 	"component/rpc"

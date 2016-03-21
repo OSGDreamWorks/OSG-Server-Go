@@ -2,86 +2,50 @@
 // source: CSPacket.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	CSPacket.proto
-
-It has these top-level messages:
-	CS_CheckSession
-	CS_Ping
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
-
-// discarding unused import protobuf1 "PB_PacketDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type CS_CheckSession struct {
-	Uid              *string `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
-	SessionKey       *string `protobuf:"bytes,2,req,name=sessionKey" json:"sessionKey,omitempty"`
-	Timestamp        *uint32 `protobuf:"varint,3,opt,name=timestamp" json:"timestamp,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Uid        string `protobuf:"bytes,1,opt,name=uid" json:"uid,omitempty"`
+	SessionKey string `protobuf:"bytes,2,opt,name=sessionKey" json:"sessionKey,omitempty"`
+	Timestamp  uint32 `protobuf:"varint,3,opt,name=timestamp" json:"timestamp,omitempty"`
 }
 
-func (m *CS_CheckSession) Reset()         { *m = CS_CheckSession{} }
-func (m *CS_CheckSession) String() string { return proto.CompactTextString(m) }
-func (*CS_CheckSession) ProtoMessage()    {}
-
-func (m *CS_CheckSession) GetUid() string {
-	if m != nil && m.Uid != nil {
-		return *m.Uid
-	}
-	return ""
-}
-
-func (m *CS_CheckSession) GetSessionKey() string {
-	if m != nil && m.SessionKey != nil {
-		return *m.SessionKey
-	}
-	return ""
-}
-
-func (m *CS_CheckSession) GetTimestamp() uint32 {
-	if m != nil && m.Timestamp != nil {
-		return *m.Timestamp
-	}
-	return 0
-}
-
-func (m *CS_CheckSession) SetUid(value string) {
-	if m != nil {
-		m.Uid = &value
-	}
-}
-
-func (m *CS_CheckSession) SetSessionKey(value string) {
-	if m != nil {
-		m.SessionKey = &value
-	}
-}
-
-func (m *CS_CheckSession) SetTimestamp(value uint32) {
-	if m != nil {
-		m.Timestamp = &value
-	}
-}
+func (m *CS_CheckSession) Reset()                    { *m = CS_CheckSession{} }
+func (m *CS_CheckSession) String() string            { return proto.CompactTextString(m) }
+func (*CS_CheckSession) ProtoMessage()               {}
+func (*CS_CheckSession) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
 
 type CS_Ping struct {
-	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *CS_Ping) Reset()         { *m = CS_Ping{} }
-func (m *CS_Ping) String() string { return proto.CompactTextString(m) }
-func (*CS_Ping) ProtoMessage()    {}
+func (m *CS_Ping) Reset()                    { *m = CS_Ping{} }
+func (m *CS_Ping) String() string            { return proto.CompactTextString(m) }
+func (*CS_Ping) ProtoMessage()               {}
+func (*CS_Ping) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
 
 func init() {
+	proto.RegisterType((*CS_CheckSession)(nil), "protobuf.CS_CheckSession")
+	proto.RegisterType((*CS_Ping)(nil), "protobuf.CS_Ping")
+}
+
+var fileDescriptor2 = []byte{
+	// 137 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xe2, 0xe2, 0x73, 0x0e, 0x0e, 0x48,
+	0x4c, 0xce, 0x4e, 0x2d, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x00, 0x53, 0x49, 0xa5,
+	0x69, 0x4a, 0x89, 0x5c, 0xfc, 0xce, 0xc1, 0xf1, 0xce, 0x19, 0xa9, 0xc9, 0xd9, 0xc1, 0xa9, 0xc5,
+	0xc5, 0x99, 0xf9, 0x79, 0x42, 0x02, 0x5c, 0xcc, 0xa5, 0x99, 0x29, 0x12, 0x8c, 0x0a, 0x8c, 0x1a,
+	0x9c, 0x41, 0x20, 0xa6, 0x90, 0x1c, 0x17, 0x57, 0x31, 0x44, 0xd2, 0x3b, 0xb5, 0x52, 0x82, 0x09,
+	0x2c, 0x81, 0x24, 0x22, 0x24, 0xc3, 0xc5, 0x59, 0x92, 0x99, 0x9b, 0x5a, 0x5c, 0x92, 0x98, 0x5b,
+	0x20, 0xc1, 0x0c, 0x94, 0xe6, 0x0d, 0x42, 0x08, 0x28, 0x71, 0x72, 0xb1, 0x03, 0xad, 0x08, 0xc8,
+	0xcc, 0x4b, 0x77, 0x62, 0xf2, 0x60, 0x4c, 0x62, 0x03, 0xdb, 0x6d, 0x0c, 0x08, 0x00, 0x00, 0xff,
+	0xff, 0xde, 0xc8, 0x0a, 0xf9, 0x94, 0x00, 0x00, 0x00,
 }

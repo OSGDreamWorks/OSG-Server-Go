@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+message SC_CheckSessionResult{
+	enum Result {
+		SUCCESS = 0;
+		OK = 1;
+		SERVERERROR = 2;
+		USERNOTFOUND = 3;
+		AUTH_FAILED = 4;
+		ISONFIRE = 5;
+	}
+	Result result = 1;
+	uint32 server_time = 2;
+	string errmsg = 3;
+}
+
+message SC_PingResult{
+	uint32 server_time = 1;
+}

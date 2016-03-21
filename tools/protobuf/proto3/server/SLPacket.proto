@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+message SL_UpdatePlayerCount{
+	uint32 ServerId = 1;
+	uint32 PlayerCount = 2;
+	string TcpServerIp = 3;
+	string HttpServerIp = 4;
+}

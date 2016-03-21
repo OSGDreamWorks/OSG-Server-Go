@@ -2,91 +2,43 @@
 // source: SLPacket.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	SLPacket.proto
-
-It has these top-level messages:
-	SL_UpdatePlayerCount
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
-
-// discarding unused import protobuf1 "PB_PacketServerDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type SL_UpdatePlayerCount struct {
-	ServerId         *uint32 `protobuf:"varint,1,req" json:"ServerId,omitempty"`
-	PlayerCount      *uint32 `protobuf:"varint,2,req" json:"PlayerCount,omitempty"`
-	TcpServerIp      *string `protobuf:"bytes,3,req" json:"TcpServerIp,omitempty"`
-	HttpServerIp     *string `protobuf:"bytes,4,req" json:"HttpServerIp,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	ServerId     uint32 `protobuf:"varint,1,opt,name=ServerId" json:"ServerId,omitempty"`
+	PlayerCount  uint32 `protobuf:"varint,2,opt,name=PlayerCount" json:"PlayerCount,omitempty"`
+	TcpServerIp  string `protobuf:"bytes,3,opt,name=TcpServerIp" json:"TcpServerIp,omitempty"`
+	HttpServerIp string `protobuf:"bytes,4,opt,name=HttpServerIp" json:"HttpServerIp,omitempty"`
 }
 
-func (m *SL_UpdatePlayerCount) Reset()         { *m = SL_UpdatePlayerCount{} }
-func (m *SL_UpdatePlayerCount) String() string { return proto.CompactTextString(m) }
-func (*SL_UpdatePlayerCount) ProtoMessage()    {}
-
-func (m *SL_UpdatePlayerCount) GetServerId() uint32 {
-	if m != nil && m.ServerId != nil {
-		return *m.ServerId
-	}
-	return 0
-}
-
-func (m *SL_UpdatePlayerCount) GetPlayerCount() uint32 {
-	if m != nil && m.PlayerCount != nil {
-		return *m.PlayerCount
-	}
-	return 0
-}
-
-func (m *SL_UpdatePlayerCount) GetTcpServerIp() string {
-	if m != nil && m.TcpServerIp != nil {
-		return *m.TcpServerIp
-	}
-	return ""
-}
-
-func (m *SL_UpdatePlayerCount) GetHttpServerIp() string {
-	if m != nil && m.HttpServerIp != nil {
-		return *m.HttpServerIp
-	}
-	return ""
-}
-
-func (m *SL_UpdatePlayerCount) SetServerId(value uint32) {
-	if m != nil {
-		m.ServerId = &value
-	}
-}
-
-func (m *SL_UpdatePlayerCount) SetPlayerCount(value uint32) {
-	if m != nil {
-		m.PlayerCount = &value
-	}
-}
-
-func (m *SL_UpdatePlayerCount) SetTcpServerIp(value string) {
-	if m != nil {
-		m.TcpServerIp = &value
-	}
-}
-
-func (m *SL_UpdatePlayerCount) SetHttpServerIp(value string) {
-	if m != nil {
-		m.HttpServerIp = &value
-	}
-}
+func (m *SL_UpdatePlayerCount) Reset()                    { *m = SL_UpdatePlayerCount{} }
+func (m *SL_UpdatePlayerCount) String() string            { return proto.CompactTextString(m) }
+func (*SL_UpdatePlayerCount) ProtoMessage()               {}
+func (*SL_UpdatePlayerCount) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{0} }
 
 func init() {
+	proto.RegisterType((*SL_UpdatePlayerCount)(nil), "protobuf.SL_UpdatePlayerCount")
+}
+
+var fileDescriptor10 = []byte{
+	// 152 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xe2, 0xe2, 0x0b, 0xf6, 0x09, 0x48,
+	0x4c, 0xce, 0x4e, 0x2d, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x00, 0x53, 0x49, 0xa5,
+	0x69, 0x4a, 0xb3, 0x18, 0xb9, 0x44, 0x82, 0x7d, 0xe2, 0x43, 0x0b, 0x52, 0x12, 0x4b, 0x52, 0x03,
+	0x72, 0x12, 0x2b, 0x53, 0x8b, 0x9c, 0xf3, 0x4b, 0xf3, 0x4a, 0x84, 0xa4, 0xb8, 0x38, 0x82, 0x53,
+	0x8b, 0xca, 0x52, 0x8b, 0x3c, 0x53, 0x24, 0x18, 0x15, 0x18, 0x35, 0x78, 0x83, 0x38, 0x8a, 0xa1,
+	0x7c, 0x21, 0x05, 0x2e, 0x6e, 0x24, 0xa5, 0x12, 0x4c, 0x60, 0x69, 0xee, 0x02, 0x24, 0xdd, 0x40,
+	0x15, 0x21, 0xc9, 0x05, 0x50, 0x03, 0x0a, 0x24, 0x98, 0x81, 0x2a, 0x38, 0x83, 0xb8, 0x4b, 0x10,
+	0x42, 0x42, 0x4a, 0x5c, 0x3c, 0x1e, 0x25, 0x25, 0x08, 0x25, 0x2c, 0x60, 0x25, 0x3c, 0x19, 0x48,
+	0x62, 0x4e, 0x4c, 0x1e, 0x8c, 0x49, 0x6c, 0x60, 0xa7, 0x1a, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff,
+	0x04, 0x80, 0xe2, 0x86, 0xc3, 0x00, 0x00, 0x00,
 }

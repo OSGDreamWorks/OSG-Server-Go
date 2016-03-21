@@ -2,32 +2,21 @@
 // source: SCPacket.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	SCPacket.proto
-
-It has these top-level messages:
-	SC_CheckSessionResult
-	SC_PingResult
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
-
-// discarding unused import protobuf1 "PB_PacketDefine.pb"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type SC_CheckSessionResult_Result int32
 
 const (
+	SC_CheckSessionResult_SUCCESS      SC_CheckSessionResult_Result = 0
 	SC_CheckSessionResult_OK           SC_CheckSessionResult_Result = 1
 	SC_CheckSessionResult_SERVERERROR  SC_CheckSessionResult_Result = 2
 	SC_CheckSessionResult_USERNOTFOUND SC_CheckSessionResult_Result = 3
@@ -36,6 +25,7 @@ const (
 )
 
 var SC_CheckSessionResult_Result_name = map[int32]string{
+	0: "SUCCESS",
 	1: "OK",
 	2: "SERVERERROR",
 	3: "USERNOTFOUND",
@@ -43,6 +33,7 @@ var SC_CheckSessionResult_Result_name = map[int32]string{
 	5: "ISONFIRE",
 }
 var SC_CheckSessionResult_Result_value = map[string]int32{
+	"SUCCESS":      0,
 	"OK":           1,
 	"SERVERERROR":  2,
 	"USERNOTFOUND": 3,
@@ -50,98 +41,55 @@ var SC_CheckSessionResult_Result_value = map[string]int32{
 	"ISONFIRE":     5,
 }
 
-func (x SC_CheckSessionResult_Result) Enum() *SC_CheckSessionResult_Result {
-	p := new(SC_CheckSessionResult_Result)
-	*p = x
-	return p
-}
 func (x SC_CheckSessionResult_Result) String() string {
 	return proto.EnumName(SC_CheckSessionResult_Result_name, int32(x))
 }
-func (x SC_CheckSessionResult_Result) MarshalJSON() ([]byte, error) {
-	return json.Marshal(x.String())
-}
-func (x *SC_CheckSessionResult_Result) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(SC_CheckSessionResult_Result_value, data, "SC_CheckSessionResult_Result")
-	if err != nil {
-		return err
-	}
-	*x = SC_CheckSessionResult_Result(value)
-	return nil
+func (SC_CheckSessionResult_Result) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor9, []int{0, 0}
 }
 
 type SC_CheckSessionResult struct {
-	Result           *SC_CheckSessionResult_Result `protobuf:"varint,1,req,name=result,enum=protobuf.SC_CheckSessionResult_Result" json:"result,omitempty"`
-	ServerTime       *uint32                       `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
-	Errmsg           *string                       `protobuf:"bytes,3,opt,name=errmsg" json:"errmsg,omitempty"`
-	XXX_unrecognized []byte                        `json:"-"`
+	Result     SC_CheckSessionResult_Result `protobuf:"varint,1,opt,name=result,enum=protobuf.SC_CheckSessionResult_Result" json:"result,omitempty"`
+	ServerTime uint32                       `protobuf:"varint,2,opt,name=server_time" json:"server_time,omitempty"`
+	Errmsg     string                       `protobuf:"bytes,3,opt,name=errmsg" json:"errmsg,omitempty"`
 }
 
-func (m *SC_CheckSessionResult) Reset()         { *m = SC_CheckSessionResult{} }
-func (m *SC_CheckSessionResult) String() string { return proto.CompactTextString(m) }
-func (*SC_CheckSessionResult) ProtoMessage()    {}
-
-func (m *SC_CheckSessionResult) GetResult() SC_CheckSessionResult_Result {
-	if m != nil && m.Result != nil {
-		return *m.Result
-	}
-	return SC_CheckSessionResult_OK
-}
-
-func (m *SC_CheckSessionResult) GetServerTime() uint32 {
-	if m != nil && m.ServerTime != nil {
-		return *m.ServerTime
-	}
-	return 0
-}
-
-func (m *SC_CheckSessionResult) GetErrmsg() string {
-	if m != nil && m.Errmsg != nil {
-		return *m.Errmsg
-	}
-	return ""
-}
-
-func (m *SC_CheckSessionResult) SetResult(value SC_CheckSessionResult_Result) {
-	if m != nil {
-		m.Result = &value
-	}
-}
-
-func (m *SC_CheckSessionResult) SetServerTime(value uint32) {
-	if m != nil {
-		m.ServerTime = &value
-	}
-}
-
-func (m *SC_CheckSessionResult) SetErrmsg(value string) {
-	if m != nil {
-		m.Errmsg = &value
-	}
-}
+func (m *SC_CheckSessionResult) Reset()                    { *m = SC_CheckSessionResult{} }
+func (m *SC_CheckSessionResult) String() string            { return proto.CompactTextString(m) }
+func (*SC_CheckSessionResult) ProtoMessage()               {}
+func (*SC_CheckSessionResult) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{0} }
 
 type SC_PingResult struct {
-	ServerTime       *uint32 `protobuf:"varint,1,req,name=server_time" json:"server_time,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	ServerTime uint32 `protobuf:"varint,1,opt,name=server_time" json:"server_time,omitempty"`
 }
 
-func (m *SC_PingResult) Reset()         { *m = SC_PingResult{} }
-func (m *SC_PingResult) String() string { return proto.CompactTextString(m) }
-func (*SC_PingResult) ProtoMessage()    {}
-
-func (m *SC_PingResult) GetServerTime() uint32 {
-	if m != nil && m.ServerTime != nil {
-		return *m.ServerTime
-	}
-	return 0
-}
-
-func (m *SC_PingResult) SetServerTime(value uint32) {
-	if m != nil {
-		m.ServerTime = &value
-	}
-}
+func (m *SC_PingResult) Reset()                    { *m = SC_PingResult{} }
+func (m *SC_PingResult) String() string            { return proto.CompactTextString(m) }
+func (*SC_PingResult) ProtoMessage()               {}
+func (*SC_PingResult) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{1} }
 
 func init() {
+	proto.RegisterType((*SC_CheckSessionResult)(nil), "protobuf.SC_CheckSessionResult")
+	proto.RegisterType((*SC_PingResult)(nil), "protobuf.SC_PingResult")
 	proto.RegisterEnum("protobuf.SC_CheckSessionResult_Result", SC_CheckSessionResult_Result_name, SC_CheckSessionResult_Result_value)
+}
+
+var fileDescriptor9 = []byte{
+	// 256 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x6c, 0x8f, 0xc1, 0x4b, 0xc3, 0x30,
+	0x14, 0xc6, 0x4d, 0xa7, 0x75, 0xbe, 0x6e, 0x33, 0x04, 0x94, 0xde, 0x94, 0x1e, 0xc4, 0x53, 0x11,
+	0xbd, 0x0b, 0x33, 0x4b, 0x59, 0x51, 0x9a, 0xf1, 0xd2, 0x7a, 0x2d, 0x6e, 0xc4, 0x59, 0xe6, 0x56,
+	0x49, 0x3a, 0xff, 0x6f, 0xff, 0x03, 0x63, 0x57, 0x2f, 0x63, 0xa7, 0x2f, 0xf9, 0xde, 0xfb, 0x1e,
+	0xbf, 0x0f, 0x46, 0x8a, 0xcf, 0xde, 0x16, 0x2b, 0xdd, 0xc4, 0x5f, 0xa6, 0x6e, 0x6a, 0xd6, 0x6f,
+	0x65, 0xbe, 0x7d, 0x8f, 0x7e, 0x08, 0x5c, 0x28, 0x5e, 0xf2, 0x0f, 0xbd, 0x58, 0x29, 0x6d, 0x6d,
+	0x55, 0x6f, 0x50, 0xdb, 0xed, 0x67, 0xc3, 0x1e, 0xc1, 0x37, 0xed, 0x2b, 0x24, 0xd7, 0xe4, 0x76,
+	0x74, 0x7f, 0x13, 0xff, 0x87, 0xe2, 0x83, 0x81, 0x78, 0x27, 0xd8, 0xa5, 0xd8, 0x15, 0x04, 0x56,
+	0x9b, 0x6f, 0x6d, 0xca, 0xa6, 0x5a, 0xeb, 0xd0, 0x73, 0x47, 0x86, 0x08, 0x3b, 0x2b, 0x77, 0x0e,
+	0xbb, 0x04, 0x5f, 0x1b, 0xb3, 0xb6, 0xcb, 0xb0, 0xe7, 0x66, 0x67, 0xd8, 0xfd, 0xa2, 0x12, 0xfc,
+	0x0e, 0x21, 0x80, 0x53, 0x55, 0x70, 0x2e, 0x94, 0xa2, 0x47, 0xcc, 0x07, 0x4f, 0x3e, 0x53, 0xc2,
+	0xce, 0x21, 0x50, 0x02, 0x5f, 0x05, 0x0a, 0x44, 0x89, 0xd4, 0x63, 0x14, 0x06, 0x85, 0x73, 0x32,
+	0x99, 0x27, 0xb2, 0xc8, 0x26, 0xb4, 0xf7, 0xb7, 0x32, 0x2e, 0xf2, 0x69, 0x99, 0x8c, 0xd3, 0x17,
+	0x31, 0xa1, 0xc7, 0x6c, 0x00, 0xfd, 0x54, 0xc9, 0x2c, 0x49, 0x51, 0xd0, 0x93, 0xe8, 0x0e, 0x86,
+	0xae, 0xc1, 0xac, 0xda, 0x2c, 0xf1, 0x20, 0x2a, 0xd9, 0x47, 0x7d, 0xf2, 0xa6, 0x64, 0xee, 0xb7,
+	0xf5, 0x1f, 0x7e, 0x03, 0x00, 0x00, 0xff, 0xff, 0xcc, 0x26, 0x19, 0xf5, 0x4c, 0x01, 0x00, 0x00,
 }

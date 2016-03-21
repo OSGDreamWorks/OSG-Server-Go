@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package protobuf;
+
+option optimize_for = SPEED;
+
+message CS_CheckSession{
+	string uid = 1;
+	string sessionKey = 2;
+	uint32 timestamp = 3;
+}
+
+message CS_Ping{
+}

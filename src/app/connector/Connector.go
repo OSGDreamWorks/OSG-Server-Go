@@ -14,8 +14,8 @@ import (
 	"runtime/debug"
 	"sync"
 	"fmt"
-	"code.google.com/p/goprotobuf/proto"
 	"github.com/garyburd/redigo/redis"
+	"github.com/golang/protobuf/proto"
 )
 
 type serverInfo struct {
@@ -231,10 +231,10 @@ func (self *Connector) sendPlayerCountToGateServer() {
 
 			var ret []byte
 			req := protobuf.SL_UpdatePlayerCount{}
-			req.SetServerId(self.id)
-			req.SetPlayerCount(playerCount)
-			req.SetTcpServerIp(self.listenTcpIp)
-			req.SetHttpServerIp(self.listenHttpIp)
+			req.ServerId = self.id
+			req.PlayerCount = playerCount
+			req.TcpServerIp = self.listenTcpIp
+			req.HttpServerIp = self.listenHttpIp
 
 			//logger.Debug("playerCount %v", playerCount)
 
@@ -266,14 +266,14 @@ func (self *Connector) onDisConn(conn server.RpcConn) {
 
 //添加玩家到全局表中
 func (self *Connector) addPlayer(connId uint64, p *Player) {
-	logger.Info("Connector:addPlayer %v, %v", connId, p.GetUid())
+	logger.Info("Connector:addPlayer %v, %v", connId, p.Uid)
 
 	self.l.Lock()
 	defer self.l.Unlock()
 
 	//进入服务器全局表
 	self.players[connId] = p
-	self.playersbyid[p.GetUid()] = p
+	self.playersbyid[p.Uid] = p
 }
 
 //销毁玩家
@@ -286,7 +286,7 @@ func (self *Connector) delPlayer(connId uint64) {
 
 		self.l.Lock()
 		delete(self.players, connId)
-		delete(self.playersbyid, p.GetUid())
+		delete(self.playersbyid, p.Uid)
 		self.l.Unlock()
 	}
 }
@@ -303,44 +303,44 @@ func WriteResult(conn server.RpcConn, value interface{}) bool {
 func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_CheckSession) (err error) {
 
 	rep := protobuf.SC_CheckSessionResult{}
-	uid := login.GetUid()
+	uid := login.Uid
 	var rst []byte
 
 	rst, err = redis.Bytes(self.maincache.Do("GET", "SessionKey_" + uid))
-	rep.SetResult(protobuf.SC_CheckSessionResult_AUTH_FAILED)
-	rep.SetServerTime(uint32(time.Now().Unix()))
+	rep.Result = protobuf.SC_CheckSessionResult_AUTH_FAILED
+	rep.ServerTime = uint32(time.Now().Unix())
 	if rst != nil || err == nil{
-		if login.GetSessionKey() == string(rst) {
-			rep.SetResult(protobuf.SC_CheckSessionResult_OK)
+		if login.SessionKey == string(rst) {
+			rep.Result = protobuf.SC_CheckSessionResult_OK
 		}
 	}
 
 	logger.Debug("SC_CheckSessionResult %v", rep)
 
-	rep.SetResult(rep.GetResult())
+	rep.Result = rep.Result
 
-	if rep.GetResult() == protobuf.SC_CheckSessionResult_OK {
+	if rep.Result == protobuf.SC_CheckSessionResult_OK {
 		WriteResult(conn, &rep)
-		if p, ok := self.playersbyid[login.GetUid()]; ok {
+		if p, ok := self.playersbyid[login.Uid]; ok {
 			if err := p.conn.Close(); err == nil {
 				logger.Info("kick the online player")
 			}
 		}
 
 		var base protobuf.PlayerBaseInfo
-		logger.Info("query db : %v", login.GetUid())
-		result, err :=db.Query("playerbase", login.GetUid(), &base)
+		logger.Info("query db : %v", login.Uid)
+		result, err :=db.Query("playerbase", login.Uid, &base)
 		if result == false {
 			base = protobuf.PlayerBaseInfo{}
-			base.SetUid(login.GetUid())
+			base.Uid = login.Uid
 
 			stat := &protobuf.StatusInfo{}
-			stat.SetName("test_" + uid)
-			stat.SetLevel(1)
+			stat.Name = "test_" + uid
+			stat.Level = 1
 
-			base.SetStat(stat)
-			db.Write("playerbase", login.GetUid(), &base)
-			logger.Info("playerbase create %v", login.GetUid())
+			base.Stat = stat
+			db.Write("playerbase", login.Uid, &base)
+			logger.Info("playerbase create %v", login.Uid)
 		}else {
 			if err != nil {
 				logger.Info("err query db : %v", err)
@@ -351,7 +351,7 @@ func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_Ch
 
 		p := &Player{PlayerBaseInfo: &base, conn: conn}
 
-		p.SetUid(uid)
+		p.Uid = uid
 
 		//进入服务器全局表
 
@@ -374,7 +374,7 @@ func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_Ch
 func (self *Connector) CS_Ping(conn server.RpcConn, login protobuf.CS_Ping) error {
 
 	rep := protobuf.SC_PingResult{}
-	rep.SetServerTime(uint32(time.Now().Unix()))
+	rep.ServerTime = uint32(time.Now().Unix())
 
 	WriteResult(conn, &rep)
 	return nil

@@ -1,8 +1,8 @@
 package db
 
 import (
-	gp "code.google.com/p/goprotobuf/proto"
-	"code.google.com/p/snappy-go/snappy"
+	gp "github.com/golang/protobuf/proto"
+	"github.com/golang/snappy"
 	"common/logger"
 	"protobuf"
 	rpcplus "component/rpc"
@@ -15,7 +15,7 @@ func KVQuery(db *rpcplus.Client, table, uid string, value interface{}) (exist bo
 
 	var reply protobuf.DBQueryResult
 
-	err = db.Call(protobuf.DB_Protocol_eDB_Query, protobuf.DBQuery{table, uid}, &reply)
+	err = db.Call(protobuf.Network_Protocol(protobuf.DB_Protocol_eDB_Query), protobuf.DBQuery{table, uid}, &reply)
 
 	if err != nil {
 		logger.Error("KVQuery Error On Query %s : %s (%s)", table, uid, err.Error())
@@ -89,15 +89,10 @@ func KVWrite(db *rpcplus.Client, table, uid string, value interface{}) (result b
 		return
 	}
 
-	dst, err := snappy.Encode(nil, buf)
-
-	if err != nil {
-		logger.Error("KVWrite Error On snappy.Encode %s : %s (%s)", table, uid, err.Error())
-		return
-	}
+	dst := snappy.Encode(nil, buf)
 
 	var reply protobuf.DBWriteResult
-	err = db.Call(protobuf.DB_Protocol_eDB_Write, protobuf.DBWrite{table, uid, dst}, &reply)
+	err = db.Call(protobuf.Network_Protocol(protobuf.DB_Protocol_eDB_Write), protobuf.DBWrite{table, uid, dst}, &reply)
 
 	if err != nil {
 		logger.Error("KVWrite Error On Create %s: %s (%s)", table, uid, err.Error())
@@ -118,7 +113,7 @@ func KVDelete(db *rpcplus.Client, table, uid string) (result bool, err error) {
 	//defer te("KVDelete", table, uid)
 
 	var reply protobuf.DBDelResult
-	err = db.Call(protobuf.DB_Protocol_eDB_Delete, protobuf.DBDel{table, uid}, &reply)
+	err = db.Call(protobuf.Network_Protocol(protobuf.DB_Protocol_eDB_Delete), protobuf.DBDel{table, uid}, &reply)
 
 	if err != nil {
 		logger.Error("KVDelete Error On %s: %s (%s)", table, uid, err.Error())

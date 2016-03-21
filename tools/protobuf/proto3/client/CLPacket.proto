@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package protobuf;
+
+//import "XShare_Logic.proto";
+
+option optimize_for = SPEED;
+
+message CL_CheckAccount{
+	string uid = 1;
+	string account = 2;
+	string password = 3;
+	string option = 4;
+	uint32 language = 5;
+	string udid = 6;
+	//PlayerBaseInfo info = 7;
+}

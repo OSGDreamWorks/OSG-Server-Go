@@ -12,7 +12,7 @@ type Player struct {
 }
 
 func (p *Player) Save() {
-    db.Write("playerbase", p.GetUid(), p.PlayerBaseInfo)
+    db.Write("playerbase", p.Uid, p.PlayerBaseInfo)
 }
 
 func (p *Player) OnQuit() {

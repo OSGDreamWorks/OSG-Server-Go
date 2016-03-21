@@ -54,7 +54,7 @@ func (s *service) call(server *Server, mtype *methodType, req *RequestWrap, argv
 	// Invoke the method, providing a new value for the reply.
 	var returnValues []reflect.Value
 	if s.typ.AssignableTo(reflect.TypeOf((**lua.LTable)(nil)).Elem()) {
-		returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), reflect.ValueOf(conn), argv, reflect.ValueOf(req.GetCmd())})
+		returnValues = function.Call([]reflect.Value{reflect.ValueOf(server), reflect.ValueOf(conn), argv, reflect.ValueOf(req.Cmd)})
 	}else {
 		returnValues = function.Call([]reflect.Value{s.rcvr, reflect.ValueOf(conn), argv})
 	}
@@ -521,7 +521,7 @@ func (server *Server) sendErrorResponse(req *RequestWrap, conn RpcConn, errmsg s
 	resp := protobuf.RpcErrorResponse{}
 
 	resp.Cmd = req.Cmd
-	resp.Text = &errmsg
+	resp.Text = errmsg
 
 	err := conn.WriteObj(resp)
 
@@ -563,7 +563,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 			server.mu.RUnlock()
 			return
 		}
-		mtype = service.method[req.GetCmd()]
+		mtype = service.method[req.Cmd]
 		if mtype != nil {
 			break;//find the cmd
 		}
@@ -571,7 +571,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	server.mu.RUnlock()
 
 	if mtype == nil {
-		err = errors.New("rpc: can't find method " + strconv.Itoa(int(req.GetCmd())))
+		err = errors.New("rpc: can't find method " + strconv.Itoa(int(req.Cmd)))
 		return
 	}
 
@@ -580,7 +580,7 @@ func (server *Server) readRequest(conn RpcConn) (service *service, mtype *method
 	if mtype.ArgType.Kind() == reflect.Ptr {
 		argv = reflect.New(mtype.ArgType.Elem())
 	} else if mtype.ArgType.Kind()  == reflect.Slice{
-		argv = reflect.ValueOf(req.Packet.GetSerializedData())
+		argv = reflect.ValueOf(req.Packet.SerializedData)
 		return
 	}else {
 		argv = reflect.New(mtype.ArgType)

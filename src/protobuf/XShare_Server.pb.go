@@ -2,146 +2,52 @@
 // source: XShare_Server.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	XShare_Server.proto
-
-It has these top-level messages:
-	AccountInfo
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 // 地图自定义属性结构
 type AccountInfo struct {
-	Uid              *string `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
-	Account          *string `protobuf:"bytes,2,req,name=account" json:"account,omitempty"`
-	Password         *string `protobuf:"bytes,3,req,name=password" json:"password,omitempty"`
-	CreateTime       *uint32 `protobuf:"varint,4,opt,name=create_time" json:"create_time,omitempty"`
-	Option           *string `protobuf:"bytes,5,opt,name=option" json:"option,omitempty"`
-	Language         *uint32 `protobuf:"varint,6,opt,name=language" json:"language,omitempty"`
-	Udid             *string `protobuf:"bytes,7,opt,name=udid" json:"udid,omitempty"`
-	SessionKey       *string `protobuf:"bytes,8,opt,name=sessionKey" json:"sessionKey,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Uid        string `protobuf:"bytes,1,opt,name=uid" json:"uid,omitempty"`
+	Account    string `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
+	Password   string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	CreateTime uint32 `protobuf:"varint,4,opt,name=create_time" json:"create_time,omitempty"`
+	Option     string `protobuf:"bytes,5,opt,name=option" json:"option,omitempty"`
+	Language   uint32 `protobuf:"varint,6,opt,name=language" json:"language,omitempty"`
+	Udid       string `protobuf:"bytes,7,opt,name=udid" json:"udid,omitempty"`
+	SessionKey string `protobuf:"bytes,8,opt,name=sessionKey" json:"sessionKey,omitempty"`
 }
 
-func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
-func (m *AccountInfo) String() string { return proto.CompactTextString(m) }
-func (*AccountInfo) ProtoMessage()    {}
-
-func (m *AccountInfo) GetUid() string {
-	if m != nil && m.Uid != nil {
-		return *m.Uid
-	}
-	return ""
-}
-
-func (m *AccountInfo) GetAccount() string {
-	if m != nil && m.Account != nil {
-		return *m.Account
-	}
-	return ""
-}
-
-func (m *AccountInfo) GetPassword() string {
-	if m != nil && m.Password != nil {
-		return *m.Password
-	}
-	return ""
-}
-
-func (m *AccountInfo) GetCreateTime() uint32 {
-	if m != nil && m.CreateTime != nil {
-		return *m.CreateTime
-	}
-	return 0
-}
-
-func (m *AccountInfo) GetOption() string {
-	if m != nil && m.Option != nil {
-		return *m.Option
-	}
-	return ""
-}
-
-func (m *AccountInfo) GetLanguage() uint32 {
-	if m != nil && m.Language != nil {
-		return *m.Language
-	}
-	return 0
-}
-
-func (m *AccountInfo) GetUdid() string {
-	if m != nil && m.Udid != nil {
-		return *m.Udid
-	}
-	return ""
-}
-
-func (m *AccountInfo) GetSessionKey() string {
-	if m != nil && m.SessionKey != nil {
-		return *m.SessionKey
-	}
-	return ""
-}
-
-func (m *AccountInfo) SetUid(value string) {
-	if m != nil {
-		m.Uid = &value
-	}
-}
-
-func (m *AccountInfo) SetAccount(value string) {
-	if m != nil {
-		m.Account = &value
-	}
-}
-
-func (m *AccountInfo) SetPassword(value string) {
-	if m != nil {
-		m.Password = &value
-	}
-}
-
-func (m *AccountInfo) SetCreateTime(value uint32) {
-	if m != nil {
-		m.CreateTime = &value
-	}
-}
-
-func (m *AccountInfo) SetOption(value string) {
-	if m != nil {
-		m.Option = &value
-	}
-}
-
-func (m *AccountInfo) SetLanguage(value uint32) {
-	if m != nil {
-		m.Language = &value
-	}
-}
-
-func (m *AccountInfo) SetUdid(value string) {
-	if m != nil {
-		m.Udid = &value
-	}
-}
-
-func (m *AccountInfo) SetSessionKey(value string) {
-	if m != nil {
-		m.SessionKey = &value
-	}
-}
+func (m *AccountInfo) Reset()                    { *m = AccountInfo{} }
+func (m *AccountInfo) String() string            { return proto.CompactTextString(m) }
+func (*AccountInfo) ProtoMessage()               {}
+func (*AccountInfo) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
 
 func init() {
+	proto.RegisterType((*AccountInfo)(nil), "protobuf.AccountInfo")
+}
+
+var fileDescriptor12 = []byte{
+	// 212 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x4c, 0x8f, 0xcd, 0x4a, 0xc5, 0x30,
+	0x10, 0x85, 0xc9, 0xbd, 0xd7, 0xde, 0x3a, 0x45, 0x90, 0x11, 0x64, 0x70, 0xa1, 0xe2, 0xca, 0x95,
+	0x1b, 0x9f, 0x40, 0x57, 0x8a, 0xbb, 0xd6, 0x85, 0xbb, 0x92, 0xb6, 0xd3, 0x5a, 0xd0, 0xa4, 0xe4,
+	0x47, 0xf1, 0x65, 0x7d, 0x16, 0xd3, 0xa9, 0x16, 0x57, 0x99, 0xf3, 0x9d, 0x7c, 0x21, 0x03, 0x27,
+	0x2f, 0xd5, 0xab, 0x76, 0x5c, 0x57, 0xec, 0x3e, 0xd8, 0xdd, 0x4c, 0xce, 0x06, 0x8b, 0xb9, 0x1c,
+	0x4d, 0xec, 0xaf, 0xbe, 0x15, 0x14, 0x77, 0x6d, 0x6b, 0xa3, 0x09, 0x8f, 0xa6, 0xb7, 0x78, 0x0c,
+	0xdb, 0x38, 0x76, 0xa4, 0x2e, 0xd5, 0xf5, 0x61, 0x39, 0x8f, 0x48, 0xb0, 0xd7, 0xcb, 0x05, 0xda,
+	0x08, 0xfd, 0x8b, 0x78, 0x06, 0xf9, 0xa4, 0xbd, 0xff, 0xb4, 0xae, 0xa3, 0xad, 0x54, 0x6b, 0xc6,
+	0x0b, 0x28, 0x5a, 0xc7, 0x3a, 0x70, 0x1d, 0xc6, 0x77, 0xa6, 0x5d, 0xaa, 0x8f, 0x4a, 0x58, 0xd0,
+	0x73, 0x22, 0x78, 0x0a, 0x99, 0x9d, 0xc2, 0x68, 0x0d, 0x1d, 0x88, 0xfa, 0x9b, 0xe6, 0x47, 0xdf,
+	0xb4, 0x19, 0xa2, 0x1e, 0x98, 0x32, 0xb1, 0xd6, 0x8c, 0x08, 0xbb, 0xd8, 0xa5, 0xdf, 0xed, 0xc5,
+	0x90, 0x19, 0xcf, 0x01, 0x3c, 0x7b, 0x9f, 0xd4, 0x27, 0xfe, 0xa2, 0x5c, 0x9a, 0x7f, 0xe4, 0x7e,
+	0xf3, 0xa0, 0x9a, 0x4c, 0xd6, 0xbd, 0xfd, 0x09, 0x00, 0x00, 0xff, 0xff, 0x35, 0xa9, 0xb8, 0xe2,
+	0x0c, 0x01, 0x00, 0x00,
 }

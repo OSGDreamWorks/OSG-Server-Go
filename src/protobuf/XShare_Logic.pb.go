@@ -2,121 +2,39 @@
 // source: XShare_Logic.proto
 // DO NOT EDIT!
 
-/*
-Package protobuf is a generated protocol buffer package.
-
-It is generated from these files:
-	XShare_Logic.proto
-
-It has these top-level messages:
-	StatusInfo
-	PlayerBaseInfo
-*/
 package protobuf
 
-import proto "code.google.com/p/goprotobuf/proto"
-import json "encoding/json"
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type StatusInfo struct {
-	Name             *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Level            *uint32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
-	Experience       *uint32 `protobuf:"varint,3,opt,name=experience" json:"experience,omitempty"`
-	Gender           *uint32 `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
-	HeadIcon         *uint32 `protobuf:"varint,5,opt,name=headIcon" json:"headIcon,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Name       string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Level      uint32 `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	Experience uint32 `protobuf:"varint,3,opt,name=experience" json:"experience,omitempty"`
+	Gender     uint32 `protobuf:"varint,4,opt,name=gender" json:"gender,omitempty"`
+	HeadIcon   uint32 `protobuf:"varint,5,opt,name=headIcon" json:"headIcon,omitempty"`
 }
 
-func (m *StatusInfo) Reset()         { *m = StatusInfo{} }
-func (m *StatusInfo) String() string { return proto.CompactTextString(m) }
-func (*StatusInfo) ProtoMessage()    {}
-
-func (m *StatusInfo) GetName() string {
-	if m != nil && m.Name != nil {
-		return *m.Name
-	}
-	return ""
-}
-
-func (m *StatusInfo) GetLevel() uint32 {
-	if m != nil && m.Level != nil {
-		return *m.Level
-	}
-	return 0
-}
-
-func (m *StatusInfo) GetExperience() uint32 {
-	if m != nil && m.Experience != nil {
-		return *m.Experience
-	}
-	return 0
-}
-
-func (m *StatusInfo) GetGender() uint32 {
-	if m != nil && m.Gender != nil {
-		return *m.Gender
-	}
-	return 0
-}
-
-func (m *StatusInfo) GetHeadIcon() uint32 {
-	if m != nil && m.HeadIcon != nil {
-		return *m.HeadIcon
-	}
-	return 0
-}
-
-func (m *StatusInfo) SetName(value string) {
-	if m != nil {
-		m.Name = &value
-	}
-}
-
-func (m *StatusInfo) SetLevel(value uint32) {
-	if m != nil {
-		m.Level = &value
-	}
-}
-
-func (m *StatusInfo) SetExperience(value uint32) {
-	if m != nil {
-		m.Experience = &value
-	}
-}
-
-func (m *StatusInfo) SetGender(value uint32) {
-	if m != nil {
-		m.Gender = &value
-	}
-}
-
-func (m *StatusInfo) SetHeadIcon(value uint32) {
-	if m != nil {
-		m.HeadIcon = &value
-	}
-}
+func (m *StatusInfo) Reset()                    { *m = StatusInfo{} }
+func (m *StatusInfo) String() string            { return proto.CompactTextString(m) }
+func (*StatusInfo) ProtoMessage()               {}
+func (*StatusInfo) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{0} }
 
 type PlayerBaseInfo struct {
-	Uid              *string     `protobuf:"bytes,1,req,name=uid" json:"uid,omitempty"`
-	Stat             *StatusInfo `protobuf:"bytes,2,req,name=stat" json:"stat,omitempty"`
-	XXX_unrecognized []byte      `json:"-"`
+	Uid  string      `protobuf:"bytes,1,opt,name=uid" json:"uid,omitempty"`
+	Stat *StatusInfo `protobuf:"bytes,2,opt,name=stat" json:"stat,omitempty"`
 }
 
-func (m *PlayerBaseInfo) Reset()         { *m = PlayerBaseInfo{} }
-func (m *PlayerBaseInfo) String() string { return proto.CompactTextString(m) }
-func (*PlayerBaseInfo) ProtoMessage()    {}
-
-func (m *PlayerBaseInfo) GetUid() string {
-	if m != nil && m.Uid != nil {
-		return *m.Uid
-	}
-	return ""
-}
+func (m *PlayerBaseInfo) Reset()                    { *m = PlayerBaseInfo{} }
+func (m *PlayerBaseInfo) String() string            { return proto.CompactTextString(m) }
+func (*PlayerBaseInfo) ProtoMessage()               {}
+func (*PlayerBaseInfo) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{1} }
 
 func (m *PlayerBaseInfo) GetStat() *StatusInfo {
 	if m != nil {
@@ -125,17 +43,24 @@ func (m *PlayerBaseInfo) GetStat() *StatusInfo {
 	return nil
 }
 
-func (m *PlayerBaseInfo) SetUid(value string) {
-	if m != nil {
-		m.Uid = &value
-	}
-}
-
-func (m *PlayerBaseInfo) SetStat(value *StatusInfo) {
-	if m != nil {
-		m.Stat = value
-	}
-}
-
 func init() {
+	proto.RegisterType((*StatusInfo)(nil), "protobuf.StatusInfo")
+	proto.RegisterType((*PlayerBaseInfo)(nil), "protobuf.PlayerBaseInfo")
+}
+
+var fileDescriptor11 = []byte{
+	// 208 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x4c, 0x8f, 0xbb, 0x4e, 0x86, 0x40,
+	0x10, 0x85, 0xb3, 0xdc, 0x82, 0x63, 0x34, 0x66, 0x42, 0xcc, 0xc6, 0xc2, 0x18, 0x2a, 0x2a, 0x0a,
+	0x7d, 0x03, 0x2a, 0x49, 0x28, 0x0c, 0x34, 0x76, 0x66, 0x81, 0xe1, 0x92, 0xe0, 0x2e, 0x59, 0xc0,
+	0xe8, 0x2b, 0xf8, 0xd4, 0xe2, 0x88, 0xfa, 0x57, 0x3b, 0xe7, 0x7c, 0x5b, 0x7c, 0x07, 0xf0, 0xb9,
+	0x1a, 0x94, 0xa5, 0x97, 0xc2, 0xf4, 0x63, 0x93, 0xce, 0xd6, 0xac, 0x06, 0x43, 0x7e, 0xea, 0xad,
+	0x8b, 0x3f, 0x05, 0x40, 0xb5, 0xaa, 0x75, 0x5b, 0x72, 0xdd, 0x19, 0x44, 0xf0, 0xb4, 0x7a, 0x25,
+	0x29, 0xee, 0x44, 0x72, 0x56, 0xf2, 0x8d, 0x11, 0xf8, 0x13, 0xbd, 0xd1, 0x24, 0x9d, 0xbd, 0xbc,
+	0x28, 0x7f, 0x02, 0xde, 0x02, 0xd0, 0xfb, 0x4c, 0x76, 0x24, 0xdd, 0x90, 0x74, 0x19, 0x9d, 0x34,
+	0x78, 0x0d, 0x41, 0x4f, 0xba, 0x25, 0x2b, 0x3d, 0x66, 0x47, 0xc2, 0x1b, 0x08, 0x07, 0x52, 0x6d,
+	0xde, 0x18, 0x2d, 0x7d, 0x26, 0x7f, 0x39, 0x2e, 0xe0, 0xf2, 0x69, 0x52, 0x1f, 0x64, 0x33, 0xb5,
+	0x10, 0xfb, 0x5c, 0x81, 0xbb, 0x8d, 0xed, 0xa1, 0xf3, 0x7d, 0x62, 0x02, 0xde, 0xb2, 0xfb, 0xb2,
+	0xcc, 0xf9, 0x7d, 0x94, 0xfe, 0x2e, 0x49, 0xff, 0x57, 0x94, 0xfc, 0x23, 0x73, 0x1e, 0x45, 0x1d,
+	0x30, 0x7e, 0xf8, 0x0a, 0x00, 0x00, 0xff, 0xff, 0xb5, 0x28, 0x85, 0x57, 0x05, 0x01, 0x00, 0x00,
 }
