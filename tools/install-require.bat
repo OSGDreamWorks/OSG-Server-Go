@@ -24,7 +24,7 @@ go get github.com/yuin/gopher-lua
 go get -u github.com/golang/protobuf
 go get github.com/golang/snappy
 
-::go build -o protoc-gen-go.exe github.com/golang/protobuf\protoc-gen-go
+::go build -o protoc-gen-go.exe github.com/golang/protobuf/protoc-gen-go
 
 cd %PRODIR%
 
