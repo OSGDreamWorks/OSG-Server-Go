@@ -156,7 +156,7 @@ func NewDBServer(cfg config.DBConfig) (server *DBServer) {
 	return server
 }
 
-func (self *DBServer) Write(args *protobuf.DBWrite, reply *protobuf.DBWriteResult) error {
+func (self *DBServer) DB_Write(args *protobuf.DBWrite, reply *protobuf.DBWriteResult) error {
 	if table, exist := self.tables[args.Table]; exist {
 		err := table.write(args.Key, args.Value)
 		if err != nil {
@@ -170,7 +170,7 @@ func (self *DBServer) Write(args *protobuf.DBWrite, reply *protobuf.DBWriteResul
 	return nil
 }
 
-func (self *DBServer) Query(args *protobuf.DBQuery, reply *protobuf.DBQueryResult) error {
+func (self *DBServer) DB_Query(args *protobuf.DBQuery, reply *protobuf.DBQueryResult) error {
 
 	if table, exist := self.tables[args.Table]; exist {
 		rst, err := table.get(args.Key)
@@ -191,7 +191,7 @@ func (self *DBServer) Query(args *protobuf.DBQuery, reply *protobuf.DBQueryResul
 	return nil
 }
 
-func (self *DBServer) Delete(args *protobuf.DBDel, reply *protobuf.DBDelResult) error {
+func (self *DBServer) DB_Delete(args *protobuf.DBDel, reply *protobuf.DBDelResult) error {
 	if table, exist := self.tables[args.Table]; exist {
 		err := table.del(args.Key)
 		if err != nil {
