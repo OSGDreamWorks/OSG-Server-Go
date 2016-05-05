@@ -316,7 +316,7 @@ func (conn *ProtoBufConn) writeRequest(r *protobuf.Packet) error {
 	return nil
 }
 
-func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
+func (conn *ProtoBufConn) Call(cmd protobuf.Network_Protocol, args interface{}) (err error) {
 
 	var msg proto.Message
 	var buf []byte
@@ -336,7 +336,7 @@ func (conn *ProtoBufConn) Call(cmd uint32, args interface{}) (err error) {
 	}
 
 	req := &protobuf.Packet{}
-	req.Cmd = cmd
+	req.Cmd = uint32(cmd)
 	req.SerializedData = buf
 
 	return conn.writeRequest(req)

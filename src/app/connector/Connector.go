@@ -133,8 +133,12 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 	}
 
 	//初始化cache
-	logger.Info("Init Cache %v", authCfg.MainCacheProfile)
-	pConnector.maincache = db.NewCachePool(authCfg.MainCacheProfile)
+	var cacheCfg config.CacheConfig
+	if err := config.ReadConfig("etc/maincache.json", &cacheCfg); err != nil {
+		logger.Fatal("load config failed, error is: %v", err)
+	}
+	logger.Info("Init Cache %v", cacheCfg)
+	pConnector.maincache = db.NewCachePool(cacheCfg)
 
 	pConnector.rpcServer.ApplyProtocol(protobuf.CS_Protocol_value)
 	pConnector.rpcServer.Register(pConnector)

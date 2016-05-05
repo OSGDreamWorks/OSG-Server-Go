@@ -1,4 +1,4 @@
---¼ÓÔØprotobufÄ£¿é
+--åŠ è½½protobufæ¨¡å—
 local XShare_Logic_pb = import("XShare_Logic_pb")
 
 local logger = import("logger")
@@ -6,9 +6,9 @@ local mvc = import("mvc")
 
 local Player = class("Player", mvc.ModelBase)
 
--- ¶¨ÒåÊôĞÔ
+-- å®šä¹‰å±æ€§
 Player.schema = clone(mvc.ModelBase.schema)
-Player.schema["info"]       = {"table", XShare_Logic_pb.PlayerBaseInfo()}   -- ÖÜÎ§Ë÷Òı 0ÎªÃ»ÓĞ
+Player.schema["info"]       = {"table", XShare_Logic_pb.PlayerBaseInfo()}   -- å‘¨å›´ç´¢å¼• 0ä¸ºæ²¡æœ‰
 
 function Player:ctor(properties, events, callbacks)
     Player.super.ctor(self, properties)

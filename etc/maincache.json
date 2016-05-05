@@ -1,6 +1,7 @@
 {
     "host": "127.0.0.1",
     "port": 6379,
+    "nodename": "main-cache",
     "index": 15,
     "pool": 100
 }

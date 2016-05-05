@@ -1,9 +1,9 @@
---¼ÓÔØosgÄ£¿é
+--åŠ è½½osgæ¨¡å—
 require("osg")
---¼ÓÔØluaÀ©Õ¹º¯Êı
+--åŠ è½½luaæ‰©å±•å‡½æ•°
 require("script.runtime.extern")
 
---Ô¤¼ÓÔØprotobufÄ£¿é
+--é¢„åŠ è½½protobufæ¨¡å—
 import("script.protobuf.PB_PacketCommon_pb")
 import("script.protobuf.PB_PacketDefine_pb")
 import("script.protobuf.PB_PacketServerDefine_pb")
@@ -18,7 +18,7 @@ import("script.protobuf.ALPacket_pb")
 import("script.protobuf.SLPacket_pb")
 import("script.protobuf.LSPacket_pb")
 
---Ô¤¼ÓÔØÆäËûÄ£¿é
+--é¢„åŠ è½½å…¶ä»–æ¨¡å—
 import("script.common.init")
 import("script.component.db.init")
 import("script.component.mvc.init")

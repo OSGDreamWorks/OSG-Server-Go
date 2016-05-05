@@ -622,7 +622,7 @@ type RpcConn interface {
 
 	ReadRequest(*protobuf.Packet) error
 
-	Call(uint32, interface{}) error
+	Call(protobuf.Network_Protocol, interface{}) error
 
 	GetRemoteIp() string
 

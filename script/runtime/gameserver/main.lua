@@ -1,5 +1,5 @@
 require("script.runtime.preload")
---引用使用的类
+--寮曠敤浣跨敤鐨勭被
 local common = import("common")
 
 local GameServer = import("script.app.gameserver.GameServer")

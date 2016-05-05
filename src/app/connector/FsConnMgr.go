@@ -8,6 +8,7 @@ import (
 	"component/server"
 	"common/logger"
 	"common/config"
+	"protobuf"
 )
 
 type FServerConnMgr struct {
@@ -60,7 +61,7 @@ func (self *FServerConnMgr) GetWorkConn() server.RpcConn {
 	return self.connpool[self.workindex]
 }
 
-func (self *FServerConnMgr) Call(serviceMethod uint32, arg interface{}) error {
+func (self *FServerConnMgr) Call(serviceMethod protobuf.Network_Protocol, arg interface{}) error {
 	logger.Info("Call FServerConnMgr -----> (%v) %v", serviceMethod, arg)
 	return self.GetWorkConn().Call(serviceMethod, arg)
 }
