@@ -102,7 +102,7 @@ func (server *Server) ApplyProtocol(protocal map[string]int32) {
 		server.protocol[cmd] = uint32(value)
 	}
 	for key, value := range server.protocol {
-		logger.Debug("ApplyProtocol %s, %d", key, value)
+		logger.Debug("ApplyProtocol %s, %x", key, value)
 	}
 }
 
@@ -390,7 +390,7 @@ func (server *Server) register(rcvr interface{}, name string, useName bool, rcvr
 
 				s.method[server.protocol[method.Name]] = mt
 
-				logger.Debug("suitableMethods protocol %v, %d, %v", method.Name, server.protocol[method.Name], s.method[server.protocol[method.Name]])
+				logger.Debug("suitableMethods protocol %v, %x, %v", method.Name, server.protocol[method.Name], s.method[server.protocol[method.Name]])
 
 			}
 		}

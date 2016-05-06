@@ -333,7 +333,7 @@ func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_Ch
 
 		var base protobuf.PlayerBaseInfo
 		logger.Info("query db : %v", login.Uid)
-		result, err :=db.Query("playerbase", login.Uid, &base)
+		result, err :=db.Query("PlayerBaseInfo", login.Uid, &base)
 		if result == false {
 			base = protobuf.PlayerBaseInfo{}
 			base.Uid = login.Uid
@@ -343,14 +343,14 @@ func (self *Connector) CS_CheckSession(conn server.RpcConn, login protobuf.CS_Ch
 			stat.Level = 1
 
 			base.Stat = stat
-			db.Write("playerbase", login.Uid, &base)
-			logger.Info("playerbase create %v", login.Uid)
+			db.Write("PlayerBaseInfo", login.Uid, &base)
+			logger.Info("PlayerBaseInfo create %v", login.Uid)
 		}else {
 			if err != nil {
 				logger.Info("err query db : %v", err)
 				return err
 			}
-			logger.Info("playerbase find")
+			logger.Info("PlayerBaseInfo find")
 		}
 
 		p := &Player{PlayerBaseInfo: &base, conn: conn}

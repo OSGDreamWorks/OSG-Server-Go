@@ -111,7 +111,7 @@ func (server *Server) ApplyProtocol(protocal map[string]int32) {
 		server.protocol[cmd] = uint32(value)
 	}
 	for key, value := range server.protocol {
-		logger.Debug("ApplyProtocol %s, %d", key, value)
+		logger.Debug("ApplyProtocol %s, %x", key, value)
 	}
 }
 
@@ -328,7 +328,7 @@ func (server *Server) suitableMethods(rcvr interface{}, s *service, typ  reflect
 				continue
 			}
 			methods[server.protocol[mname]] = &methodType{method: method, ArgType: argType}
-			logger.Debug("suitableMethods protocol %v, %d, %v", mname, server.protocol[mname], methods[server.protocol[mname]])
+			logger.Debug("suitableMethods protocol %v, %x, %v", mname, server.protocol[mname], methods[server.protocol[mname]])
 		}
 	}
 
