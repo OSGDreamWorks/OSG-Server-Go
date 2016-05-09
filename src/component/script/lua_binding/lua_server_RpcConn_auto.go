@@ -4,6 +4,7 @@ import (
     "github.com/yuin/gopher-lua"
     "common/logger"
     "component/server"
+    "protobuf"
 )
 
 const luaRpcConnTypeName = "RpcConn"
@@ -61,7 +62,7 @@ func Register_lua_server_RpcConn_Call(L *lua.LState) int {
     cmd := L.CheckNumber(2)
     buffer := L.CheckString(3)
     if  v, ok := ud.Value.(*server.RpcConn); ok {
-        err := (*v).Call(uint32(cmd),[]byte(buffer))
+        err := (*v).Call(protobuf.Network_Protocol(cmd),[]byte(buffer))
         if err != nil {
             logger.Error("lua_server_ProtoBufConn_WriteObj Error : %s", err.Error())
         }

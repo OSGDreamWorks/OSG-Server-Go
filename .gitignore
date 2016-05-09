@@ -57,4 +57,4 @@ pkg/*
 
 
 tools/protobuf/node_modules/*
-
+script/js/node_modules/*

@@ -25,6 +25,8 @@ go get github.com/yuin/gopher-lua
 go get -u github.com/golang/protobuf/proto
 go get -u github.com/golang/protobuf/protoc-gen-go
 go get github.com/golang/snappy
+go get github.com/robertkrimen/otto
+
 cd "$PRODIR"
 
 export GOPATH="$OLDGOPATH"

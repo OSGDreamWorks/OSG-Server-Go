@@ -4,6 +4,7 @@ setlocal
 
 if exist install-require.bat goto ok
 echo install-require.bat must be run from its folder
+exit 1
 goto end
 
 :ok
@@ -23,6 +24,7 @@ go get github.com/go-sql-driver/mysql
 go get github.com/yuin/gopher-lua
 go get -u github.com/golang/protobuf
 go get github.com/golang/snappy
+go get github.com/robertkrimen/otto
 
 ::go build -o protoc-gen-go.exe github.com/golang/protobuf/protoc-gen-go
 

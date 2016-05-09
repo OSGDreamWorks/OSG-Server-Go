@@ -6,8 +6,9 @@ import (
     "component/rpc"
     "net"
     "reflect"
-    "code.google.com/p/goprotobuf/proto"
+    "github.com/golang/protobuf/proto"
     "time"
+    "protobuf"
 )
 
 const luaRpcClientTypeName = "RpcClient"
@@ -49,7 +50,7 @@ func Register_lua_rpc_RpcClient_newClass(L *lua.LState) int {
 
 func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {
     ud := L.CheckUserData(1)
-    method:= L.CheckString(2)
+    method:= L.CheckNumber(2)
     args:= L.CheckString(3)
 
     if L.GetTop() > 4 {
@@ -65,7 +66,7 @@ func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {
                 if value, ok := (valueArgs.Interface()).(proto.Message); ok {
                     proto.Unmarshal([]byte(args), value)
                     repMsg := valueRep.Interface()
-                    v.Call(method, value, repMsg)
+                    v.Call(protobuf.Network_Protocol(method), value, repMsg)
                     rep, err := proto.Marshal(repMsg.(proto.Message))
                     if err != nil {
                         logger.Debug("Register_lua_rpc_RpcClient_Call : Marshal Error %v ", valueRep.Interface())
@@ -86,7 +87,7 @@ func Register_lua_rpc_RpcClient_Call(L *lua.LState) int {
         if v, ok := ud.Value.(*rpc.Client); ok {
             req := []byte(args)
             rep := []byte("")
-            v.Call(method, &req, &rep)
+            v.Call(protobuf.Network_Protocol(method), &req, &rep)
             L.Replace(4, lua.LString(string(rep)))
             L.Push(lua.LString(string(rep)))
             //logger.Debug("Register_lua_rpc_RpcClient_Call (%d): rep %v ", L.GetTop(), string(rep))

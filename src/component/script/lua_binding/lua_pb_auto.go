@@ -3,7 +3,7 @@ package lua_binding
 import (
     "github.com/yuin/gopher-lua"
     "common/logger"
-    "code.google.com/p/goprotobuf/proto"
+    "github.com/golang/protobuf/proto"
     "encoding/binary"
     "bytes"
 )

@@ -3,7 +3,7 @@ package main
 import (
 	server "app/connector"
 	"common/logger"
-	//"component/script"
+	"component/script"
 	"flag"
 	"common/config"
 	"common"
@@ -21,6 +21,9 @@ func main() {
 		logger.Fatal("load config failed, error is: %v", err)
 		return
 	}
+
+	script.DefaultJsScript().ExecuteScriptFile("script/js/common/logger.js");
+	script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
 
 	server.CreateConnectorServerForClient(cfg)
 
