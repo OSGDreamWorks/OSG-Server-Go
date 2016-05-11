@@ -7,6 +7,6 @@ if [ ! -f install-require.sh ]; then
     exit 1
 fi
 
-
+npm install string-format
 
 echo "install successfully"

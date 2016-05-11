@@ -1,4 +1,7 @@
 /**
  * Created by Administrator on 2016/5/9.
  */
-logger.Debug("test {%1}, -> {%2}", "name", 12);
+
+var logger = require("./common/logger.js");
+
+logger.Debug("test {}, -> {}", "name", 12);

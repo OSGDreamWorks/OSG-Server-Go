@@ -9,7 +9,7 @@ goto end
 
 :ok
 
-
+npm install string-format
 
 :end
 echo "install successfully"

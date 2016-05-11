@@ -22,7 +22,6 @@ func main() {
 		return
 	}
 
-	script.DefaultJsScript().ExecuteScriptFile("script/js/common/logger.js");
 	script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
 
 	server.CreateConnectorServerForClient(cfg)
