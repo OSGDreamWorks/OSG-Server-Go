@@ -1,0 +1,11 @@
+{
+  "name": "OSG-Server-Go",
+  "version": "0.0.1",
+  "description": "a open source server framework",
+  "author": {
+    "name": "Lional",
+    "email": "OSGDreamWorks@gmail.com"
+  },
+  "main": "main.js",
+  "readme": "ERROR: No README data found!"
+}

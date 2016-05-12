@@ -65,7 +65,7 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if(r.FormValue("method") == "UpdateScript") {
-		script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
+		script.DefaultJsScript().UpdateScriptFile();
 		var text = template.Must(template.New("HTTP UpdateScript").Parse("Bye, UpdateScript!"))
 		err := text.Execute(w, nil)
 		if err != nil {
@@ -228,7 +228,7 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 		}
 	}()
 
-	script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
+	script.DefaultJsScript().UpdateScriptFile();
 
 	http.HandleFunc("/", wsServeConnHandler)
 	http.ListenAndServe(cfg.HttpHost, nil)

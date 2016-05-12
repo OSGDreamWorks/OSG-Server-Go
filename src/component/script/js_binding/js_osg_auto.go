@@ -67,6 +67,14 @@ func (self *JsScript) ExecuteScriptFile(file string) {
 	}
 }
 
+func (self *JsScript) UpdateScriptFile() {
+	entryPoint, err := parsePackageEntryPoint("script/js/package.json");
+	if err != nil {
+		logger.Fatal("script: ReadFile script/js/package.json, Err : %s", err.Error());
+	}
+	self.ExecuteScriptFile("script/js/" + entryPoint);
+}
+
 // Run a module or file
 func (self *JsScript) Run(name string) (otto.Value, error) {
 	if ok, _ := isFile(name); ok {
