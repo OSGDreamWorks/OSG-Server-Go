@@ -16,6 +16,8 @@ import (
 	"fmt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/golang/protobuf/proto"
+	"component/script"
+	"text/template"
 )
 
 type serverInfo struct {
@@ -53,7 +55,24 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 	if err != nil {
-		fmt.Fprintln(w, "rpc: error")
+		fmt.Fprintln(w, "ParseForm: error")
+		return
+	}
+
+	if(r.RequestURI == "/favicon.ico") {
+		logger.Info("favicon.ico: null")
+		return
+	}
+
+	if(r.FormValue("method") == "UpdateScript") {
+		script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
+		var text = template.Must(template.New("HTTP UpdateScript").Parse("Bye, UpdateScript!"))
+		err := text.Execute(w, nil)
+		if err != nil {
+			logger.Error("ResponseError: %s\\n", err)
+		} else {
+			logger.Info("Bye, UpdateScript!")
+		}
 		return
 	}
 
@@ -61,13 +80,13 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
+
 		logger.Info("Upgrade:", err.Error())
 		conn, bufrw, err := w.(http.Hijacker).Hijack()
 		if err != nil {
 			logger.Debug("rpc hijacking %v : %v", r.RemoteAddr, err.Error())
 			return
 		}else {
-
 			httpConn := server.NewTCPSocketConn(pConnector.rpcServer, conn, 1, 1, 1)
 			logger.Debug("rpc hijacking %v : %v",  r.RemoteAddr, r.FormValue("method"))
 
@@ -208,6 +227,8 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 			}()
 		}
 	}()
+
+	script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
 
 	http.HandleFunc("/", wsServeConnHandler)
 	http.ListenAndServe(cfg.HttpHost, nil)

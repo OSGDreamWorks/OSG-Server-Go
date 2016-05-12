@@ -3,7 +3,6 @@ package main
 import (
 	server "app/connector"
 	"common/logger"
-	"component/script"
 	"flag"
 	"common/config"
 	"common"
@@ -13,6 +12,7 @@ var (
 	svrConfigFile = flag.String("c", "etc/gameserver.json", "config file name for the game server")
 )
 
+// http://127.0.0.1:7980/?method=UpdateScript&script=js for UpdateScript
 func main() {
 	logger.Info("start game server")
 
@@ -22,12 +22,9 @@ func main() {
 		return
 	}
 
-	script.DefaultJsScript().ExecuteScriptFile("script/js/main.js");
-
 	server.CreateConnectorServerForClient(cfg)
 
 	common.WatchSystemSignal()
-	//script.DefaultLuaScript().ExecuteScriptFile("script/runtime/gameserver/main.lua")
 
 	logger.Info("stop game server")
 }
