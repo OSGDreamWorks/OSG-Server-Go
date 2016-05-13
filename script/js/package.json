@@ -6,6 +6,6 @@
     "name": "Lional",
     "email": "OSGDreamWorks@gmail.com"
   },
-  "main": "main.js",
+  "main": "runtime/gameserver/main.js",
   "readme": "ERROR: No README data found!"
 }

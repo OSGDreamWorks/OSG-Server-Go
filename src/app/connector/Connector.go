@@ -60,7 +60,7 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if(r.RequestURI == "/favicon.ico") {
-		logger.Info("favicon.ico: null")
+		//logger.Info("favicon.ico")
 		return
 	}
 
@@ -71,7 +71,7 @@ func wsServeConnHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			logger.Error("ResponseError: %s\\n", err)
 		} else {
-			logger.Info("Bye, UpdateScript!")
+			logger.Info("Complete update script! Bye.")
 		}
 		return
 	}
@@ -228,6 +228,7 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 		}
 	}()
 
+	script.SetJsGlobalPackagePath("script/js/package.json");
 	script.DefaultJsScript().UpdateScriptFile();
 
 	http.HandleFunc("/", wsServeConnHandler)

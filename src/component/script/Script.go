@@ -9,14 +9,19 @@ var pJsScript *js_binding.JsScript
 var pLusScript *lua_binding.LuaScript
 
 func DefaultJsScript() *js_binding.JsScript {
-    if pJsScript == nil {
-        pJsScript = js_binding.NewScript()
-    }
-    return pJsScript
+	if pJsScript == nil {
+		pJsScript = js_binding.NewScript()
+	}
+	return pJsScript
 }
+
+func SetJsGlobalPackagePath(path string) {
+	DefaultJsScript().SetGlobalPackagePath(path);
+}
+
 func DefaultLuaScript() *lua_binding.LuaScript {
-    if pLusScript == nil {
-        pLusScript = lua_binding.NewScript()
-    }
-    return pLusScript
+	if pLusScript == nil {
+		pLusScript = lua_binding.NewScript()
+	}
+	return pLusScript
 }

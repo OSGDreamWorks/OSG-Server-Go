@@ -33,7 +33,7 @@
     } else if (typeof define === 'function' && define.amd) {
         define(logger);
     } else {
-        window.format = logger;
+        window.logger = logger;
     }
 
 }).call(this);
