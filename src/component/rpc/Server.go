@@ -96,13 +96,13 @@ func NewServer() *Server {
 }
 
 func (server *Server) ApplyProtocol(protocal map[string]int32) {
-	logger.Debug("ApplyProtocol")
+	//logger.Debug("ApplyProtocol")
 	for key, value := range protocal {
 		cmd := key[1:len(key)]
 		server.protocol[cmd] = uint32(value)
 	}
 	for key, value := range server.protocol {
-		logger.Debug("ApplyProtocol %s, %x", key, value)
+		logger.Debug("Apply RPC Protocol %s, %x", key, value)
 	}
 }
 

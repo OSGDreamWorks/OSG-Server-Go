@@ -159,7 +159,7 @@ func CreateConnectorServerForClient(cfg config.SvrConfig) *Connector {
 	logger.Info("Init Cache %v", cacheCfg)
 	pConnector.maincache = db.NewCachePool(cacheCfg)
 
-	pConnector.rpcServer.ApplyProtocol(protobuf.CS_Protocol_value)
+	pConnector.rpcServer.ApplyProtocol(protobuf.CS_Protocol_value, protobuf.SC_Protocol_value)
 	pConnector.rpcServer.Register(pConnector)
 
 	pConnector.rpcServer.RegCallBackOnConn(

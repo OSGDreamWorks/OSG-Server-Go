@@ -23,6 +23,10 @@ const (
 	ConnWriteTimeOut = 5e9
 )
 
+var (
+	globalProtocol map[string]uint32 = make(map[string]uint32)
+)
+
 type Conn struct {
 	web_socket  websocket.Conn
 	tcp_socket  net.Conn
@@ -150,7 +154,7 @@ func NewWebSocketConn(server *Server, c websocket.Conn, size int32, k uint32, t 
 		time_out:    k,
 		connMgr:     server,
 		resultServer:	"",
-		protocol: 	  make(map[string]uint32),
+		protocol:  globalProtocol,
 	}
 
 	pbc.c = Conn{
@@ -199,14 +203,16 @@ func NewTCPSocketConn(server *Server, c net.Conn, size int32, k uint32, t uint32
 	return pbc
 }
 
-func (conn *ProtoBufConn) ApplyProtocol(protocal map[string]int32) {
-	logger.Debug("ApplyProtocol")
+func ApplyConnProtocol(protocal map[string]int32) {
 	for key, value := range protocal {
 		protocalMethod := strings.Split(key, "_")
 		if len(protocalMethod) != 2 {
 			logger.Error("rpc: ApplyProtocol ill-formed: %v , no '_' for split key" + key)
 		}
-		conn.protocol[protocalMethod[1]] = uint32(value)
+		globalProtocol[protocalMethod[1]] = uint32(value)
+	}
+	for key, value := range globalProtocol {
+		logger.Debug("Apply Client Protocol %s, %x", key, value)
 	}
 }
 
@@ -370,7 +376,12 @@ func (conn *ProtoBufConn) WriteObj(value interface{}) error {
 
 	t := reflect.Indirect(reflect.ValueOf(msg)).Type()
 	if conn.resultServer == "" {
-		req.Cmd = conn.protocol[t.PkgPath() + "." + t.Name()]
+		protocalMethod := strings.Split(t.Name(), "_")
+		if len(protocalMethod) == 2 {
+			req.Cmd = conn.protocol[protocalMethod[1]]
+		}else {
+			req.Cmd = conn.protocol[t.PkgPath() + "." + t.Name()]
+		}
 	} else {
 		req.Cmd = conn.protocol[conn.resultServer + "." + t.Name()]
 	}

@@ -104,14 +104,17 @@ func NewServer() *Server {
 	}
 }
 
-func (server *Server) ApplyProtocol(protocal map[string]int32) {
-	logger.Debug("ApplyProtocol")
-	for key, value := range protocal {
+func (server *Server) ApplyProtocol(sever_protocal map[string]int32, client_protocal ...map[string]int32) {
+	//logger.Debug("ApplyProtocol")
+	for key, value := range sever_protocal {
 		cmd := key[1:len(key)]
 		server.protocol[cmd] = uint32(value)
 	}
 	for key, value := range server.protocol {
-		logger.Debug("ApplyProtocol %s, %x", key, value)
+		logger.Debug("Apply Server Protocol %s, %x", key, value)
+	}
+	if(len(client_protocal) == 1) {
+		ApplyConnProtocol(client_protocal[0])
 	}
 }
 
